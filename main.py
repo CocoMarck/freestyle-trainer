@@ -1,6 +1,6 @@
 from core.dt_metronome import DTMetronome
 
-metronome = DTMetronome( bpm=120, beats_per_bar=4, bpm_limit=200, beats_limit_per_bar=16 )
+metronome = DTMetronome( bpm=90, beats_per_bar=4, bpm_limit=200, beats_limit_per_bar=16 )
 
 # Loop
 import time
@@ -18,7 +18,7 @@ while True:
     # position += speed * dt
 
     signals = metronome.update(dt)
-    if signals['change_beat']:
+    if signals['first_step_of_beat']:
         text = (
             f'current beat: {signals["current_beat"]}\n'
             f'reset bar: {signals["reset_bar"]}\n'

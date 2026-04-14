@@ -10,54 +10,71 @@ class DTMetronome():
         self._INITIAL_BEATS_LIMIT_PER_BAR = beats_limit_per_bar
 
         # Valores usables
-        self.bpm = self._INITIAL_BPM
-        self.beats_per_bar = self._INITIAL_BEATS_PER_BAR
+        self._bpm = None
+        self._beats_per_bar = None
 
-        self.bpm_limit = self._INITIAL_BPM_LIMIT
-        self.beats_limit_per_bar = self._INITIAL_BEATS_LIMIT_PER_BAR
+        self._bpm_limit = self._INITIAL_BPM_LIMIT
+        self._beats_limit_per_bar = self._INITIAL_BEATS_LIMIT_PER_BAR
 
         self._current_beat = 1
         self._count_dt_of_beat = 0
 
-        self.set_settings()
+        # Configurar
+        self.set_settings(self._INITIAL_BPM, self._INITIAL_BEATS_PER_BAR)
 
     def get_beat_interval(self):
         # Obtener duración de cada beat en segundos.
-        return (60 / self.bpm)
+        return (60 / self._bpm)
 
     def get_beats_per_bar_interval(self):
         # Obtener duración de barra en segundos.
-        return (self.get_beat_interval() * self.beats_per_bar)
+        return (self.get_beat_interval() * self._beats_per_bar)
 
     def get_current_beat(self):
         return self._current_beat
 
-    def validate_and_set_bpm(self):
+    def validate_and_get_bpm(self, bpm):
         '''
         Establece bpm a unos aceptables, no crash.
         '''
-        if self.bpm <= 0:
-            self.bpm = self._INITIAL_BPM
-        if self.bpm_limit > 0:
-            if self.bpm > self.bpm_limit:
-                self.bpm = self.bpm_limit
+        if bpm <= 0:
+            bpm = self._INITIAL_BPM
+        if self._bpm_limit > 0:
+            if bpm > self._bpm_limit:
+                bpm = self._bpm_limit
+        return bpm
 
-    def validate_and_set_beats_per_bar(self):
+    def validate_and_get_beats_per_bar(self, beats_per_bar):
         '''
         Esatablce beats a unos aceptables, no crash.
         '''
-        if self.beats_per_bar < 1:
-            self.beats_per_bar = 1
-        if self.beats_limit_per_bar > 1:
-            if self.beats_per_bar > self.beats_limit_per_bar:
-                self.beats_per_bar = self.beats_limit_per_bar
+        if beats_per_bar < 1:
+            beats_per_bar = 1
+        if self._beats_limit_per_bar > 1:
+            if beats_per_bar > self._beats_limit_per_bar:
+                beats_per_bar = self._beats_limit_per_bar
+        return beats_per_bar
 
-    def set_settings(self):
+    def set_bpm(self, bpm):
+        self._bpm = self.validate_and_get_bpm(bpm)
+
+    def set_beats_per_bar(self, beats_per_bar ):
+        self._beats_per_bar = self.validate_and_get_beats_per_bar( beats_per_bar )
+
+    def set_settings(self, bpm, beats_per_bar):
         '''
         Establecer configuración del metronomo
         '''
-        self.validate_and_set_bpm()
-        self.validate_and_set_beats_per_bar()
+        self.set_bpm(bpm)
+        self.set_beats_per_bar(beats_per_bar)
+
+    def reset_settings(self):
+        self.set_bpm( self._INITIAL_BPM )
+        self.set_beats_per_bar( self._INITIAL_BEATS_PER_BAR )
+        self._bpm_limit = self._INITIAL_BPM_LIMIT
+        self._beats_limit_per_bar = self._INITIAL_BEATS_LIMIT_PER_BAR
+        self._current_beat = 1
+        self._count_dt_of_beat = 0
 
 
     def determine_current_beat(self, dt):
@@ -72,7 +89,7 @@ class DTMetronome():
         real_count_dt_of_beat = self._count_dt_of_beat
 
         # Compas
-        reset_bar = self._current_beat == self.beats_per_bar+1
+        reset_bar = self._current_beat == self._beats_per_bar+1
         if reset_bar:
             self._current_beat = 1
             self._count_dt_of_beat = 0 # Esto no se deberia necesitar. Pero sepa la bola... Doble verificación.
@@ -81,12 +98,12 @@ class DTMetronome():
         is_first_beat, is_last_beat, is_another_beat = False, False, False
         if first_step_of_beat:
             is_first_beat = self._current_beat == 1
-            is_last_beat = self._current_beat == self.beats_per_bar
+            is_last_beat = self._current_beat == self._beats_per_bar
             is_another_beat = (not is_another_beat) and (not is_last_beat)
 
         # Paso antes de la barra
         step_before_the_bar = (
-            (self._current_beat == self.beats_per_bar) and
+            (self._current_beat == self._beats_per_bar) and
             (real_count_dt_of_beat >= self.get_beat_interval())
         )
 
