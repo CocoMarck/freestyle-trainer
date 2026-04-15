@@ -1,4 +1,4 @@
-Bueno, el compas tiene una cierta cantidad de beats/tempos. La nota redonda, dura la totalidad del compas.
+Bueno, el compas tiene una cierta cantidad de beats/tempos. La nota redonda es la tipo nota mas larga.
 
 1. La cifra de indcador de compás.
 Lo primero es mirar los dos números al principio del pentagrama. (como $4 over 4$ o $3 over 4$)
@@ -33,6 +33,14 @@ def get_beats_in_compass( numerator, denominator ):
         16: "semiquaver"
     }
 
-    if numerator in notes.keys() and numerator > denominator:
-        return numerator
+    #if denominator in notes.keys():
+    beat_compass_value = numerator * (1 / denominator)
+    count_beats  = True
+    beats = 1
+    while count_beats:
+        if (beat_compass_value*beats) == numerator:
+            count_beats = False
+        else:
+            beats += 1
+    return beats
 ```
