@@ -8,15 +8,12 @@ import time
 prev_time = time.perf_counter()
 
 while True:
-    # Calculate delta time
+    # Calcular delta time
     now = time.perf_counter()
     dt = now - prev_time
     prev_time = now
 
-    # Use dt for framerate-independent logic
-    # Example: Move 100 pixels per second
-    # position += speed * dt
-
+    # Eventos
     signals = metronome.update(dt)
     if signals['first_step_of_beat']:
         text = (
