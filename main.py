@@ -1,3 +1,44 @@
+# DB `stimulus_generator_util`
+from core.sqlite.standard_database import StandardDatabase
+from core.sqlite.standard_table import StandardTable
+
+# Creación de db si no exite.
+from config.paths import DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES
+db = StandardDatabase( directory=DATA_DIR, name='stimulus_generator.sqlite' )
+if not db.exists():
+    print('Creando base de datos y aplicando schemas...')
+    db.execute( 'PRAGMA foreign_keys = ON;', commit=True )
+    tables = {
+        "vocals": None,
+        "languages": None,
+        "endings": None,
+        "words": None,
+        "sets": None,
+        "set_words": None
+    }
+    for f in SCHEMAS_STIMULUS_GENERATOR_FILES:
+        if f.name == "vocals.sql":
+            tables["vocals"] = f
+
+        elif f.name == "languages.sql":
+            tables["languages"] = f
+
+        elif f.name == "endings.sql":
+            tables["endings"] = f
+
+        elif f.name == "words.sql":
+            tables["words"] = f
+
+        elif f.name == "sets.sql":
+            tables["sets"] = f
+
+        elif f.name == "set_words.sql":
+            tables["set_words"] = f
+
+    for f in tables.values():
+        db.init_schema( f )
+
+# App
 from core.dt_metronome import DTMetronome
 from core.stimulus_generator import StimulusGenerator
 

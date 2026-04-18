@@ -1,7 +1,6 @@
-CREATE TABLE endings (
-    ending_id   INTEGER PRIMARY KEY,
-    ending_text TEXT NOT NULL UNIQUE,
-    vocal       TEXT NOT NULL,
+CREATE TABLE vocals (
+    vocal_id    INTEGER PRIMARY KEY,
+    vocal_text  TEXT NOT NULL UNIQUE,
     created_at  TEXT,
     updated_at  TEXT,
     deleted_at  TEXT,

@@ -6,14 +6,41 @@ Campos de control: `created_at`, `updated_at`, `deleted_at`, `active`.
 
 ## Tablas base de todo
 ```sql
-CREATE TABLE endings (
-    ending_id   INTEGER PRIMARY KEY,
-    ending_text TEXT NOT NULL UNIQUE,
-    vocal       TEXT NOT NULL,
+CREATE TABLE languages (
+    language_id   INTEGER PRIMARY KEY,
+    code          TEXT NOT NULL UNIQUE,
+    created_at    TEXT,
+    updated_at    TEXT,
+    deleted_at    TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+```
+Tabla de lenguajes.
+
+```sql
+CREATE TABLE vocals (
+    vocal_id   INTEGER PRIMARY KEY,
+    vocal_text TEXT NOT NULL UNIQUE,
     created_at  TEXT,
     updated_at  TEXT,
     deleted_at  TEXT,
     active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+```
+Vocales.
+
+```sql
+CREATE TABLE endings (
+    ending_id   INTEGER PRIMARY KEY,
+    ending_text TEXT NOT NULL UNIQUE,
+    vocal_id    INTEGER NOT NULL,
+    language_id INTEGER NOT NULL,
+    created_at  TEXT,
+    updated_at  TEXT,
+    deleted_at  TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+    FOREIGN KEY(vocal_id) REFERENCES vocals(vocal_id)
+    FOREIGN KEY(language_id) REFERENCES languages(vocal_id)
 );
 ```
 Tabla de terminaciónes de palabras.
