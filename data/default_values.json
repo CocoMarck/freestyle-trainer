@@ -1,0 +1,24 @@
+{
+    "vocals": ["a", "e", "i", "o", "u"],
+    "languages": ["es", "en"],
+    "endings": {
+        "es" : {
+            "a": [
+                "ar",
+                "orma, orna",
+                "ia",
+                "ad",
+                "ida, era",
+                "ta, anta, lta",
+                "lla, ya",
+                "ana",
+                "ar, nar, mar",
+                "ra, na",
+                "ica"
+            ],
+            "e": [
+                "ente"
+            ]
+        }
+    }
+}
