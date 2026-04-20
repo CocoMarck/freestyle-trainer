@@ -2,6 +2,7 @@
 from core.sqlite.standard_database import StandardDatabase
 from core.sqlite.standard_table import StandardTable
 from repositories.vocal_repository import VocalRepository
+from repositories.language_repository import LanguageRepository
 
 # Creación de db si no exite.
 from config.paths import DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES
@@ -42,12 +43,18 @@ vocals_table = StandardTable( db, "vocals" )
 vocal_repository = VocalRepository( vocals_table )
 vocal_repository.vocal_exists('a')
 
+languages_table = StandardTable( db, 'languages' )
+language_repository = LanguageRepository( languages_table )
+
 import json
 default_values = None
 with open("data/default_values.json", mode="r", encoding="utf-8") as read_file:
     default_values = json.load(read_file)
 for vocal in default_values['vocals']:
     print( vocal_repository.save_vocal( vocal_text=vocal ) )
+for language in default_values['languages']:
+    print( language_repository.save_code( code=language ) )
+#input()
 
 
 # App

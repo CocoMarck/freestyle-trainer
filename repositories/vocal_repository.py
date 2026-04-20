@@ -10,7 +10,7 @@ class VocalRepository:
         self.database = self.table.database
 
     def format_vocal(self, text):
-        return text.lower()
+        return text.lower().replace(' ', '')
 
     def update_vocal(self, vocal_id:int, vocal_text:str, active:bool):
         vocal_text = self.format_vocal(vocal_text)
@@ -19,7 +19,7 @@ class VocalRepository:
                 statement=(
                     f"UPDATE vocals SET vocal_text=?, updated_at=?, deleted_at=?, active=? WHERE vocal_id=?;"
                 ), commit=True, params=(
-                    vocal_text, get_datetime_now(), (get_datetime_now() if not active else None), int(active), value_id
+                    vocal_text, get_datetime_now(), (get_datetime_now() if not active else None), int(active), language_id
                 )
             )
             return True
