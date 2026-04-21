@@ -3,6 +3,7 @@ from core.sqlite.standard_database import StandardDatabase
 from core.sqlite.standard_table import StandardTable
 from repositories.vocal_repository import VocalRepository
 from repositories.language_repository import LanguageRepository
+from repositories.ending_repository import EndingRepository
 
 # Creación de db si no exite.
 from config.paths import DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES
@@ -46,6 +47,9 @@ vocal_repository.vocal_exists('a')
 languages_table = StandardTable( db, 'languages' )
 language_repository = LanguageRepository( languages_table )
 
+endings_table = StandardTable( db, 'endings' )
+ending_repository = EndingRepository( endings_table )
+
 import json
 default_values = None
 with open("data/default_values.json", mode="r", encoding="utf-8") as read_file:
@@ -54,6 +58,15 @@ for vocal in default_values['vocals']:
     print( vocal_repository.save_vocal( vocal_text=vocal ) )
 for language in default_values['languages']:
     print( language_repository.save_code( code=language ) )
+ending_id = 0
+for code in default_values['endings'].keys():
+    for vocal in default_values['endings'][code]:
+        for ending in default_values['endings'][code][vocal]:
+            ending_id += 1
+            if not ending_repository.exists( ending_id ):
+                print( ending_repository.insert_ending( vocal, code, ending, True ) )
+            else:
+                print( "Ya existe we: %s"%(ending_id,) )
 #input()
 
 

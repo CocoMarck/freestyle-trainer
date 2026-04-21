@@ -33,7 +33,7 @@ class LanguageRepository:
                 statement=(
                     "INSERT INTO languages (code, created_at, updated_at, deleted_at, active) VALUES(?, ?, NULL, ?, ?);"
                 ), commit = True, params=(
-                    code, get_datetime_now(), (get_datetime_now() if not active else None), active
+                    code, get_datetime_now(), (get_datetime_now() if not active else None), int(active)
                 )
             )
             return True
@@ -44,9 +44,9 @@ class LanguageRepository:
         try:
             cursor = self.database.execute(
                 statement=(
-                    f'SELECT 1 FROM languages WHERE code=? AND active=1 LIMIT 1;'
+                    f'SELECT 1 FROM languages WHERE code=? LIMIT 1;'
                 ),
-                commit=False, params=(code)
+                commit=False, params=(code,)
             )
             return cursor.fetchone() is not None
         except:
