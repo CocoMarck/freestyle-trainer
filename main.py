@@ -4,6 +4,7 @@ from core.sqlite.standard_table import StandardTable
 from repositories.vocal_repository import VocalRepository
 from repositories.language_repository import LanguageRepository
 from repositories.ending_repository import EndingRepository
+from repositories.word_repository import WordRepository
 
 # Creación de db si no exite.
 from config.paths import DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES
@@ -50,10 +51,17 @@ language_repository = LanguageRepository( languages_table )
 endings_table = StandardTable( db, 'endings' )
 ending_repository = EndingRepository( endings_table )
 
+words_table = StandardTable( db, 'words' )
+word_repository = WordRepository( words_table )
+
 import json
 default_values = None
+default_words = None
 with open("data/default_values.json", mode="r", encoding="utf-8") as read_file:
     default_values = json.load(read_file)
+with open("data/default_words.json", mode="r", encoding="utf-8") as read_file:
+    default_words = json.load(read_file)
+
 for vocal in default_values['vocals']:
     print( vocal_repository.save_vocal( vocal_text=vocal ) )
 for language in default_values['languages']:
@@ -67,6 +75,20 @@ for code in default_values['endings'].keys():
                 print( ending_repository.insert_ending( vocal, code, ending, True ) )
             else:
                 print( "Ya existe we: %s"%(ending_id,) )
+for code in default_words.keys():
+    for vocal_text in default_words[code].keys():
+        dicts = default_words[code][vocal_text]
+        for dict_word in dicts:
+            ending_text = dict_word['ending']
+            for word_text in dict_word['words']:
+                #print( ending_text, vocal_text, code, word_text )
+                print(
+                    word_repository.insert_word(
+                        ending_text, vocal_text, code, word_text, active=True
+                    )
+                )
+
+print('\n\n')
 #input()
 
 
