@@ -87,7 +87,6 @@ for code in default_words.keys():
                         ending_text, vocal_text, code, word_text, active=True
                     )
                 )
-#print( word_repository.get_random_words(limit=4) )
 print('\n\n')
 #input()
 
@@ -115,7 +114,7 @@ while True:
     signals = metronome.update(dt)
 
     stimulus = stimulus_generator.update(signals)
-    if isinstance(stimulus, list):
+    if isinstance(stimulus, tuple):
         current_stimulus = stimulus
 
     if signals['first_step_of_beat']:

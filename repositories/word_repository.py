@@ -1,11 +1,14 @@
 from core.sqlite.standard_table import StandardTable
 from core.sqlite.standard_database import StandardDatabase
 from utils.datetime_util import get_datetime_now, set_datetime_formatted
+import random
 
 class WordRepository:
     def __init__( self, table: StandardTable ):
         self.table = table
         self.database = self.table.database
+        self._active_words = None
+        self._used_words = []
 
 
     def format_word(self, text):
@@ -57,7 +60,7 @@ class WordRepository:
         except:
             return False
 
-    def get_random_words(self, code="es", limit=1):
+    def old_get_random_words(self, code="es", limit=1):
         words = []
         try:
             # Ending ID random
@@ -95,3 +98,62 @@ class WordRepository:
             return words
         except:
             return words
+
+    def _load_active_words(self, code="es"):
+        self._active_words = {}
+        try:
+            cursor = self.database.execute(
+                statement=(
+                    "SELECT e.ending_id, w.word_text "
+                    "FROM words w "
+                    "JOIN endings e ON w.ending_id = e.ending_id "
+                    "JOIN languages l ON e.language_id = l.language_id "
+                    "WHERE w.active=1 AND l.code=?;"
+                ),
+                commit=False, params=(code,)
+            )
+            self._active_words.update( {code: {}} )
+            words =  cursor.fetchall()
+            for ending_id, word_text in words:
+                self._active_words[code].update( {ending_id: []} )
+            for ending_id, word_text in words:
+                self._active_words[code][ending_id].append(word_text)
+        except:
+            pass
+
+    def get_random_word(self, ending_id:int, code="es"):
+        # Obtener palabras disponibles
+        all_words = []
+        aviable_words = {}
+        for e in self._active_words[code].keys():
+            aviable_words.update( {e: []} )
+            for word in self._active_words[code][e]:
+                all_words.append(word)
+                if word not in self._used_words:
+                    aviable_words[e].append( word )
+
+        if set(self._used_words) == set(all_words):
+            self._used_words.clear()
+
+        # get
+        if aviable_words[ending_id] != []:
+            word = random.choice( aviable_words[ending_id] )
+            self._used_words.append( word )
+        else:
+            word = None
+
+        return word
+
+    def get_random_words(self, code="es", limit=1):
+        if self._active_words is None:
+            self._load_active_words(code)
+
+        words = []
+        ending_id = random.choice( list(self._active_words[code].keys()) )
+        for x in range(0, limit):
+            word = self.get_random_word( ending_id=ending_id, code=code)
+            if word:
+                words.append( word )
+
+        return ( ending_id, list( set(words) ) )
+
