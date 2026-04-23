@@ -46,7 +46,7 @@ class VocalRepository:
                 statement=(
                     f'SELECT 1 FROM vocals WHERE vocal_text=? AND active=1 LIMIT 1;'
                 ),
-                commit=False, params=(vocal_text)
+                commit=False, params=(vocal_text,)
             )
             return cursor.fetchone() is not None
         except:

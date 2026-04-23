@@ -56,3 +56,42 @@ class WordRepository:
             return True
         except:
             return False
+
+    def get_random_words(self, code="es", limit=1):
+        words = []
+        try:
+            # Ending ID random
+            cursor = self.database.execute(
+                statement=(
+                    "SELECT e.ending_id "
+                    "FROM endings e "
+                    "JOIN languages l ON e.language_id = l.language_id "
+                    "WHERE e.active = 1 "
+                    "   AND l.code = ? "
+                    "ORDER BY RANDOM() "
+                    "LIMIT 1;"
+                ), commit=False, params=( code, )
+            )
+            ending_id = cursor.fetchone()[0]
+
+            # Word random
+            cursor = self.database.execute(
+                statement=(
+                    "SELECT w.word_text "
+                    "FROM words w "
+                    "JOIN endings e ON w.ending_id = e.ending_id "
+                    "JOIN vocals v ON e.vocal_id = v.vocal_id "
+                    "JOIN languages l ON e.language_id = l.language_id "
+                    "WHERE w.active = 1 "
+                    "   AND e.ending_id = ?"
+                    "   AND l.code = ? "
+                    "ORDER BY RANDOM() "
+                    "LIMIT ?;"
+                ), commit=False, params=( ending_id, code, limit )
+            )
+            words_fetchall = cursor.fetchall()
+            for word in words_fetchall:
+                words.append( word[0] )
+            return words
+        except:
+            return words

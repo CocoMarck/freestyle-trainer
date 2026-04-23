@@ -87,7 +87,7 @@ for code in default_words.keys():
                         ending_text, vocal_text, code, word_text, active=True
                     )
                 )
-
+#print( word_repository.get_random_words(limit=4) )
 print('\n\n')
 #input()
 
@@ -97,7 +97,7 @@ from core.dt_metronome import DTMetronome
 from core.stimulus_generator import StimulusGenerator
 
 metronome = DTMetronome( bpm=90, beats_per_bar=4, bpm_limit=200, beats_limit_per_bar=16 )
-stimulus_generator = StimulusGenerator()
+stimulus_generator = StimulusGenerator( word_repository=word_repository )
 
 # Loop
 import time
@@ -115,7 +115,7 @@ while True:
     signals = metronome.update(dt)
 
     stimulus = stimulus_generator.update(signals)
-    if isinstance(stimulus, str):
+    if isinstance(stimulus, list):
         current_stimulus = stimulus
 
     if signals['first_step_of_beat']:
