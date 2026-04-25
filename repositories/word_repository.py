@@ -8,7 +8,7 @@ class WordRepository:
         self.table = table
         self.database = self.table.database
         self._active_words = None
-        self._used_words = []
+        self._used_words = None
 
 
     def format_word(self, text):
@@ -29,7 +29,7 @@ class WordRepository:
                     "   JOIN languages l ON e.language_id=l.language_id "
                     "   WHERE e.ending_text=? AND v.vocal_text=? AND l.code=? "
                     "), "
-                    "word_text=?, updated_at=?, deleted_at=? active=? "
+                    "word_text=?, updated_at=?, deleted_at=?, active=? "
                     "WHERE word_id=?;"
                 ),
                 commit=True, params=(
@@ -101,6 +101,7 @@ class WordRepository:
 
     def _load_active_words(self, code="es"):
         self._active_words = {}
+        self._used_words = {}
         try:
             cursor = self.database.execute(
                 statement=(
@@ -113,6 +114,7 @@ class WordRepository:
                 commit=False, params=(code,)
             )
             self._active_words.update( {code: {}} )
+            self._used_words.update( {code: []} )
             words =  cursor.fetchall()
             for ending_id, word_text in words:
                 self._active_words[code].update( {ending_id: []} )
@@ -122,6 +124,9 @@ class WordRepository:
             pass
 
     def get_random_word(self, ending_id:int, code="es"):
+        '''
+        Obtiene palabras random sin repetirlas, establecir language code si o si.
+        '''
         # Obtener palabras disponibles
         all_words = []
         aviable_words = {}
@@ -129,16 +134,17 @@ class WordRepository:
             aviable_words.update( {e: []} )
             for word in self._active_words[code][e]:
                 all_words.append(word)
-                if word not in self._used_words:
+                if word not in self._used_words[code]:
                     aviable_words[e].append( word )
 
-        if set(self._used_words) == set(all_words):
-            self._used_words.clear()
+        used_all_words = set(self._used_words[code]) == set(all_words)
+        if used_all_words:
+            self._used_words[code].clear()
 
         # get
         if aviable_words[ending_id] != []:
             word = random.choice( aviable_words[ending_id] )
-            self._used_words.append( word )
+            self._used_words[code].append( word )
         else:
             word = None
 
@@ -149,11 +155,12 @@ class WordRepository:
             self._load_active_words(code)
 
         words = []
-        ending_id = random.choice( list(self._active_words[code].keys()) )
-        for x in range(0, limit):
-            word = self.get_random_word( ending_id=ending_id, code=code)
-            if word:
-                words.append( word )
+        while len(words) < 1:
+            ending_id = random.choice( list(self._active_words[code].keys()) )
+            for x in range(0, limit):
+                word = self.get_random_word( ending_id=ending_id, code=code)
+                if word:
+                    words.append( word )
 
         return ( ending_id, list( set(words) ) )
 

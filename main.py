@@ -96,7 +96,7 @@ from core.dt_metronome import DTMetronome
 from core.stimulus_generator import StimulusGenerator
 
 metronome = DTMetronome( bpm=90, beats_per_bar=4, bpm_limit=200, beats_limit_per_bar=16 )
-stimulus_generator = StimulusGenerator( word_repository=word_repository )
+stimulus_generator = StimulusGenerator( word_repository=word_repository, trigger_bars=4 )
 
 # Loop
 import time
