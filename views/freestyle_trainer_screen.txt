@@ -1,0 +1,39 @@
+#:import Window kivy.core.window.Window
+
+<FreestyleTrainerScreen>:
+    main_vbox_layout: _main_vbox_layout
+    label_last_stimulus: _label_last_stimulus
+    label_bar_count: _label_bar_count
+
+    BoxLayout:
+        id: _main_vbox_layout
+
+        size_hint: (1.0,1.0)
+        pos_hint: {"x":0.0, "y":0.0}
+
+        orientation: "vertical"
+
+        BoxLayout:
+            size_hint: (1.0, 0.33)
+
+            orientation: "horizontal"
+
+            Label:
+                id: _label_bar_count
+                text: "bar_count"
+
+        BoxLayout:
+            size_hint: (1.0, 0.33)
+
+            orientation: "vertical"
+
+            Label:
+                id: _label_last_stimulus
+                text: "last stimulus"
+
+        BoxLayout:
+            size_hint: (1.0, 0.33)
+
+            orientation: "horizontal"
+
+

@@ -91,14 +91,21 @@ print('\n\n')
 #input()
 
 
-# App
+# Freestyle trainer
 from core.dt_metronome import DTMetronome
 from core.stimulus_generator import StimulusGenerator
+from core.freestyle_trainer_engine import FreestyleTrainerEngine
 
 metronome = DTMetronome( bpm=90, beats_per_bar=4, bpm_limit=200, beats_limit_per_bar=16 )
 stimulus_generator = StimulusGenerator( word_repository=word_repository, trigger_bars=4 )
 
-# Loop
+freestyle_trainer_engine = FreestyleTrainerEngine(
+    metronome=metronome, stimulus_generator=stimulus_generator
+)
+
+
+'''
+# Engine Loop
 import time
 
 prev_time = time.perf_counter()
@@ -133,4 +140,26 @@ while True:
             "\n-------------\n"
         )
         print(stimulus_info)
+'''
 
+# Kivy
+from kivy.config import Config
+from kivy.core.window import Window
+from kivy.properties import ListProperty
+from kivy.metrics import dp
+from kivy.app import App
+from kivy.clock import Clock
+
+# App
+from views.freestyle_trainer_screen import FreestyleTrainerScreen
+
+class FreestyleTrainerApp(App):
+    def build(self):
+        screen = FreestyleTrainerScreen( engine=freestyle_trainer_engine )
+
+        Clock.schedule_interval(screen.update, 0.0)
+
+        return screen
+
+if __name__ == '__main__':
+    FreestyleTrainerApp().run()
