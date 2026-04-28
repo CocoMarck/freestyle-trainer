@@ -91,7 +91,7 @@ print('\n\n')
 #input()
 
 
-# Freestyle trainer
+# Engine | Freestyle trainer
 from core.dt_metronome import DTMetronome
 from core.stimulus_generator import StimulusGenerator
 from core.freestyle_trainer_engine import FreestyleTrainerEngine
@@ -102,45 +102,6 @@ stimulus_generator = StimulusGenerator( word_repository=word_repository, trigger
 freestyle_trainer_engine = FreestyleTrainerEngine(
     metronome=metronome, stimulus_generator=stimulus_generator
 )
-
-
-'''
-# Engine Loop
-import time
-
-prev_time = time.perf_counter()
-current_stimulus = None
-
-while True:
-    # Calcular delta time
-    now = time.perf_counter()
-    dt = now - prev_time
-    prev_time = now
-
-    # Eventos
-    signals = metronome.update(dt)
-
-    stimulus = stimulus_generator.update(signals)
-    if isinstance(stimulus, tuple):
-        current_stimulus = stimulus
-
-    if signals['first_step_of_beat']:
-        info = (
-            f'current beat: {signals["current_beat"]}\n'
-            f'reset bar: {signals["reset_bar"]}\n'
-            f'first_step_of_beat: {signals["first_step_of_beat"]}\n'
-            f'step_before_the_bar: {signals["step_before_the_bar"]}\n'
-            "\n-------------\n"
-        )
-        print(info)
-        stimulus_info = (
-            f"StimulusGenerator\n"
-            f"bar count: {stimulus_generator.bar_count}\n"
-            f"{current_stimulus}\n"
-            "\n-------------\n"
-        )
-        print(stimulus_info)
-'''
 
 # Kivy
 from kivy.config import Config

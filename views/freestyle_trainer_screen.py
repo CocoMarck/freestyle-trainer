@@ -14,6 +14,10 @@ from kivy.lang import Builder
 # Freestyle trainer
 from core.freestyle_trainer_engine import FreestyleTrainerEngine
 
+# Controller
+from controllers.beat_controller import BeatController
+from core.sound_manager_kivy import SoundManagerKivy
+
 # Screen
 kv_string = None
 with open('./views/freestyle_trainer_screen.txt', mode="r", encoding="utf-8") as read_file:
@@ -33,16 +37,39 @@ class FreestyleTrainerScreen(Screen):
         '''
 
         self.engine = engine
+        self.metronome = self.engine.metronome
+        self.stimulus_generator = self.engine.stimulus_generator
+
+        # Sound manager
+        self.sound_manager_local = SoundManagerKivy(volume=1)
+
+        # Local sound
+        self.metronome.set_bpm(120)
+        self._local_audio = self.sound_manager_local.get_sound(
+            "/home/jean_abraham/Audio/beatbox-ai-cinco.mp3"
+        )
+        self.sound_manager_local.play_sound( self._local_audio )
+
+        # Beat
+        self.play_beat = True
+        self.beat_controller = BeatController(self.sound_manager_local)
+
+    def playing_sound(self):
+        return self.sound_manager_local.is_sound_playing( self._local_audio )
 
     def update(self, dt):
-        engine_signals = self.engine.update(dt)
-        metronome_signals = engine_signals['metronome']
-        stimulus_signals = engine_signals['stimulus_generator']
+        if self.playing_sound():
+            engine_signals = self.engine.update(dt)
+            metronome_signals = engine_signals['metronome']
+            stimulus_signals = engine_signals['stimulus_generator']
 
-        if metronome_signals['first_step_of_beat']:
-            self.label_bar_count.text = (
-                f"{metronome_signals['current_beat']} | {stimulus_signals['bar_count']}"
-            )
-            print( metronome_signals["current_beat"] )
-        if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
-            self.label_last_stimulus.text = str( stimulus_signals["stimulus"] )
+            if metronome_signals['first_step_of_beat']:
+                self.label_bar_count.text = (
+                    f"{metronome_signals['current_beat']} | {stimulus_signals['bar_count']}"
+                )
+                print( metronome_signals["current_beat"] )
+            if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
+                self.label_last_stimulus.text = str( stimulus_signals["stimulus"] )
+
+            if self.play_beat:
+                self.beat_controller.update( metronome_signals )
