@@ -4,12 +4,19 @@
             {
                 "ending": "ar",
                 "words": [
+                    "posicionar",
+                    "colisionar",
+                    "programar",
+                    "cantar",
+                    "accionar",
+                    "mar",
                     "cocinar",
-                    "coleccionar",
-                    "collisionar",
+                    "convulsionar",
                     "evolucionar",
                     "combinar",
-                    "diferenciar"
+                    "diferenciar",
+                    "pasar",
+                    "cazar"
                 ]
             },
 
@@ -62,15 +69,15 @@
             },
 
             {
-                "ending": "ida, era",
+                "ending": "mida, mera",
                 "words": [
                     "comida",
-                    "efimera"
+                    "efímera"
                 ]
             },
 
             {
-                "ending": "ta, anta, lta",
+                "ending": "auta, anta, alta",
                 "words": [
                     "flauta",
                     "alta",
@@ -80,36 +87,21 @@
             },
 
             {
-                "ending": "lla, ya",
-                "words": [
-                    "batalla",
-                    "canalla",
-                    "desmaya"
-                ]
-            },
-
-            {
-                "ending": "ana",
+                "ending": "alla, aya, ana, ama, ara",
                 "words": [
                     "manzana",
-                    "sana"
+                    "sana",
+                    "fama",
+                    "batalla",
+                    "canalla",
+                    "desmaya",
+                    "maya",
+                    "dispara"
                 ]
             },
 
             {
-                "ending": "ar, nar, mar",
-                "words": [
-                    "posicionar",
-                    "colisionar",
-                    "programar",
-                    "cantar",
-                    "accionar",
-                    "mar"
-                ]
-            },
-
-            {
-                "ending": "ra, na",
+                "ending": "era, ena, erna",
                 "words": [
                     "hera",
                     "cena",
@@ -126,8 +118,11 @@
                 "ending": "ica",
                 "words": [
                     "fonetica",
-                    "etica",
-                    "ecenica"
+                    "ética",
+                    "escénica",
+                    "estética",
+                    "poética",
+                    "cibernética"
                 ]
             }
         ],
@@ -145,7 +140,19 @@
                     "serpiente",
                     "conciente",
                     "deficiente",
-                    "coherente"
+                    "coherente",
+                    "evidente",
+                    "vidente",
+                    "cliente"
+                ]
+            },
+            {
+                "ending": "arte, ante",
+                "words": [
+                    "arte",
+                    "quejarte",
+                    "durante",
+                    "posicionarte"
                 ]
             }
         ]

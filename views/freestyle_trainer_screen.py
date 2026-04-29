@@ -41,17 +41,22 @@ class FreestyleTrainerScreen(Screen):
         self.stimulus_generator = self.engine.stimulus_generator
 
         # Sound manager
-        self.sound_manager_local = SoundManagerKivy(volume=1)
+        self.sound_manager_local = SoundManagerKivy(volume=0.1)
 
         # Local sound
         self.metronome.set_bpm(120)
         self._local_audio = self.sound_manager_local.get_sound(
             "/home/jean_abraham/Audio/beatbox-ai-cinco.mp3"
+            #"/home/jean_abraham/Audio/beatbox-ai-cuatro.mp3"
+            #"/home/jean_abraham/Audio/dolor.mp3"
+            #"/home/jean_abraham/Audio/cf-end-theme.mp3"
+            #"/home/jean_abraham/Audio/Retro Drum Set.mp3"
+            #"/home/jean_abraham/Audio/suno-beatbox-ai-two.mp3"
         )
         self.sound_manager_local.play_sound( self._local_audio )
 
         # Beat
-        self.play_beat = True
+        self.play_beat = False
         self.beat_controller = BeatController(self.sound_manager_local)
 
     def playing_sound(self):

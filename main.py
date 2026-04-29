@@ -5,9 +5,12 @@ from repositories.vocal_repository import VocalRepository
 from repositories.language_repository import LanguageRepository
 from repositories.ending_repository import EndingRepository
 from repositories.word_repository import WordRepository
+from repositories.local_song_repository import LocalSongRepository
 
 # Creación de db si no exite.
-from config.paths import DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES
+from config.paths import (
+    DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES, LOCAL_SONG_FILES
+)
 db = StandardDatabase( directory=DATA_DIR, name='stimulus_generator.sqlite' )
 if not db.exists():
     print('Creando base de datos y aplicando schemas...')
@@ -18,7 +21,9 @@ if not db.exists():
         "endings": None,
         "words": None,
         "sets": None,
-        "set_words": None
+        "set_words": None,
+        "local_songs": None,
+        "remote_songs": None
     }
     for f in SCHEMAS_STIMULUS_GENERATOR_FILES:
         if f.name == "vocals.sql":
@@ -38,6 +43,12 @@ if not db.exists():
 
         elif f.name == "set_words.sql":
             tables["set_words"] = f
+
+        elif f.name == "local_songs.sql":
+            tables["local_songs"] = f
+
+        elif f.name == "remote_songs.sql":
+            tables["remote_songs"] = f
 
     for f in tables.values():
         db.init_schema( f )
@@ -87,6 +98,18 @@ for code in default_words.keys():
                         ending_text, vocal_text, code, word_text, active=True
                     )
                 )
+
+local_songs_table = StandardTable( db, "local_songs" )
+local_song_repository = LocalSongRepository( local_songs_table )
+for f in LOCAL_SONG_FILES:
+    json_song = None
+    with open(f, mode="r", encoding="utf-8") as read_file:
+        json_song = json.load(read_file)
+    save = local_song_repository.save_local_song(
+        json_song['name'], json_song['bpm'], json_song['beats_per_bar'], json_song['path']
+    )
+    if save:
+        print( json_song['name'], json_song['bpm'], json_song['beats_per_bar'], json_song['path'] )
 print('\n\n')
 #input()
 
