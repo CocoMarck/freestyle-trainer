@@ -25,7 +25,8 @@ with open('./views/freestyle_trainer_screen.txt', mode="r", encoding="utf-8") as
 Builder.load_string( kv_string )
 class FreestyleTrainerScreen(Screen):
     def __init__(
-        self, engine:FreestyleTrainerEngine=None, vertical_padding_offsets=[0,0,0,0], horizontal_padding_offset=[0,0,0,0], **kwargs
+        self, engine:FreestyleTrainerEngine=None, song:dict=None,
+        vertical_padding_offsets=[0,0,0,0], horizontal_padding_offset=[0,0,0,0], **kwargs
     ):
         super().__init__(**kwargs)
 
@@ -44,9 +45,12 @@ class FreestyleTrainerScreen(Screen):
         self.sound_manager_local = SoundManagerKivy(volume=0.1)
 
         # Local sound
-        self.metronome.set_bpm(120)
+        # Usar para songs, local_song_controller, o remote_song_controller
+        self.metronome.set_beats_per_bar( song["beats_per_bar"] )
+        self.metronome.set_bpm( song["bpm"] )
         self._local_audio = self.sound_manager_local.get_sound(
-            "/home/jean_abraham/Audio/beatbox-ai-cinco.mp3"
+            song["path"]
+            #"/home/jean_abraham/Audio/beatbox-ai-cinco.mp3"
             #"/home/jean_abraham/Audio/beatbox-ai-cuatro.mp3"
             #"/home/jean_abraham/Audio/dolor.mp3"
             #"/home/jean_abraham/Audio/cf-end-theme.mp3"

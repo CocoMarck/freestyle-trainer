@@ -74,9 +74,13 @@ with open("data/default_words.json", mode="r", encoding="utf-8") as read_file:
     default_words = json.load(read_file)
 
 for vocal in default_values['vocals']:
-    print( vocal_repository.save_vocal( vocal_text=vocal ) )
+    save = vocal_repository.save_vocal( vocal_text=vocal )
+    if save:
+        print(vocal)
 for language in default_values['languages']:
-    print( language_repository.save_code( code=language ) )
+    save = language_repository.save_code( code=language )
+    if save:
+        print(code)
 ending_id = 0
 for code in default_values['endings'].keys():
     for vocal in default_values['endings'][code]:
@@ -93,11 +97,13 @@ for code in default_words.keys():
             ending_text = dict_word['ending']
             for word_text in dict_word['words']:
                 #print( ending_text, vocal_text, code, word_text )
-                print(
-                    word_repository.insert_word(
+                insert = word_repository.insert_word(
+                    ending_text, vocal_text, code, word_text, active=True
+                )
+                if insert:
+                    print(
                         ending_text, vocal_text, code, word_text, active=True
                     )
-                )
 
 local_songs_table = StandardTable( db, "local_songs" )
 local_song_repository = LocalSongRepository( local_songs_table )
@@ -110,6 +116,7 @@ for f in LOCAL_SONG_FILES:
     )
     if save:
         print( json_song['name'], json_song['bpm'], json_song['beats_per_bar'], json_song['path'] )
+
 print('\n\n')
 #input()
 
@@ -139,7 +146,9 @@ from views.freestyle_trainer_screen import FreestyleTrainerScreen
 
 class FreestyleTrainerApp(App):
     def build(self):
-        screen = FreestyleTrainerScreen( engine=freestyle_trainer_engine )
+        screen = FreestyleTrainerScreen(
+            engine=freestyle_trainer_engine, song=local_song_repository.get_local_song(1)
+        )
 
         Clock.schedule_interval(screen.update, 0.0)
 

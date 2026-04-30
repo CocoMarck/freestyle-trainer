@@ -9,6 +9,9 @@ class LocalSongRepository:
         self.table = table
         self.database = self.table.database
 
+        self._active_local_songs = None
+        self._used_local_songs = None
+
     def update_local_song(self, local_song_id:int, name:str, bpm:int, beats_per_bar:int, path:str, active:bool):
         try:
             cursor = self.database.execute(
@@ -63,3 +66,43 @@ class LocalSongRepository:
         if not self.local_song_exists(name):
             return self.insert_local_song( name, bpm, beats_per_bar, path, active )
         return False
+
+
+    def _load_active_local_songs(self):
+        try:
+            self._active_local_songs = {}
+            self._used_local_songs = []
+            cursor = self.database.execute(
+                statement=(
+                    "SELECT local_song_id, name, bpm, beats_per_bar, path "
+                    "FROM local_songs "
+                    "WHERE active=1;"
+                ),
+                commit=False
+            )
+            values = cursor.fetchall()
+            for local_song_id, name, bpm, beats_per_bar, path in values:
+                self._active_local_songs.update(
+                    {
+                        local_song_id: {
+                            "name":name,"bpm":bpm,"beats_per_bar":beats_per_bar, "path":path
+                        }
+                    }
+                )
+        except:
+            self._active_local_songs = None
+            self._used_local_songs = None
+
+    def _the_local_songs_are_loaded(self):
+        return self._active_local_songs != None and self._used_local_songs != None
+
+    def get_local_song(self, local_song_id):
+        if not self._the_local_songs_are_loaded():
+            self._load_active_local_songs()
+
+        song_data = self._active_local_songs[local_song_id]
+        if not (local_song_id in self._used_local_songs):
+            self._used_local_songs.append(local_song_id)
+        return song_data
+
+
