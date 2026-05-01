@@ -120,6 +120,9 @@ for f in LOCAL_SONG_FILES:
 print('\n\n')
 #input()
 
+# Controller
+from controllers.local_song_controller import LocalSongController
+local_song_controller = LocalSongController( local_song_repository )
 
 # Engine | Freestyle trainer
 from core.dt_metronome import DTMetronome
@@ -147,7 +150,7 @@ from views.freestyle_trainer_screen import FreestyleTrainerScreen
 class FreestyleTrainerApp(App):
     def build(self):
         screen = FreestyleTrainerScreen(
-            engine=freestyle_trainer_engine, song=local_song_repository.get_local_song(1)
+            engine=freestyle_trainer_engine, local_song_controller=local_song_controller
         )
 
         Clock.schedule_interval(screen.update, 0.0)

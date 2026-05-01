@@ -25,7 +25,7 @@ with open('./views/freestyle_trainer_screen.txt', mode="r", encoding="utf-8") as
 Builder.load_string( kv_string )
 class FreestyleTrainerScreen(Screen):
     def __init__(
-        self, engine:FreestyleTrainerEngine=None, song:dict=None,
+        self, engine:FreestyleTrainerEngine=None, local_song_controller=None,
         vertical_padding_offsets=[0,0,0,0], horizontal_padding_offset=[0,0,0,0], **kwargs
     ):
         super().__init__(**kwargs)
@@ -43,6 +43,10 @@ class FreestyleTrainerScreen(Screen):
 
         # Sound manager
         self.sound_manager_local = SoundManagerKivy(volume=0.1)
+
+        # Controller
+        self.local_song_controller = local_song_controller
+        song = self.local_song_controller.get_random_local_song()
 
         # Local sound
         # Usar para songs, local_song_controller, o remote_song_controller

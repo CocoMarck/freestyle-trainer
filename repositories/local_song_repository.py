@@ -1,6 +1,7 @@
 from core.sqlite.standard_table import StandardTable
 from core.sqlite.standard_database import StandardDatabase
 from utils.datetime_util import get_datetime_now, set_datetime_formatted
+import random
 
 class LocalSongRepository:
     def __init__(
@@ -95,14 +96,3 @@ class LocalSongRepository:
 
     def _the_local_songs_are_loaded(self):
         return self._active_local_songs != None and self._used_local_songs != None
-
-    def get_local_song(self, local_song_id):
-        if not self._the_local_songs_are_loaded():
-            self._load_active_local_songs()
-
-        song_data = self._active_local_songs[local_song_id]
-        if not (local_song_id in self._used_local_songs):
-            self._used_local_songs.append(local_song_id)
-        return song_data
-
-
