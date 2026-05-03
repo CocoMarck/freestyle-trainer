@@ -25,8 +25,9 @@ with open('./views/freestyle_trainer_screen.txt', mode="r", encoding="utf-8") as
 Builder.load_string( kv_string )
 class FreestyleTrainerScreen(Screen):
     def __init__(
-        self, engine:FreestyleTrainerEngine=None, local_song_controller=None,
-        vertical_padding_offsets=[0,0,0,0], horizontal_padding_offset=[0,0,0,0], **kwargs
+        self,
+        engine:FreestyleTrainerEngine, local_song_controller:SoundManagerKivy,
+        beat_controller:BeatController, vertical_padding_offsets=[0,0,0,0], horizontal_padding_offset=[0,0,0,0], **kwargs
     ):
         super().__init__(**kwargs)
 
@@ -46,29 +47,23 @@ class FreestyleTrainerScreen(Screen):
 
         # Controller
         self.local_song_controller = local_song_controller
-        song = self.local_song_controller.get_random_local_song()
-
-        # Local sound
-        # Usar para songs, local_song_controller, o remote_song_controller
-        self.metronome.set_beats_per_bar( song["beats_per_bar"] )
-        self.metronome.set_bpm( song["bpm"] )
-        self._local_audio = self.sound_manager_local.get_sound(
-            song["path"]
-            #"/home/jean_abraham/Audio/beatbox-ai-cinco.mp3"
-            #"/home/jean_abraham/Audio/beatbox-ai-cuatro.mp3"
-            #"/home/jean_abraham/Audio/dolor.mp3"
-            #"/home/jean_abraham/Audio/cf-end-theme.mp3"
-            #"/home/jean_abraham/Audio/Retro Drum Set.mp3"
-            #"/home/jean_abraham/Audio/suno-beatbox-ai-two.mp3"
-        )
-        self.sound_manager_local.play_sound( self._local_audio )
 
         # Beat
         self.play_beat = False
-        self.beat_controller = BeatController(self.sound_manager_local)
+        self.beat_controller = beat_controller
+
+    def sync_sound_with_metronome(self):
+        if self.local_song_controller.current_local_song:
+            self.metronome.set_beats_per_bar(
+                self.local_song_controller.current_local_song["beats_per_bar"]
+            )
+            self.metronome.set_bpm(
+                self.local_song_controller.current_local_song["bpm"]
+            )
 
     def playing_sound(self):
-        return self.sound_manager_local.is_sound_playing( self._local_audio )
+        if self.local_song_controller.current_local_song:
+            return self.local_song_controller.playing_local_song()
 
     def update(self, dt):
         if self.playing_sound():
@@ -86,3 +81,7 @@ class FreestyleTrainerScreen(Screen):
 
             if self.play_beat:
                 self.beat_controller.update( metronome_signals )
+        else:
+            self.local_song_controller.set_random_local_song()
+            self.local_song_controller.play_local_song()
+            self.sync_sound_with_metronome()

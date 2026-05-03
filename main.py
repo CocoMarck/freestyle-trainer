@@ -120,9 +120,15 @@ for f in LOCAL_SONG_FILES:
 print('\n\n')
 #input()
 
+# SoundManager
+from core.sound_manager_kivy import SoundManagerKivy
+sound_manager_kivy = SoundManagerKivy(volume=0.1)
+
 # Controller
+from controllers.beat_controller import BeatController
 from controllers.local_song_controller import LocalSongController
-local_song_controller = LocalSongController( local_song_repository )
+local_song_controller = LocalSongController( local_song_repository, sound_manager_kivy )
+beat_controller = BeatController( sound_manager_kivy )
 
 # Engine | Freestyle trainer
 from core.dt_metronome import DTMetronome
@@ -150,7 +156,8 @@ from views.freestyle_trainer_screen import FreestyleTrainerScreen
 class FreestyleTrainerApp(App):
     def build(self):
         screen = FreestyleTrainerScreen(
-            engine=freestyle_trainer_engine, local_song_controller=local_song_controller
+            engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
+            beat_controller=beat_controller
         )
 
         Clock.schedule_interval(screen.update, 0.0)
