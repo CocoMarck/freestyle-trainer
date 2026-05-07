@@ -3,14 +3,11 @@ from entities.isound_manager import ISoundManager
 
 class SoundManagerVLC(ISoundManager):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, name="SoundManagerVLC", filename="sound_manager_vlc", **kwargs)
 		
         self._instance = vlc.Instance("--no-video")
         self._player = self._instance.media_player_new()
         self._player.audio_get_volume()
-        
-    def get_sound(self, url):
-        return self._instance.media_new(url)
     
     def play_sound(self, sound):
         self._player.set_media(sound)
@@ -20,7 +17,13 @@ class SoundManagerVLC(ISoundManager):
         self._player.stop()
     
     def is_sound_playing(self, sound=None):
-        return self._player.is_playing() == 1
+        state = self._player.get_state()
+
+        return state in [
+            vlc.State.Opening,
+            vlc.State.Buffering,
+            vlc.State.Playing
+        ]
      
     def set_sound_volume(self, sound=None, volume=1.0):
         self._player.audio_set_volume( int(self.validate_volume(volume)*100) )
@@ -30,3 +33,8 @@ class SoundManagerVLC(ISoundManager):
     
     def mute_sound(self, sound=None):
         self._player.audio_set_volume( 0 )
+    
+    def get_sound(self, url):
+        sound = self._instance.media_new(url)
+        self.set_sound_volume( sound, self.volume )
+        return sound
