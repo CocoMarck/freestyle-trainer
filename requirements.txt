@@ -1,0 +1,3 @@
+PyKivy
+python-vlc
+sqlite

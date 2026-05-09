@@ -1,5 +1,6 @@
 from repositories.local_song_repository import LocalSongRepository
 from core.sound_manager_kivy import SoundManagerKivy
+from core.dt_metronome import DTMetronome
 import random
 
 class LocalSongController():
@@ -9,19 +10,19 @@ class LocalSongController():
 
         self.repository = local_song_repository
 
-        self.current_local_song = None
+        self.current_song = None
         self.sound_manager = sound_manager
 
-    def get_local_song(self, local_song_id):
+    def get_song(self, song_id):
         if not self.repository._the_local_songs_are_loaded():
             self.repository._load_active_local_songs()
 
-        song_data = self.repository._active_local_songs[local_song_id]
-        if not local_song_id in self.repository._used_local_songs:
-            self.repository._used_local_songs.append( local_song_id )
+        song_data = self.repository._active_local_songs[song_id]
+        if not song_id in self.repository._used_local_songs:
+            self.repository._used_local_songs.append( song_id )
         return song_data
 
-    def get_random_local_song(self):
+    def get_random_song(self):
         if not self.repository._the_local_songs_are_loaded():
             self.repository._load_active_local_songs()
 
@@ -34,16 +35,23 @@ class LocalSongController():
             not_used_local_song_ids = list(self.repository._active_local_songs.keys())
 
         local_song_id = random.choice( not_used_local_song_ids )
-        return self.get_local_song( local_song_id )
+        return self.get_song( local_song_id )
 
-    def set_random_local_song(self):
-        self.current_local_song = self.get_random_local_song()
-        self.current_local_song.update({
-            "sound": self.sound_manager.get_sound( self.current_local_song['path'] )
+    def set_random_song(self):
+        self.current_song = self.get_random_song()
+        self.current_song.update({
+            "sound": self.sound_manager.get_sound( self.current_song['path'] )
         })
 
-    def play_local_song(self):
-        return self.sound_manager.play_sound( self.current_local_song['sound'] )
+    def play_song(self):
+        return self.sound_manager.play_sound( self.current_song['sound'] )
 
-    def playing_local_song(self):
-        return self.sound_manager.is_sound_playing( self.current_local_song['sound'] )
+    def playing_song(self):
+        if self.current_song:
+            return self.sound_manager.is_sound_playing( self.current_song['sound'] )
+
+    def sync_song_with_metronome(self, metronome:DTMetronome):
+        if self.current_song:
+            metronome.set_beats_per_bar( self.current_song["beats_per_bar"] )
+            metronome.set_bpm( self.current_song["bpm"] )
+            return True

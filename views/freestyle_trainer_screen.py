@@ -16,7 +16,8 @@ from core.freestyle_trainer_engine import FreestyleTrainerEngine
 
 # Controller
 from controllers.beat_controller import BeatController
-from core.sound_manager_kivy import SoundManagerKivy
+from controllers.local_song_controller import LocalSongController
+from controllers.remote_song_controller import RemoteSongController
 
 # Screen
 kv_string = None
@@ -26,7 +27,8 @@ Builder.load_string( kv_string )
 class FreestyleTrainerScreen(Screen):
     def __init__(
         self,
-        engine:FreestyleTrainerEngine, local_song_controller:SoundManagerKivy,
+        engine:FreestyleTrainerEngine, local_song_controller:LocalSongController,
+        remote_song_controller:RemoteSongController,
         beat_controller:BeatController, vertical_padding_offsets=[0,0,0,0], horizontal_padding_offset=[0,0,0,0], **kwargs
     ):
         super().__init__(**kwargs)
@@ -42,28 +44,18 @@ class FreestyleTrainerScreen(Screen):
         self.metronome = self.engine.metronome
         self.stimulus_generator = self.engine.stimulus_generator
 
-        # Sound manager
-        self.sound_manager_local = SoundManagerKivy(volume=0.1)
-
         # Controller
         self.local_song_controller = local_song_controller
+        self.remote_song_controller = remote_song_controller
 
         # Beat
         self.play_beat = False
         self.beat_controller = beat_controller
 
-    def sync_sound_with_metronome(self):
-        if self.local_song_controller.current_local_song:
-            self.metronome.set_beats_per_bar(
-                self.local_song_controller.current_local_song["beats_per_bar"]
-            )
-            self.metronome.set_bpm(
-                self.local_song_controller.current_local_song["bpm"]
-            )
-
     def playing_sound(self):
-        if self.local_song_controller.current_local_song:
-            return self.local_song_controller.playing_local_song()
+        return (
+            self.local_song_controller.playing_song() or self.remote_song_controller.playing_song()
+        )
 
     def update(self, dt):
         if self.playing_sound():
@@ -82,6 +74,12 @@ class FreestyleTrainerScreen(Screen):
             if self.play_beat:
                 self.beat_controller.update( metronome_signals )
         else:
-            self.local_song_controller.set_random_local_song()
-            self.local_song_controller.play_local_song()
-            self.sync_sound_with_metronome()
+            # Local
+            #self.local_song_controller.set_random_song()
+            #self.local_song_controller.play_song()
+            #self.local_song_controller.sync_song_with_metronome( self.metronome )
+
+            # Remote
+            self.remote_song_controller.set_random_song()
+            self.remote_song_controller.play_song()
+            self.remote_song_controller.sync_song_with_metronome( self.metronome )

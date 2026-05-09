@@ -122,13 +122,19 @@ print('\n\n')
 
 # SoundManager
 from core.sound_manager_kivy import SoundManagerKivy
+from core.sound_manager_vlc import SoundManagerVLC
 sound_manager_kivy = SoundManagerKivy(volume=0.1)
+sound_manager_vlc = SoundManagerVLC(volume=0.25)
 
 # Controller
 from controllers.beat_controller import BeatController
 from controllers.local_song_controller import LocalSongController
+from controllers.remote_song_controller import RemoteSongController
+
 local_song_controller = LocalSongController( local_song_repository, sound_manager_kivy )
 beat_controller = BeatController( sound_manager_kivy )
+
+remote_song_controller = RemoteSongController( sound_manager=sound_manager_vlc )
 
 # Engine | Freestyle trainer
 from core.dt_metronome import DTMetronome
@@ -157,7 +163,7 @@ class FreestyleTrainerApp(App):
     def build(self):
         screen = FreestyleTrainerScreen(
             engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
-            beat_controller=beat_controller
+            remote_song_controller=remote_song_controller, beat_controller=beat_controller
         )
 
         Clock.schedule_interval(screen.update, 0.0)

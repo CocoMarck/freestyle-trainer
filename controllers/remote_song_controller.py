@@ -1,3 +1,4 @@
+from core.dt_metronome import DTMetronome
 from core.sound_manager_vlc import SoundManagerVLC
 import random
 
@@ -6,7 +7,7 @@ class RemoteSongController():
         self, remote_song_repository=None, sound_manager: SoundManagerVLC=None
     ):
         self.repository = remote_song_repository
-        self.current_remote_song = None
+        self.current_song = None
         self.sound_manager = sound_manager
         
         self._audio_urls = [
@@ -22,18 +23,24 @@ class RemoteSongController():
             "https://cdn.pixabay.com/download/audio/2026/01/24/audio_93f6604643.mp3?filename=watermelon_beats-rap-rap-beat-beats-music-violin-2026-472843.mp3"
         ]
 		
-    def get_remote_song(self, remote_song_id):
+    def get_song(self, song_id):
         return self._audio_urls[remote_song_id]
         
-    def get_random_remote_song(self):
+    def get_random_song(self):
         return random.choice(self._audio_urls)
         
-    def set_random_remote_song(self):
-        self.current_remote_song = self.sound_manager.get_sound( self.get_random_remote_song() )
+    def set_random_song(self):
+        self.current_song = self.sound_manager.get_sound( self.get_random_song() )
        
-    def play_remote_song(self):
-        return self.sound_manager.play_sound( self.current_remote_song )
+    def play_song(self):
+        return self.sound_manager.play_sound( self.current_song )
     
-    def playing_remote_song(self):
-        if self.current_remote_song:
-            return self.sound_manager.is_sound_playing( self.current_remote_song )
+    def playing_song(self):
+        if self.current_song:
+            return self.sound_manager.is_sound_playing( self.current_song )
+
+    def sync_song_with_metronome(self, metronome:DTMetronome):
+        if self.current_song:
+            metronome.set_beats_per_bar( 4 )
+            metronome.set_bpm( 90 )
+            return True
