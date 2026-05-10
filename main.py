@@ -80,7 +80,7 @@ for vocal in default_values['vocals']:
 for language in default_values['languages']:
     save = language_repository.save_code( code=language )
     if save:
-        print(code)
+        print(language)
 ending_id = 0
 for code in default_values['endings'].keys():
     for vocal in default_values['endings'][code]:
@@ -102,7 +102,7 @@ for code in default_words.keys():
                 )
                 if insert:
                     print(
-                        ending_text, vocal_text, code, word_text, active=True
+                        ending_text, vocal_text, code, word_text
                     )
 
 local_songs_table = StandardTable( db, "local_songs" )

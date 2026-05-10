@@ -21,10 +21,13 @@
             },
 
             {
-                "ending": "orma, orna",
+                "ending": "orma, orna, ola, ora",
                 "words": [
                     "forma",
-                    "norma"
+                    "norma",
+                    "computadora",
+                    "hora",
+                    "cola"
                 ]
             },
 
@@ -155,7 +158,72 @@
                     "posicionarte"
                 ]
             }
+        ],
+
+        "i": [
+            {
+                "ending": "ir",
+                "words": [
+                    "fingir",
+                    "compartir",
+                    "interrumpir"
+                ]
+            }
+        ],
+
+        "o": [
+            {
+                "ending": "ivo",
+                "words": [
+                    "agresivo",
+                    "pasivo",
+                    "compasivo",
+                    "posesivo",
+                    "evaluativo",
+                    "educativo"
+                ]
+            },
+            {
+                "ending": "ión",
+                "words": [
+                    "evaluación",
+                    "pasión",
+                    "posición",
+                    "ecuasión",
+                    "solución",
+                    "ilusión",
+                    "iluminación"
+                ]
+            },
+            {
+                "ending": "ono, omo",
+                "words": [
+                    "microfono",
+                    "metronomo"
+                ]
+            },
+            {
+                "ending": "ido, imo, ino",
+                "words": [
+                    "interrumpido",
+                    "torcido",
+                    "tocino",
+                    "fuimos",
+                    "cochino",
+                    "porcino",
+                    "chino",
+                    "himno"
+                ]
+            },
+            {
+                "ending": "mo, no",
+                "words": [
+                    "enfermo",
+                    "externo",
+                    "extremo",
+                    "podemos"
+                ]
+            }
         ]
     }
-
 }

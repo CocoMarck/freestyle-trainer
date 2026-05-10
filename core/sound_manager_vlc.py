@@ -4,7 +4,7 @@ from entities.isound_manager import ISoundManager
 class SoundManagerVLC(ISoundManager):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, name="SoundManagerVLC", filename="sound_manager_vlc", **kwargs)
-		
+
         self._instance = vlc.Instance("--no-video")
         self._player = self._instance.media_player_new()
         self._player.audio_get_volume()

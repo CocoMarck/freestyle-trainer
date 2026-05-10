@@ -1,3 +1,7 @@
 PyKivy
 python-vlc
 sqlite
+imageio-ffmpeg
+PyAV
+pyaudio
+numpy

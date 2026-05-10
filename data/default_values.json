@@ -5,7 +5,7 @@
         "es" : {
             "a": [
                 "ar",
-                "orma, orna",
+                "orma, orna, ola, ora",
                 "ia",
                 "ad",
                 "mida, mera",
@@ -17,6 +17,16 @@
             "e": [
                 "ente",
                 "arte, ante"
+            ],
+            "i": [
+                "ir"
+            ],
+            "o": [
+                "ivo",
+                "ión",
+                "ono, omo",
+                "ido, imo, ino",
+                "mo, no"
             ]
         }
     }
