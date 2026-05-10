@@ -18,19 +18,23 @@ class RemoteSongController():
             "https://cdn.pixabay.com/download/audio/2026/02/24/audio_5bd9d7e09b.mp3?filename=vaitsez-rap-rap-beat-beats-music-486586.mp3",
             "https://cdn.pixabay.com/download/audio/2024/03/09/audio_2126849754.mp3?filename=5xbeatz-90-s-old-school-type-beat-rap-instrumental-sample-me-2024-195157.mp3",
             "https://cdn.pixabay.com/download/audio/2026/02/03/audio_2a668968ec.mp3?filename=watermelon_beats-revenge-guitar-rap-beat-beats-music-2026-478872.mp3",
-            "https://cdn.pixabay.com/download/audio/2026/01/24/audio_93f6604643.mp3?filename=watermelon_beats-rap-rap-beat-beats-music-violin-2026-472843.mp3"
+            "https://cdn.pixabay.com/download/audio/2026/01/24/audio_93f6604643.mp3?filename=watermelon_beats-rap-rap-beat-beats-music-violin-2026-472843.mp3",
+            "https://cdn.pixabay.com/download/audio/2025/11/12/audio_b6943c3aa3.mp3?filename=jake_plah-rap-freestyle-beat-435114.mp3",
+            "https://cdn.pixabay.com/download/audio/2025/01/12/audio_161655eb35.mp3?filename=42698505-keep-running-detroit-trap-type-beat-287064.mp3",
+            "https://cdn.pixabay.com/download/audio/2024/10/31/audio_264b8bbdb2.mp3?filename=premiummusicodyssey-21-shooters-258010.mp3"
         ]
         self._used_audio_url_ids = []
 
     def get_song(self, song_id):
-        self._used_audio_url_ids.append( song_id )
+        if not(song_id in self._used_audio_url_ids):
+            self._used_audio_url_ids.append( song_id )
         return self._audio_urls[song_id]
         
     def get_random_song(self):
         not_used_audio_url_ids = []
-        ids = range(0, len(self._audio_urls))
+        ids = list( range(0, len(self._audio_urls)) )
         for i in ids:
-            if not (i in ids):
+            if not (i in self._used_audio_url_ids):
                 not_used_audio_url_ids.append( i )
         if len(not_used_audio_url_ids) == 0:
             self._used_audio_url_ids.clear()
