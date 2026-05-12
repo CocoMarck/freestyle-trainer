@@ -10,7 +10,7 @@ from repositories.remote_song_repository import RemoteSongRepository
 
 # Creación de db si no exite.
 from config.paths import (
-    DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES, LOCAL_SONG_FILES
+    DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES, LOCAL_SONG_FILES, REMOTE_SONG_FILES
 )
 db = StandardDatabase( directory=DATA_DIR, name='stimulus_generator.sqlite' )
 if not db.exists():
@@ -120,6 +120,7 @@ for f in LOCAL_SONG_FILES:
 
 remote_songs_table = StandardTable( db, "remote_songs" )
 remote_song_repository = RemoteSongRepository( remote_songs_table )
+print(REMOTE_SONG_FILES)
 
 print('\n\n')
 #input()
