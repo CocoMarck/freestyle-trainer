@@ -6,6 +6,7 @@ from repositories.language_repository import LanguageRepository
 from repositories.ending_repository import EndingRepository
 from repositories.word_repository import WordRepository
 from repositories.local_song_repository import LocalSongRepository
+from repositories.remote_song_repository import RemoteSongRepository
 
 # Creación de db si no exite.
 from config.paths import (
@@ -116,6 +117,9 @@ for f in LOCAL_SONG_FILES:
     )
     if save:
         print( json_song['name'], json_song['bpm'], json_song['beats_per_bar'], json_song['path'] )
+
+remote_songs_table = StandardTable( db, "remote_songs" )
+remote_song_repository = RemoteSongRepository( remote_songs_table )
 
 print('\n\n')
 #input()

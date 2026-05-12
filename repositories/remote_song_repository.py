@@ -18,7 +18,7 @@ class RemoteSongRepository:
         try:
             cursor = self.database.execute(
                 statement=(
-                    "UPDATE remote_songs SET name=?, bpm=?, beats_per_bar=?, url=?, updated_at=?, deletd_at=?, active=? WHERE remote_song_id=?;"
+                    "UPDATE remote_songs SET name=?, bpm=?, beats_per_bar=?, url=?, updated_at=?, deleted_at=?, active=? WHERE remote_song_id=?;"
                 ), commit=True, params=(
                     name, bpm, beats_per_bar, url, get_datetime_now(), (get_datetime_now() if not active else None), int(active), remote_song_id
                 )
@@ -33,9 +33,9 @@ class RemoteSongRepository:
         try:
             cursor = self.database.execute(
                 statement=(
-                    "INSERT INTO remote_songs (name, bpm, beats_per_bar, url, create_at, updated_at, deleted_at, active) VALUES (?, ?, ?, ?, ?, NULL, ?, ?);"
+                    "INSERT INTO remote_songs (name, bpm, beats_per_bar, url, created_at, updated_at, deleted_at, active) VALUES (?, ?, ?, ?, ?, NULL, ?, ?);"
                 ), commit=True, params=(
-                    name, bpm, beats_per_bar, url, get_datetime_now(), (get_datetime_now() if not active else None), active
+                    name, bpm, beats_per_bar, url, get_datetime_now(), (get_datetime_now() if not active else None), int(active)
                 )
             )
             return True
@@ -46,7 +46,7 @@ class RemoteSongRepository:
         try:
             cursor = self.database.execute(
                 statement=(
-                    f"SELECT 1 FROM remote_songs WHERE name=? AND active=1 LIMIIT 1;"
+                    f"SELECT 1 FROM remote_songs WHERE name=? AND active=1 LIMIT 1;"
                 ),
                 commit=False, params=(name,)
             )
@@ -58,7 +58,7 @@ class RemoteSongRepository:
         try:
             cursor = self.database.execute(
                 statement="SELECT remote_song_id FROM remote_songs WHERE name=? LIMIT 1;",
-                commit=False, params(name,)
+                commit=False, params=(name,)
             )
             row = cursor.fetchone()
             return row[0] if row else None
@@ -80,11 +80,11 @@ class RemoteSongRepository:
                 statement=(
                     "SELECT remote_song_id, name, bpm, beats_per_bar, url "
                     "FROM remote_songs WHERE active=1;"
-                )
+                ),
                 commit=False
             )
             values = cursor.fetchall()
-            for remote_song_id, name, bpm, beats_per_bar, url, in values:
+            for remote_song_id, name, bpm, beats_per_bar, url in values:
                 self._active_remote_songs.update(
                     {
                         remote_song_id: {
