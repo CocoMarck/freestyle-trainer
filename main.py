@@ -121,6 +121,16 @@ for f in LOCAL_SONG_FILES:
 remote_songs_table = StandardTable( db, "remote_songs" )
 remote_song_repository = RemoteSongRepository( remote_songs_table )
 print(REMOTE_SONG_FILES)
+for f in REMOTE_SONG_FILES:
+    json_song = None
+    with open(f, mode="r", encoding="utf-8") as read_file:
+        json_song = json.load(read_file)
+    save = remote_song_repository.save_remote_song(
+        json_song['name'], json_song['bpm'], json_song['beats_per_bar'], json_song['url']
+    )
+    if save:
+        print( json_song['name'], json_song['bpm'], json_song['beats_per_bar'], json_song['url'] )
+    
 
 print('\n\n')
 #input()
