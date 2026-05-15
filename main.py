@@ -145,11 +145,13 @@ sound_manager_vlc = SoundManagerVLC(volume=0.5)
 from controllers.beat_controller import BeatController
 from controllers.local_song_controller import LocalSongController
 from controllers.remote_song_controller import RemoteSongController
+from controllers.remote_song_controller_old import RemoteSongControllerOld
 
 local_song_controller = LocalSongController( local_song_repository, sound_manager_kivy )
 beat_controller = BeatController( sound_manager_kivy )
 
-remote_song_controller = RemoteSongController( sound_manager=sound_manager_vlc )
+remote_song_controller_old = RemoteSongControllerOld( sound_manager=sound_manager_vlc )
+remote_song_controller = RemoteSongController( remote_song_repository, sound_manager_vlc )
 
 # Engine | Freestyle trainer
 from core.dt_metronome import DTMetronome
