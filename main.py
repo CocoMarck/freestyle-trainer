@@ -96,15 +96,14 @@ for code in default_words.keys():
         dicts = default_words[code][vocal_text]
         for dict_word in dicts:
             ending_text = dict_word['ending']
+            print("\n\n#", ending_text, vocal_text, code)
             for word_text in dict_word['words']:
                 #print( ending_text, vocal_text, code, word_text )
                 insert = word_repository.insert_word(
                     ending_text, vocal_text, code, word_text, active=True
                 )
                 if insert:
-                    print(
-                        ending_text, vocal_text, code, word_text
-                    )
+                    print(word_text)
 
 local_songs_table = StandardTable( db, "local_songs" )
 local_song_repository = LocalSongRepository( local_songs_table )
@@ -120,7 +119,6 @@ for f in LOCAL_SONG_FILES:
 
 remote_songs_table = StandardTable( db, "remote_songs" )
 remote_song_repository = RemoteSongRepository( remote_songs_table )
-print(REMOTE_SONG_FILES)
 for f in REMOTE_SONG_FILES:
     json_song = None
     with open(f, mode="r", encoding="utf-8") as read_file:

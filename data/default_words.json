@@ -16,7 +16,15 @@
                     "combinar",
                     "diferenciar",
                     "pasar",
-                    "cazar"
+                    "cazar",
+                    "especular",
+                    "disparar",
+                    "conjurar",
+                    "navegar",
+                    "contamplar",
+                    "vibrar",
+                    "acelerar",
+                    "detonar"
                 ]
             },
 
@@ -27,7 +35,17 @@
                     "norma",
                     "computadora",
                     "hora",
-                    "cola"
+                    "cola",
+                    "reforma",
+                    "plataforma",
+                    "transforma",
+                    "adorna",
+                    "soborna",
+                    "aureola",
+                    "caracola",
+                    "demora",
+                    "mejora",
+                    "exploradora"
                 ]
             },
 
@@ -47,7 +65,17 @@
                     "elegancia",
                     "fragancia",
                     "tolerancia",
-                    "necesaria"
+                    "necesaria",
+                    "armonía",
+                    "melodía",
+                    "sabiduría",
+                    "ironía",
+                    "categoría",
+                    "magia",
+                    "estrategia",
+                    "fantasía",
+                    "alegría",
+                    "simpatía"
                 ]
             },
 
@@ -67,7 +95,17 @@
                     "igualdad",
                     "desigualdad",
                     "tonalidad",
-                    "hermandad"
+                    "hermandad",
+                    "tempestad",
+                    "voluntad",
+                    "identidad",
+                    "sociedad",
+                    "dignidad",
+                    "amistad",
+                    "felicidad",
+                    "realidad",
+                    "tempestad",
+                    "soledad"
                 ]
             },
 
@@ -75,7 +113,15 @@
                 "ending": "mida, mera",
                 "words": [
                     "comida",
-                    "efímera"
+                    "efímera",
+                    "pirámida",
+                    "homicida",
+                    "tímida",
+                    "quimera",
+                    "primera",
+                    "primavera",
+                    "ramera",
+                    "chimera"
                 ]
             },
 
@@ -85,7 +131,15 @@
                     "flauta",
                     "alta",
                     "falta",
-                    "planta"
+                    "planta",
+                    "pauta",
+                    "incauta",
+                    "garganta",
+                    "levanta",
+                    "encanta",
+                    "esmalta",
+                    "asalta",
+                    "peralta"
                 ]
             },
 
@@ -99,7 +153,18 @@
                     "canalla",
                     "desmaya",
                     "maya",
-                    "dispara"
+                    "dispara",
+                    "muralla",
+                    "metralla",
+                    "atalaya",
+                    "raya",
+                    "ventana",
+                    "mañana",
+                    "hermana",
+                    "drama",
+                    "proclama",
+                    "prepara",
+                    "declara"
                 ]
             },
 
@@ -113,7 +178,17 @@
                     "eterna",
                     "materna",
                     "paterna",
-                    "condena"
+                    "condena",
+                    "bandera",
+                    "sincera",
+                    "ligera",
+                    "cadena",
+                    "arena",
+                    "escena",
+                    "moderna",
+                    "taberna",
+                    "caverna",
+                    "linterna"
                 ]
             },
 
@@ -125,7 +200,16 @@
                     "escénica",
                     "estética",
                     "poética",
-                    "cibernética"
+                    "cibernética",
+                    "música",
+                    "física",
+                    "lógica",
+                    "mística",
+                    "crítica",
+                    "auténtica",
+                    "fantástica",
+                    "robótica",
+                    "exótica"
                 ]
             }
         ],
@@ -146,7 +230,16 @@
                     "coherente",
                     "evidente",
                     "vidente",
-                    "cliente"
+                    "cliente",
+                    "diferente",
+                    "valiente",
+                    "mente",
+                    "presente",
+                    "urgente",
+                    "ambiente",
+                    "demente",
+                    "recurrente",
+                    "inteligente"
                 ]
             },
             {
@@ -155,7 +248,15 @@
                     "arte",
                     "quejarte",
                     "durante",
-                    "posicionarte"
+                    "posicionarte",
+                    "baluarte",
+                    "descarte",
+                    "instante",
+                    "gigante",
+                    "diamante",
+                    "obstante",
+                    "restante",
+                    "elegante"
                 ]
             }
         ],
@@ -166,7 +267,17 @@
                 "words": [
                     "fingir",
                     "compartir",
-                    "interrumpir"
+                    "interrumpir",
+                    "construir",
+                    "producir",
+                    "dirigir",
+                    "definir",
+                    "escribir",
+                    "vivir",
+                    "sentir",
+                    "seguir",
+                    "asumir",
+                    "existir"
                 ]
             }
         ],
@@ -192,14 +303,32 @@
                     "ecuasión",
                     "solución",
                     "ilusión",
-                    "iluminación"
+                    "iluminación",
+                    "orazón",
+                    "canción",
+                    "visión",
+                    "creación",
+                    "emoción",
+                    "decisión",
+                    "traición",
+                    "rebelión",
+                    "dimensión"
                 ]
             },
             {
                 "ending": "ono, omo",
                 "words": [
                     "microfono",
-                    "metronomo"
+                    "metronomo",
+                    "tono",
+                    "abono",
+                    "trono",
+                    "polígono",
+                    "autonomo",
+                    "anónimo",
+                    "cromo",
+                    "plomo",
+                    "domo"
                 ]
             },
             {
@@ -212,7 +341,16 @@
                     "cochino",
                     "porcino",
                     "chino",
-                    "himno"
+                    "himno",
+                    "sonido",
+                    "latido",
+                    "sentido",
+                    "camino",
+                    "destino",
+                    "primo",
+                    "mínimo",
+                    "anónimo",
+                    "divino"
                 ]
             },
             {
@@ -221,7 +359,53 @@
                     "enfermo",
                     "externo",
                     "extremo",
-                    "podemos"
+                    "podemo",
+                    "ritmo",
+                    "mismo",
+                    "abismo",
+                    "hermano",
+                    "verano",
+                    "lejano",
+                    "soberano",
+                    "cotidiano"
+                ]
+            }
+        ],
+        "u" : [
+            {
+                "ending": "ur, sur, ud",
+                "words": [
+                    "azul",
+                    "baúl",
+                    "alud",
+                    "virtud",
+                    "juventud",
+                    "actitud",
+                    "altitud",
+                    "salud",
+                    "virtud",
+                    "inquietud",
+                    "gratitud",
+                    "plenitud",
+                    "multitud",
+                    "esclavitud",
+                    "altitud",
+                    "longitud",
+                    "pulcritud",
+                    "quietud"
+                ]
+            },
+            {
+                "ending": "uz",
+                "words": [
+                    "luz",
+                    "cruz",
+                    "andaluz",
+                    "arcabuz",
+                    "avestruz",
+                    "testuz",
+                    "contraluz",
+                    "trasluz"
                 ]
             }
         ]
