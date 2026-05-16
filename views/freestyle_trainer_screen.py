@@ -75,7 +75,7 @@ class FreestyleTrainerScreen(Screen):
                 self.beat_controller.update( metronome_signals )
         else:
             '''
-            Establece cancion. Configura y reinicia metronomo segun la song. Reinicia sitimulus con metronome
+            Establece cancion. Configura y reinicia metronomo segun la song. Reincia conteo de compases de simulus generator.
             '''
             # Local
             #self.local_song_controller.set_random_song()
@@ -88,4 +88,4 @@ class FreestyleTrainerScreen(Screen):
             self.remote_song_controller.sync_metronome_with_song( self.metronome )
 
             # Stimulus
-            self.stimulus_generator.sync_with_metronome( self.metronome )
+            self.stimulus_generator.reset_count()
