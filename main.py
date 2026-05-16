@@ -137,7 +137,7 @@ print('\n\n')
 from core.sound_manager_kivy import SoundManagerKivy
 from core.sound_manager_vlc import SoundManagerVLC
 sound_manager_kivy = SoundManagerKivy(volume=0.1)
-sound_manager_vlc = SoundManagerVLC(volume=1)
+sound_manager_vlc = SoundManagerVLC(volume=0.5)
 
 # Controller
 from controllers.beat_controller import BeatController
@@ -157,7 +157,7 @@ from core.stimulus_generator import StimulusGenerator
 from core.freestyle_trainer_engine import FreestyleTrainerEngine
 
 metronome = DTMetronome( bpm=90, beats_per_bar=4, bpm_limit=200, beats_limit_per_bar=16 )
-stimulus_generator = StimulusGenerator( word_repository=word_repository, trigger_bars=4 )
+stimulus_generator = StimulusGenerator( word_repository=word_repository, ending_repository=ending_repository, trigger_bars=4 )
 
 freestyle_trainer_engine = FreestyleTrainerEngine(
     metronome=metronome, stimulus_generator=stimulus_generator

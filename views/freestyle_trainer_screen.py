@@ -69,7 +69,15 @@ class FreestyleTrainerScreen(Screen):
                 )
                 print( metronome_signals["current_beat"] )
             if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
-                self.label_last_stimulus.text = str( stimulus_signals["stimulus"] )
+                ending_id, words = stimulus_signals["stimulus"]
+                words_text = (
+                    f"ending_id: {ending_id}\n"
+                    f"{stimulus_signals['ending_text']}\n"
+                    "------------\n"
+                )
+                for word in words:
+                    words_text += f"{word}\n"
+                self.label_last_stimulus.text = words_text[:-1]
 
             if self.play_beat:
                 self.beat_controller.update( metronome_signals )

@@ -1,5 +1,8 @@
 #:import Window kivy.core.window.Window
 
+<Label, TextInput, ToggleButton, height>:
+    font_size: ( min(Window.width, Window.height)*0.04 )
+
 <FreestyleTrainerScreen>:
     main_vbox_layout: _main_vbox_layout
     label_last_stimulus: _label_last_stimulus

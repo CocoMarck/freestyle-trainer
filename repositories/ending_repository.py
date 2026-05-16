@@ -63,3 +63,16 @@ class EndingRepository:
             return cursor.fetchone() is not None
         except:
             return False
+
+    def get_ending_text(self, ending_id:int):
+        try:
+            cursor = self.database.execute(
+                statement=(
+                    f'SELECT ending_text FROM endings WHERE ending_id=? LIMIT 1;'
+                ),
+                commit=False, params=(ending_id,)
+            )
+            row = cursor.fetchone()
+            return row[0] if row else None
+        except:
+            return None
