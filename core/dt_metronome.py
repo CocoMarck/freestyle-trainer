@@ -22,6 +22,12 @@ class DTMetronome():
         # Configurar
         self.set_settings(self._INITIAL_BPM, self._INITIAL_BEATS_PER_BAR)
 
+    def get_bpm(self):
+        return self._bpm
+
+    def get_beats_per_bar(self):
+        return self._beats_per_bar
+
     def get_beat_interval(self):
         # Obtener duración de cada beat en segundos.
         return (60 / self._bpm)

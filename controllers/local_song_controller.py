@@ -50,7 +50,7 @@ class LocalSongController():
         if self.current_song:
             return self.sound_manager.is_sound_playing( self.current_song['sound'] )
 
-    def sync_song_with_metronome(self, metronome:DTMetronome):
+    def sync_metronome_with_song(self, metronome:DTMetronome):
         if self.current_song:
             metronome.set_and_reset_settings(
                 self.current_song["bpm"], self.current_song["beats_per_bar"]

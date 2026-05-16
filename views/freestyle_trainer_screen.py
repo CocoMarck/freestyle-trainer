@@ -74,12 +74,18 @@ class FreestyleTrainerScreen(Screen):
             if self.play_beat:
                 self.beat_controller.update( metronome_signals )
         else:
+            '''
+            Establece cancion. Configura y reinicia metronomo segun la song. Reinicia sitimulus con metronome
+            '''
             # Local
             #self.local_song_controller.set_random_song()
             #self.local_song_controller.play_song()
-            #self.local_song_controller.sync_song_with_metronome( self.metronome )
+            #self.local_song_controller.sync_metronome_with_song( self.metronome )
 
             # Remote
             self.remote_song_controller.set_random_song()
             self.remote_song_controller.play_song()
-            self.remote_song_controller.sync_song_with_metronome( self.metronome )
+            self.remote_song_controller.sync_metronome_with_song( self.metronome )
+
+            # Stimulus
+            self.stimulus_generator.sync_with_metronome( self.metronome )

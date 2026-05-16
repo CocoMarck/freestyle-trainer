@@ -8,6 +8,11 @@ class StimulusGenerator:
         self._init_with_stimulus = True
 
 
+    def sync_with_metronome( self, metronome ):
+        self.bar_count = 0
+        self.trigger_bars = metronome.get_beats_per_bar()
+
+
     def update( self, signals ):
         stimulus_signals = {
             "init": self._init_with_stimulus,
