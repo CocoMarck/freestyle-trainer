@@ -68,13 +68,19 @@ class DTMetronome():
         self.set_bpm(bpm)
         self.set_beats_per_bar(beats_per_bar)
 
-    def reset_settings(self):
-        self.set_bpm( self._INITIAL_BPM )
-        self.set_beats_per_bar( self._INITIAL_BEATS_PER_BAR )
-        self._bpm_limit = self._INITIAL_BPM_LIMIT
-        self._beats_limit_per_bar = self._INITIAL_BEATS_LIMIT_PER_BAR
+    def reset_counts(self):
         self._current_beat = 1
         self._count_dt_of_beat = 0
+
+    def set_and_reset_settings(self, bpm, beats_per_bar):
+        self.set_settings(bpm, beats_per_bar)
+        self.reset_counts()
+
+    def set_and_reset_to_default_settings(self):
+        self.set_settings( self._INITIAL_BPM, self._INITIAL_BEATS_PER_BAR )
+        self._bpm_limit = self._INITIAL_BPM_LIMIT
+        self._beats_limit_per_bar = self._INITIAL_BEATS_LIMIT_PER_BAR
+        self.reset_counts()
 
 
     def determine_current_beat(self, dt):

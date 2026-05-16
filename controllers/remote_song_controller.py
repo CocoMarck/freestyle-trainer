@@ -50,6 +50,7 @@ class RemoteSongController():
 
     def sync_song_with_metronome(self, metronome:DTMetronome):
         if self.current_song:
-            metronome.set_beats_per_bar( self.current_song["beats_per_bar"] )
-            metronome.set_bpm( self.current_song["bpm"] )
+            metronome.set_and_reset_settings(
+                self.current_song["bpm"], self.current_song["beats_per_bar"]
+            )
             return True
