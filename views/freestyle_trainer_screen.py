@@ -76,7 +76,6 @@ class FreestyleTrainerScreen(Screen):
                 self.label_bar_count.text = (
                     f"{metronome_signals['current_beat']} | {stimulus_signals['bar_count']}"
                 )
-                print( metronome_signals["current_beat"] )
             if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
                 ending_id, words = stimulus_signals["stimulus"]
                 words_text = (
@@ -89,7 +88,7 @@ class FreestyleTrainerScreen(Screen):
                 self.label_last_stimulus.text = words_text[:-1]
 
                 # Cambiar color
-                self.set_random_colors()
+                #self.set_random_colors()
 
             if self.play_beat:
                 self.beat_controller.update( metronome_signals )

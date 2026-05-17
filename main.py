@@ -137,7 +137,7 @@ print('\n\n')
 from core.sound_manager_kivy import SoundManagerKivy
 from core.sound_manager_vlc import SoundManagerVLC
 sound_manager_kivy = SoundManagerKivy(volume=0.1)
-sound_manager_vlc = SoundManagerVLC(volume=1)
+sound_manager_vlc = SoundManagerVLC(volume=0.5)
 
 # Controller
 from controllers.beat_controller import BeatController
