@@ -1,2 +1,4 @@
 #!/bin/bash
-cat "./schemas/stimulus_generator/*.sql" > "./docs/database-schemas.txt"
+dir="$(dirname "$(realpath "$0")")"
+
+cat $dir"/schemas/stimulus_generator/"*.sql > $dir"/docs/database-schemas.txt"
