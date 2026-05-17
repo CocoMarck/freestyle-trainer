@@ -3,6 +3,7 @@ from functools import partial
 
 # Kivy
 from kivy.uix.screenmanager import Screen
+from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.checkbox import CheckBox
@@ -11,6 +12,8 @@ from kivy.properties import (
 )
 from kivy.lang import Builder
 
+from kivy.graphics import Color, Rectangle
+
 # Freestyle trainer
 from core.freestyle_trainer_engine import FreestyleTrainerEngine
 
@@ -18,6 +21,11 @@ from core.freestyle_trainer_engine import FreestyleTrainerEngine
 from controllers.beat_controller import BeatController
 from controllers.local_song_controller import LocalSongController
 from controllers.remote_song_controller import RemoteSongController
+
+# Colors
+from utils.colors import (
+    get_rgba, invert_rgb, invert_rgba, rgba_to_normalized, scale_rgba, random_rgba, is_the_rgba_color_bright
+)
 
 # Screen
 kv_string = None
@@ -52,6 +60,7 @@ class FreestyleTrainerScreen(Screen):
         self.play_beat = False
         self.beat_controller = beat_controller
 
+    # Freestyle
     def playing_sound(self):
         return (
             self.local_song_controller.playing_song() or self.remote_song_controller.playing_song()
@@ -79,6 +88,9 @@ class FreestyleTrainerScreen(Screen):
                     words_text += f"{word}\n"
                 self.label_last_stimulus.text = words_text[:-1]
 
+                # Cambiar color
+                self.set_random_colors()
+
             if self.play_beat:
                 self.beat_controller.update( metronome_signals )
         else:
@@ -97,3 +109,29 @@ class FreestyleTrainerScreen(Screen):
 
             # Stimulus
             self.stimulus_generator.reset_count()
+
+
+    # GUI
+    def set_random_colors(self):
+        # Obtener colores aleatoreos
+        color = random_rgba()
+        invert_color = invert_rgba( color )
+
+        # Crear o mudificar rect y pintar en base a este.
+        if not hasattr(self, "rect_window"):
+            with self.canvas.before:
+                self.color_window = Color( *rgba_to_normalized( color ) )
+                self.rect_window = Rectangle(pos=self.pos, size=self.size)
+            self.bind(
+                pos=lambda inst, val: setattr(self.rect_window, 'pos', inst.pos),
+                size=lambda inst, val: setattr(self.rect_window, 'size', inst.size)
+            )
+        else:
+            self.color_window.rgba = rgba_to_normalized( color )
+            self.rect_window.pos=self.pos
+            self.rect_window.size=self.size
+
+        # Pintar widgets
+        for widget in self.walk():
+            if isinstance(widget, Label):
+                widget.color = rgba_to_normalized( invert_color )
