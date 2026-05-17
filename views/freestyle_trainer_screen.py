@@ -116,6 +116,10 @@ class FreestyleTrainerScreen(Screen):
         # Obtener colores aleatoreos
         color = random_rgba()
         invert_color = invert_rgba( color )
+        if is_the_rgba_color_bright( color ):
+            invert_color = scale_rgba(invert_color, 0.25)
+        else:
+            invert_color = scale_rgba(invert_color, 1.75)
 
         # Crear o mudificar rect y pintar en base a este.
         if not hasattr(self, "rect_window"):
