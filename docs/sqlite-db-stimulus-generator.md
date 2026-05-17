@@ -40,7 +40,7 @@ CREATE TABLE endings (
     deleted_at  TEXT,
     active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
     FOREIGN KEY(vocal_id) REFERENCES vocals(vocal_id)
-    FOREIGN KEY(language_id) REFERENCES languages(vocal_id)
+    FOREIGN KEY(language_id) REFERENCES languages(language_id)
 );
 ```
 Tabla de terminaciónes de palabras.
