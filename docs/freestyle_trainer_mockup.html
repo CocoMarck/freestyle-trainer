@@ -1,0 +1,78 @@
+
+<style>
+  .ft-root { font-family: var(--font-sans); padding: 1rem 0; display: flex; flex-direction: column; gap: 12px; }
+  .ft-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+  .ft-label { font-size: 11px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .ft-val { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .ft-val-sm { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .ft-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ft-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .ft-metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; }
+  .beat-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+  .beat-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--color-text-secondary); }
+  .beat-dot.active { background: #534AB7; border-color: #534AB7; color: #fff; }
+  .beat-dot.bar-2 { background: #1D9E75; border-color: #1D9E75; color: #fff; }
+  .rhyme-chip { display: inline-block; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 6px 14px; font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .rhyme-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 8px; }
+  .beat-name { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .ending-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--color-background-info); color: var(--color-text-info); font-size: 12px; border-radius: var(--border-radius-md); padding: 3px 10px; margin-top: 6px; }
+  .rhyme-hint { font-size: 12px; color: var(--color-text-tertiary); margin-top: 6px; }
+  .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 8px 0; }
+</style>
+
+<div class="ft-root">
+  <h2 class="sr-only">Freestyle Trainer — diseño de pantalla principal</h2>
+
+  <!-- Bloque 1: BPM + compás -->
+  <div class="ft-card">
+    <div class="section-title">Ritmo</div>
+    <div class="ft-grid3">
+      <div class="ft-metric">
+        <div class="ft-label">BPM</div>
+        <div class="ft-val">80</div>
+      </div>
+      <div class="ft-metric">
+        <div class="ft-label">Beats / barra</div>
+        <div class="ft-val">4</div>
+      </div>
+      <div class="ft-metric">
+        <div class="ft-label">Barra actual</div>
+        <div class="ft-val">2</div>
+      </div>
+    </div>
+
+    <!-- Beat visual -->
+    <div class="divider" style="margin-top:12px;"></div>
+    <div class="ft-label" style="margin-top:8px;">Posición</div>
+    <div class="beat-row">
+      <div class="beat-dot active">1</div>
+      <div class="beat-dot">2</div>
+      <div class="beat-dot">3</div>
+      <div class="beat-dot">4</div>
+      <span style="font-size:12px; color:var(--color-text-tertiary); margin-left:6px;">barra 2</span>
+    </div>
+  </div>
+
+  <!-- Bloque 2: Beat / pista -->
+  <div class="ft-card">
+    <div class="section-title">Pista</div>
+    <div class="beat-name">Zharovbeatz melodic type beat</div>
+    <div class="ending-badge">
+      <i class="ti ti-hash" aria-hidden="true"></i> ending_id: 17
+    </div>
+    <div class="rhyme-hint">Terminación activa: <strong>mo, no</strong></div>
+  </div>
+
+  <!-- Bloque 3: Palabras sugeridas -->
+  <div class="ft-card">
+    <div class="section-title">Palabras para rimar</div>
+    <div class="rhyme-grid">
+      <span class="rhyme-chip">ritmo</span>
+      <span class="rhyme-chip">verano</span>
+      <span class="rhyme-chip">hermano</span>
+      <span class="rhyme-chip">mismo</span>
+    </div>
+  </div>
+
+</div>
