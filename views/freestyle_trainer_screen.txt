@@ -2,6 +2,7 @@
 
 <Label, TextInput, ToggleButton, height>:
     font_size: ( min(Window.width, Window.height)*0.04 )
+    family_name: "monospace"
 
 <FreestyleTrainerScreen>:
     main_vbox_layout: _main_vbox_layout

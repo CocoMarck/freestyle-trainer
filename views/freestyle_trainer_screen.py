@@ -77,7 +77,9 @@ class FreestyleTrainerScreen(Screen):
 
             if metronome_signals['first_step_of_beat']:
                 self.label_bar_count.text = (
-                    f"{metronome_signals['current_beat']} | {stimulus_signals['bar_count']}"
+                    f"beats per bar: {self.metronome.get_beats_per_bar()} | "
+                    f"bpm: {self.metronome.get_bpm()}\n"
+                    f"current beat: {metronome_signals['current_beat']} | " f"bar count: {stimulus_signals['bar_count']}"
                 )
             if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
                 ending_id, words = stimulus_signals["stimulus"]

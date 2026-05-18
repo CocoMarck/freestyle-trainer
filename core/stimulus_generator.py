@@ -7,12 +7,13 @@ class StimulusGenerator:
         self.word_repository = word_repository
         self.ending_repository = ending_repository
         self.trigger_bars = trigger_bars
-        self.bar_count = 0
+        self.bar_count = 1
         self._init_with_stimulus = True
 
 
     def reset_count( self ):
-        self.bar_count = 0
+        self.bar_count = 1
+        self._init_with_stimulus = True
 
 
     def update( self, signals ):
@@ -26,10 +27,10 @@ class StimulusGenerator:
         }
 
         if stimulus_signals["count_bar"]:
-            self.bar_count += 1
             stimulus_signals["get_stimulus"] = (self.bar_count == self.trigger_bars)
+            self.bar_count += 1
             if stimulus_signals["get_stimulus"]:
-                self.bar_count = 0
+                self.bar_count = 1
                 stimulus_signals["stimulus"] = self.word_repository.get_random_words( "es", limit=4 )
 
         if self._init_with_stimulus:
