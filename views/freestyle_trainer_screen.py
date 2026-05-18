@@ -60,6 +60,9 @@ class FreestyleTrainerScreen(Screen):
         self.play_beat = False
         self.beat_controller = beat_controller
 
+        # Current song
+        self.current_song_name = None
+
     # Freestyle
     def playing_sound(self):
         return (
@@ -79,9 +82,11 @@ class FreestyleTrainerScreen(Screen):
             if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
                 ending_id, words = stimulus_signals["stimulus"]
                 words_text = (
+                    f"{self.current_song_name}\n"
+                    "--------------------------------\n"
                     f"ending_id: {ending_id}\n"
                     f"{stimulus_signals['ending_text']}\n"
-                    "------------\n"
+                    "--------------------------------\n"
                 )
                 for word in words:
                     words_text += f"{word}\n"
@@ -97,18 +102,19 @@ class FreestyleTrainerScreen(Screen):
             Establece cancion. Configura y reinicia metronomo segun la song. Reincia conteo de compases de simulus generator.
             '''
             # Local
-            #self.local_song_controller.set_random_song()
-            #self.local_song_controller.play_song()
-            #self.local_song_controller.sync_metronome_with_song( self.metronome )
+            self.local_song_controller.set_random_song()
+            self.local_song_controller.play_song()
+            self.local_song_controller.sync_metronome_with_song( self.metronome )
+            self.current_song_name = self.local_song_controller.current_song['name']
 
             # Remote
-            self.remote_song_controller.set_random_song()
-            self.remote_song_controller.play_song()
-            self.remote_song_controller.sync_metronome_with_song( self.metronome )
+            #self.remote_song_controller.set_random_song()
+            #self.remote_song_controller.play_song()
+            #self.remote_song_controller.sync_metronome_with_song( self.metronome )
+            #self.current_song_name = self.remote_song_controller.current_song['name']
 
             # Stimulus
             self.stimulus_generator.reset_count()
-
 
     # GUI
     def set_random_colors(self):
