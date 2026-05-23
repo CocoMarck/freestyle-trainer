@@ -178,9 +178,9 @@ class FreestyleTrainerApp(App):
     def build(self):
         screen = FreestyleTrainerScreen(
             engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
-            remote_song_controller=remote_song_controller, beat_controller=beat_controller
+            remote_song_controller=remote_song_controller, beat_controller=beat_controller,
+            vertical_padding_offsets=[0,0.05, 0,0.08], horizontal_padding_offsets=[0,0.05, 0.08,0.0]
         )
-        #screen.bluid()
 
         Clock.schedule_interval(screen.update, 0.0)
 

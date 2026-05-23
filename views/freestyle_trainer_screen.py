@@ -16,6 +16,7 @@ from kivy.graphics import Color, Rectangle
 
 ## Custom kviy widgets
 from views.pykivy.widgets.metronome_circle import MetronomeCircle
+from views.pykivy.widgets.screen_android_ready import ScreenAndroidReady
 
 # Freestyle trainer
 from core.freestyle_trainer_engine import FreestyleTrainerEngine
@@ -35,19 +36,17 @@ kv_string = None
 with open('./views/freestyle_trainer_screen.txt', mode="r", encoding="utf-8") as read_file:
     kv_string = read_file.read()
 Builder.load_string( kv_string )
-class FreestyleTrainerScreen(Screen):
+class FreestyleTrainerScreen(ScreenAndroidReady):
     def __init__(
-        self,
-        engine:FreestyleTrainerEngine, local_song_controller:LocalSongController,
+        self, *args, engine:FreestyleTrainerEngine, local_song_controller:LocalSongController,
         remote_song_controller:RemoteSongController,
         beat_controller:BeatController, vertical_padding_offsets=[0,0,0,0], horizontal_padding_offset=[0,0,0,0], **kwargs
     ):
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
         '''
         Widgets de string:
         self.main_vbox_layout
-        self.label_bar_count
         '''
 
         self.engine = engine
@@ -68,6 +67,13 @@ class FreestyleTrainerScreen(Screen):
         # Metronome view
         self._metronome_circles = []
         self.build_metronome_circles()
+
+        # Padding
+        self.bind(size=self._on_size)
+
+    # Bind
+    def _on_size(self, *args):
+        return self.change_padding_using_resolution(self.main_vbox_layout)
 
     # Build Widgets
     def build_metronome_circles(self):
@@ -150,6 +156,7 @@ class FreestyleTrainerScreen(Screen):
 
     def update(self, dt):
         if self.playing_sound():
+            # Freestyle
             engine_signals = self.engine.update(dt)
             metronome_signals = engine_signals['metronome']
             stimulus_signals = engine_signals['stimulus_generator']
@@ -177,6 +184,7 @@ class FreestyleTrainerScreen(Screen):
             self.coloring_metronome_circles( metronome_signals )
         else:
             '''
+            Freestyle
             Establece cancion. Configura y reinicia metronomo segun la song. Reincia conteo de compases de simulus generator.
             '''
             # Local
@@ -196,3 +204,6 @@ class FreestyleTrainerScreen(Screen):
 
             # Texto
             self.label_bpm_value.text = str( self.metronome.get_bpm() )
+
+            # Metronome
+            self.build_metronome_circles()

@@ -28,14 +28,14 @@
 
         # Seccion 1 | Ritmo
         BoxLayout:
-            size_hint: (1.0, 0.25)
+            size_hint: (1.0, 0.3)
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
             padding: [dp(20), dp(20)]
 
             orientation: "vertical"
 
             Label:
-                size_hint: (1.0, 0.2)
+                size_hint: (1.0, 0.25)
                 halign: "left"
                 valign: "top"
                 text_size: self.size
@@ -45,8 +45,8 @@
 
             BoxLayout:
                 orientation: "horizontal"
-                size_hint: (1.0, 0.333)
-                valign: "top"
+                size_hint: (1.0, 0.4)
+                valign: "middle"
 
                 BoxLayout:
                     orientation: "vertical"
@@ -98,30 +98,24 @@
                         text: "Bar count"
 
             BoxLayout:
-                size_hint: (1.0, 0.333)
-                orientation: "vertical"
+                size_hint: (1.0, 0.35)
+                orientation: "horizontal"
+                valign: "bottom"
 
-                Label:
-                    size_hint: (1.0*0.95, 0.5*0.95)
-                    halign: "left"
-                    valign: "middle"
-                    text_size: self.size
-                    markup: True
-
-                    text: "[b]Metronome[/b]"
                 BoxLayout:
-                    size_hint: (1.0, 0.5)
+                    size_hint: (1.0, 0.8)
                     orientation: "horizontal"
+                    halign: "left"
                     id: _hbox_metronome
 
 
         # Seccion 2 | Pista
         BoxLayout:
-            size_hint: (1.0, 0.25)
+            size_hint: (1.0, 0.3)
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
             padding: [dp(20), dp(20)]
 
-            valign: "top"
+            valign: "middle"
 
             orientation: "vertical"
             Label:
@@ -135,7 +129,7 @@
             Label:
                 id: _label_current_song
                 halign: "left"
-                valign: "middle"
+                valign: "top"
                 text_size: self.size
 
                 id: _label_current_song
@@ -143,15 +137,14 @@
 
             BoxLayout:
                 orientation: "horizontal"
+                valign: "bottom"
                 Label:
                     halign: "left"
-                    valign: "middle"
                     text_size: self.size
 
                     text: "Ending id:"
                 Label:
                     halign: "left"
-                    valign: "middle"
                     text_size: self.size
 
                     id: _label_active_ending_id
@@ -159,6 +152,7 @@
 
             BoxLayout:
                 orientation: "horizontal"
+                valign: "bottom"
                 Label:
                     text_size: self.size
 
@@ -171,21 +165,16 @@
 
         # Seccion 4 | Estimulos
         BoxLayout:
-            size_hint: (1.0, 0.375)
+            size_hint: (1.0, 0.4)
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
             padding: [dp(20), dp(20)]
             orientation: "vertical"
 
-            canvas.before:
-                Color:
-                    rgba: (0.1, 0.1, 0.1, 1)   # gris oscuro
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+            valign: "bottom"
 
             Label:
                 halign: "left"
-                valign: "middle"
+                valign: "top"
                 text_size: self.size
                 markup: True
 
