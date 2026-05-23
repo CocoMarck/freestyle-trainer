@@ -163,10 +163,8 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
 
             if metronome_signals['first_step_of_beat']:
                 self.label_bar_count.text = str( stimulus_signals['bar_count'] )
-                self.label_beat_count.text = str( self.metronome.get_beats_per_bar())
             if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
                 ending_id, words = stimulus_signals["stimulus"]
-
                 self.label_current_song.text = str( self.current_song_name )
                 self.label_active_ending_id.text = str( ending_id )
                 self.label_active_ending.text = str( stimulus_signals['ending_text'] )
@@ -204,6 +202,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
 
             # Texto
             self.label_bpm_value.text = str( self.metronome.get_bpm() )
+            self.label_beats_per_bar.text = str( self.metronome.get_beats_per_bar() )
 
             # Metronome
             self.build_metronome_circles()

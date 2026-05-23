@@ -8,7 +8,7 @@
     main_vbox_layout: _main_vbox_layout
 
     label_bpm_value: _label_bpm_value
-    label_beat_count: _label_beat_count
+    label_beats_per_bar: _label_beats_per_bar
     label_bar_count: _label_bar_count
 
     label_current_song: _label_current_song
@@ -72,11 +72,11 @@
                         valign: "top"
                         text_size: self.size
 
-                        text: "Beat"
+                        text: "Beats"
                     Label:
                         halign: "center"
                         valign: "top"
-                        id: _label_beat_count
+                        id: _label_beats_per_bar
                         text_size: self.size
 
                         text: ""
