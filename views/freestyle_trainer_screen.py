@@ -14,6 +14,9 @@ from kivy.lang import Builder
 
 from kivy.graphics import Color, Rectangle
 
+## Custom kviy widgets
+from views.pykivy.widgets.metronome_circle import MetronomeCircle
+
 # Freestyle trainer
 from core.freestyle_trainer_engine import FreestyleTrainerEngine
 
@@ -45,7 +48,6 @@ class FreestyleTrainerScreen(Screen):
         Widgets de string:
         self.main_vbox_layout
         self.label_bar_count
-        self.label_last_stimulus
         '''
 
         self.engine = engine
@@ -63,64 +65,31 @@ class FreestyleTrainerScreen(Screen):
         # Current song
         self.current_song_name = None
 
-    # Freestyle
-    def playing_sound(self):
-        return (
-            self.local_song_controller.playing_song() or self.remote_song_controller.playing_song()
-        )
+        # Metronome view
+        self._metronome_circles = []
+        self.build_metronome_circles()
 
-    def update(self, dt):
-        if self.playing_sound():
-            engine_signals = self.engine.update(dt)
-            metronome_signals = engine_signals['metronome']
-            stimulus_signals = engine_signals['stimulus_generator']
+    # Build Widgets
+    def build_metronome_circles(self):
+        self._metronome_circles.clear()
+        self.hbox_metronome.clear_widgets()
+        for x in range( 0, self.metronome.get_beats_per_bar() ):
+            circle = MetronomeCircle()
+            self._metronome_circles.append( circle )
+            self.hbox_metronome.add_widget(circle)
 
-            if metronome_signals['first_step_of_beat']:
-                self.label_bar_count.text = (
-                    f"beats per bar: {self.metronome.get_beats_per_bar()} | "
-                    f"bpm: {self.metronome.get_bpm()}\n"
-                    f"current beat: {metronome_signals['current_beat']} | " f"bar count: {stimulus_signals['bar_count']}"
-                )
-            if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
-                ending_id, words = stimulus_signals["stimulus"]
-                song_text = (
-                    f"{self.current_song_name}\n"
-                    "--------------------------------\n"
-                    f"ending_id: {ending_id}\n"
-                    f"{stimulus_signals['ending_text']}\n"
-                    "--------------------------------\n"
-                )
-                self.label_current_song.text = song_text
-                words_text = ""
-                for word in words:
-                    words_text += f"{word}\n"
-                self.label_last_stimulus.text = words_text[:-1]
+    # GUI Colorear
+    def coloring_metronome_circles(self, metronome_signals):
+        '''
+        Metronomo | Visual
+        '''
+        for i in range( 0, len(self._metronome_circles) ):
+            if metronome_signals['current_beat'] != i+1:
+                self._metronome_circles[i].color.rgb = (1.0,1.0,1.0)
 
-                # Cambiar color
-                #self.set_random_colors()
+        if ( metronome_signals['current_beat']-1 in range( 0, len(self._metronome_circles) ) ):
+            self._metronome_circles[ metronome_signals['current_beat']-1 ].color.rgb = (1.0,0.0,0.0)
 
-            if self.play_beat:
-                self.beat_controller.update( metronome_signals )
-        else:
-            '''
-            Establece cancion. Configura y reinicia metronomo segun la song. Reincia conteo de compases de simulus generator.
-            '''
-            # Local
-            # self.local_song_controller.set_random_song()
-            # self.local_song_controller.play_song()
-            # self.local_song_controller.sync_metronome_with_song( self.metronome )
-            # self.current_song_name = self.local_song_controller.current_song['name']
-
-            # Remote
-            self.remote_song_controller.set_random_song()
-            self.remote_song_controller.play_song()
-            self.remote_song_controller.sync_metronome_with_song( self.metronome )
-            self.current_song_name = self.remote_song_controller.current_song['name']
-
-            # Stimulus
-            self.stimulus_generator.reset_count()
-
-    # GUI
     def set_random_colors(self):
         # Obtener colores aleatoreos
         color = random_rgba()
@@ -148,3 +117,82 @@ class FreestyleTrainerScreen(Screen):
         for widget in self.walk():
             if isinstance(widget, Label):
                 widget.color = rgba_to_normalized( invert_color )
+
+    # Texto
+    def format_word(self, text):
+        new_text = ""
+        count = 0
+        for c in text.lower():
+            if count <= 0:
+                new_text += c.upper()
+                count += 1
+            else:
+                new_text += c
+
+        return new_text
+
+    # Widgets
+    def add_stimulus_buttons(self, stimulus):
+        for text in stimulus:
+            button = Button(
+                text=self.format_word(text), size_hint=(1.0, 0.4), pos_hint={"x": 0.0, "y": 0.9}
+            )
+            self.hbox_last_stimulus.add_widget(button)
+
+    def clear_stimulus_buttons(self):
+        self.hbox_last_stimulus.clear_widgets()
+
+    # Freestyle
+    def playing_sound(self):
+        return (
+            self.local_song_controller.playing_song() or self.remote_song_controller.playing_song()
+        )
+
+    def update(self, dt):
+        if self.playing_sound():
+            engine_signals = self.engine.update(dt)
+            metronome_signals = engine_signals['metronome']
+            stimulus_signals = engine_signals['stimulus_generator']
+
+            if metronome_signals['first_step_of_beat']:
+                self.label_bar_count.text = str( stimulus_signals['bar_count'] )
+                self.label_beat_count.text = str( self.metronome.get_beats_per_bar())
+            if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
+                ending_id, words = stimulus_signals["stimulus"]
+
+                self.label_current_song.text = str( self.current_song_name )
+                self.label_active_ending_id.text = str( ending_id )
+                self.label_active_ending.text = str( stimulus_signals['ending_text'] )
+
+                self.clear_stimulus_buttons()
+                self.add_stimulus_buttons(words)
+
+                # Cambiar color
+                #self.set_random_colors()
+
+            if self.play_beat:
+                self.beat_controller.update( metronome_signals )
+
+            # Color metronome
+            self.coloring_metronome_circles( metronome_signals )
+        else:
+            '''
+            Establece cancion. Configura y reinicia metronomo segun la song. Reincia conteo de compases de simulus generator.
+            '''
+            # Local
+            # self.local_song_controller.set_random_song()
+            # self.local_song_controller.play_song()
+            # self.local_song_controller.sync_metronome_with_song( self.metronome )
+            # self.current_song_name = self.local_song_controller.current_song['name']
+
+            # Remote
+            self.remote_song_controller.set_random_song()
+            self.remote_song_controller.play_song()
+            self.remote_song_controller.sync_metronome_with_song( self.metronome )
+            self.current_song_name = self.remote_song_controller.current_song['name']
+
+            # Stimulus
+            self.stimulus_generator.reset_count()
+
+            # Texto
+            self.label_bpm_value.text = str( self.metronome.get_bpm() )

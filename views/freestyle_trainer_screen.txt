@@ -6,49 +6,195 @@
 
 <FreestyleTrainerScreen>:
     main_vbox_layout: _main_vbox_layout
-    label_last_stimulus: _label_last_stimulus
+
+    label_bpm_value: _label_bpm_value
+    label_beat_count: _label_beat_count
     label_bar_count: _label_bar_count
+
     label_current_song: _label_current_song
+    label_active_ending: _label_active_ending
+    label_active_ending_id: _label_active_ending_id
+
+    hbox_last_stimulus: _hbox_last_stimulus
+    hbox_metronome: _hbox_metronome
 
     BoxLayout:
         id: _main_vbox_layout
 
-        size_hint: (1.0,1.0)
-        pos_hint: {"x":0.0, "y":0.0}
+        #size_hint: (1.0,1.0)
+        #pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
         orientation: "vertical"
 
         # Seccion 1 | Ritmo
         BoxLayout:
-            size_hint: (1.0, 0.375)
+            size_hint: (1.0, 0.25)
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            padding: [dp(20), dp(20)]
 
             orientation: "vertical"
 
             Label:
-                text: "Rhythm"
+                size_hint: (1.0, 0.2)
+                halign: "left"
+                valign: "top"
+                text_size: self.size
+                markup: True
 
-            Label:
-                id: _label_bar_count
-                text: "Bar count"
+                text: "[b]Rhythm[/b]"
 
-        # Seccion 2 Pista
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: (1.0, 0.333)
+                valign: "top"
+
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        halign: "center"
+                        valign: "top"
+                        text_size: self.size
+
+                        text: "BPM"
+                    Label:
+                        id: _label_bpm_value
+                        halign: "center"
+                        valign: "top"
+                        text_size: self.size
+
+                        text: ""
+
+                BoxLayout:
+                    orientation: "vertical"
+
+                    Label:
+                        halign: "center"
+                        valign: "top"
+                        text_size: self.size
+
+                        text: "Beat"
+                    Label:
+                        halign: "center"
+                        valign: "top"
+                        id: _label_beat_count
+                        text_size: self.size
+
+                        text: ""
+
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        halign: "center"
+                        valign: "top"
+                        text_size: self.size
+
+                        text: "Bars"
+                    Label:
+                        halign: "center"
+                        valign: "top"
+                        id: _label_bar_count
+                        text_size: self.size
+
+                        text: "Bar count"
+
+            BoxLayout:
+                size_hint: (1.0, 0.333)
+                orientation: "vertical"
+
+                Label:
+                    size_hint: (1.0*0.95, 0.5*0.95)
+                    halign: "left"
+                    valign: "middle"
+                    text_size: self.size
+                    markup: True
+
+                    text: "[b]Metronome[/b]"
+                BoxLayout:
+                    size_hint: (1.0, 0.5)
+                    orientation: "horizontal"
+                    id: _hbox_metronome
+
+
+        # Seccion 2 | Pista
         BoxLayout:
             size_hint: (1.0, 0.25)
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            padding: [dp(20), dp(20)]
+
+            valign: "top"
 
             orientation: "vertical"
+            Label:
+                halign: "left"
+                valign: "top"
+                text_size: self.size
+                markup: True
+
+                text: "[b]Track[/b]"
 
             Label:
                 id: _label_current_song
+                halign: "left"
+                valign: "middle"
+                text_size: self.size
+
+                id: _label_current_song
                 text: "current song"
+
+            BoxLayout:
+                orientation: "horizontal"
+                Label:
+                    halign: "left"
+                    valign: "middle"
+                    text_size: self.size
+
+                    text: "Ending id:"
+                Label:
+                    halign: "left"
+                    valign: "middle"
+                    text_size: self.size
+
+                    id: _label_active_ending_id
+                    text: "0"
+
+            BoxLayout:
+                orientation: "horizontal"
+                Label:
+                    text_size: self.size
+
+                    text: "Active termination:"
+                Label:
+                    id: _label_active_ending
+                    text_size: self.size
+
+                    text: ""
 
         # Seccion 4 | Estimulos
         BoxLayout:
             size_hint: (1.0, 0.375)
-
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            padding: [dp(20), dp(20)]
             orientation: "vertical"
-            
+
+            canvas.before:
+                Color:
+                    rgba: (0.1, 0.1, 0.1, 1)   # gris oscuro
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
             Label:
-                id: _label_last_stimulus
-                text: "last stimulus"
+                halign: "left"
+                valign: "middle"
+                text_size: self.size
+                markup: True
 
+                text: "[b]Stimulus generator[/b]"
+            
+            BoxLayout:
+                # Layout de estimulos
+                orientation: "horizontal"
 
+                halign: "center"
+                valign: "middle"
+                id: _hbox_last_stimulus
