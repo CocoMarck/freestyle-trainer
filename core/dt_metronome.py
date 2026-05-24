@@ -29,9 +29,14 @@ class DTMetronome():
             name="DTMetronome", filename="dt_metronome", verbose=verbose,
             log_level=log_level, save_log=save_log, only_the_value=True,
         )
+    def get_bpm_limit(self):
+        return self._bpm_limit
 
     def get_bpm(self):
         return self._bpm
+
+    def get_beats_limit_per_bar(self):
+        return self._beats_limit_per_bar
 
     def get_beats_per_bar(self):
         return self._beats_per_bar
@@ -44,11 +49,14 @@ class DTMetronome():
         # Obtener duración de barra en segundos.
         return (self.get_beat_interval() * self._beats_per_bar)
 
-    def get_seconds_to_bars( self, seconds=int ):
+    def get_seconds_to_bars( self, seconds:float ):
         '''
         Segundos a barras, a cantidad de compases
         '''
         return seconds/self.get_beats_per_bar_interval()
+
+    def get_bars_to_seconds(self, seconds:int):
+        return float(self.get_beats_per_bar_interval()*seconds)
 
     def get_current_beat(self):
         return self._current_beat
