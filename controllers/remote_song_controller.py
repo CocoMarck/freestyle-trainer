@@ -46,7 +46,7 @@ class RemoteSongController():
     
     def playing_song(self):
         if self.current_song:
-            return self.sound_manager.is_sound_playing( self.current_song )
+            return self.sound_manager.is_sound_playing( self.current_song['sound'] )
 
     def sync_metronome_with_song(self, metronome:DTMetronome):
         if self.current_song:
