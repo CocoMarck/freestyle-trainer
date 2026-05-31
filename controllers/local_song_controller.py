@@ -1,17 +1,17 @@
 from repositories.local_song_repository import LocalSongRepository
 from core.sound_manager_kivy import SoundManagerKivy
 from core.dt_metronome import DTMetronome
+from entities.isong_controller import ISongController
 import random
 
-class LocalSongController():
+class LocalSongController( ISongController ):
     def __init__(
-        self, local_song_repository: LocalSongRepository, sound_manager: SoundManagerKivy
+        self, local_song_repository: LocalSongRepository, *kwargs
     ):
-
+        super().__init__(*kwargs)
         self.repository = local_song_repository
 
         self.current_song = None
-        self.sound_manager = sound_manager
 
     def get_song(self, song_id):
         if not self.repository._the_local_songs_are_loaded():
@@ -45,6 +45,12 @@ class LocalSongController():
 
     def play_song(self):
         return self.sound_manager.play_sound( self.current_song['sound'] )
+
+    def get_song_name(self):
+        return self.current_song['name']
+
+    def get_song_length(self):
+        return self.sound_manager.get_sound_length( self.current_song['sound'] )
 
     def playing_song(self):
         if self.current_song:

@@ -38,3 +38,6 @@ class SoundManagerVLC(ISoundManager):
         sound = self._instance.media_new(url)
         self.set_sound_volume( sound, self.volume )
         return sound
+
+    def get_sound_length(self, sound) -> float:
+        return sound.get_duration() / 1000.0

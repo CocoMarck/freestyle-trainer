@@ -1,15 +1,16 @@
 from core.dt_metronome import DTMetronome
 from core.sound_manager_vlc import SoundManagerVLC
 from repositories.remote_song_repository import RemoteSongRepository
+from entities.isong_controller import ISongController
 import random
 
-class RemoteSongController():
+class RemoteSongController(ISongController):
     def __init__(
-        self, remote_song_repository:RemoteSongRepository, sound_manager: SoundManagerVLC
+        self, remote_song_repository:RemoteSongRepository, *kwargs
     ):
+        super().__init__(*kwargs)
         self.repository = remote_song_repository
         self.current_song = None
-        self.sound_manager = sound_manager
 
     def get_song(self, song_id):
         if not self.repository._the_remote_songs_are_loaded():
@@ -43,6 +44,12 @@ class RemoteSongController():
        
     def play_song(self):
         return self.sound_manager.play_sound( self.current_song['sound'] )
+
+    def get_song_name(self):
+        return self.current_song['name']
+
+    def get_song_length(self):
+        return self.sound_manager.get_sound_length( self.current_song['sound'] )
     
     def playing_song(self):
         if self.current_song:

@@ -40,7 +40,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def __init__(
         self, *args, engine:FreestyleTrainerEngine, local_song_controller:LocalSongController,
         remote_song_controller:RemoteSongController,
-        beat_controller:BeatController, vertical_padding_offsets=[0,0,0,0], horizontal_padding_offset=[0,0,0,0], **kwargs
+        beat_controller:BeatController, **kwargs
     ):
         super().__init__(*args, **kwargs)
 
@@ -56,6 +56,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         # Controller
         self.local_song_controller = local_song_controller
         self.remote_song_controller = remote_song_controller
+        self.current_song_controller = self.remote_song_controller
 
         # Beat
         self.play_beat = False
@@ -67,6 +68,9 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         # Metronome view
         self._metronome_circles = []
         self.build_metronome_circles()
+        self._update_length = False
+        self._seconds_to_weit = 1
+        self._count_weit = 0
 
         # Padding
         self.bind(size=self._on_size)
@@ -151,11 +155,21 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     # Freestyle
     def playing_sound(self):
         return (
-            self.local_song_controller.playing_song() or self.remote_song_controller.playing_song()
+            self.current_song_controller.playing_song()
         )
 
     def update(self, dt):
         if self.playing_sound():
+            if self._update_length:
+                self._count_weit += dt
+                if self._count_weit >= self._seconds_to_weit:
+                    self.label_length_value.text = str(
+                        self.current_song_controller.get_song_length()
+                    )
+                    self._update_length = False
+                    self._count_weit = 0
+
+
             # Freestyle
             engine_signals = self.engine.update(dt)
             metronome_signals = engine_signals['metronome']
@@ -186,16 +200,12 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
             Establece cancion. Configura y reinicia metronomo segun la song. Reincia conteo de compases de simulus generator.
             '''
             # Local
-            # self.local_song_controller.set_random_song()
-            # self.local_song_controller.play_song()
-            # self.local_song_controller.sync_metronome_with_song( self.metronome )
-            # self.current_song_name = self.local_song_controller.current_song['name']
+            self.current_song_controller.set_random_song()
+            self.current_song_controller.play_song()
+            self.current_song_controller.sync_metronome_with_song( self.metronome )
+            self.current_song_name = self.current_song_controller.get_song_name()
 
-            # Remote
-            self.remote_song_controller.set_random_song()
-            self.remote_song_controller.play_song()
-            self.remote_song_controller.sync_metronome_with_song( self.metronome )
-            self.current_song_name = self.remote_song_controller.current_song['name']
+            self._update_length = True
 
             # Stimulus
             self.stimulus_generator.reset_count()
@@ -206,3 +216,4 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
 
             # Metronome
             self.build_metronome_circles()
+

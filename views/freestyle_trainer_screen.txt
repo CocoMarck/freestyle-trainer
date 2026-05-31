@@ -10,6 +10,7 @@
     label_bpm_value: _label_bpm_value
     label_beats_per_bar: _label_beats_per_bar
     label_bar_count: _label_bar_count
+    label_length_value: _label_length_value
 
     label_current_song: _label_current_song
     label_active_ending: _label_active_ending
@@ -124,6 +125,21 @@
 
                 id: _label_current_song
                 text: "current song"
+
+            BoxLayout:
+                orientation: "horizontal"
+                Label:
+                    halign: "left"
+                    text_size: self.size
+
+                    text: "Length:"
+
+                Label:
+                    halign: "left"
+                    text_size: self.size
+
+                    id: _label_length_value
+                    text: "0"
 
             BoxLayout:
                 orientation: "horizontal"
