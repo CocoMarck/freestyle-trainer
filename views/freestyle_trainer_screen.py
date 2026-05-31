@@ -31,6 +31,9 @@ from utils.colors import (
     get_rgba, invert_rgb, invert_rgba, rgba_to_normalized, scale_rgba, random_rgba, is_the_rgba_color_bright
 )
 
+# Time
+from utils.time_util import get_time
+
 # Screen
 kv_string = None
 with open('./views/freestyle_trainer_screen.txt', mode="r", encoding="utf-8") as read_file:
@@ -127,6 +130,9 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         for widget in self.walk():
             if isinstance(widget, Label):
                 widget.color = rgba_to_normalized( invert_color )
+            if isinstance(widget, Button):
+                widget.background_normal = ""
+                widget.background_color = rgba_to_normalized( color )
 
     # Texto
     def format_word(self, text):
@@ -164,7 +170,9 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
                 self._count_weit += dt
                 if self._count_weit >= self._seconds_to_weit:
                     self.label_length_value.text = str(
-                        self.current_song_controller.get_song_length()
+                        get_time(
+                            self.current_song_controller.get_song_length(), "second", "minute"
+                        )
                     )
                     self._update_length = False
                     self._count_weit = 0

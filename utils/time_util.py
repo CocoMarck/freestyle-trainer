@@ -56,7 +56,7 @@ def get_time(
     # Su resultado sera: 1.0
     ```
     
-    Retunrs:
+    Returns:
         *Por lo general devolvera un float, debido a la operación de conversión*
         int | float
     '''
