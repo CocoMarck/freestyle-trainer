@@ -1,0 +1,414 @@
+{
+    "es" : {
+        "a": [
+            {
+                "ending": "ar",
+                "words": [
+                    "posicionar",
+                    "colisionar",
+                    "programar",
+                    "cantar",
+                    "accionar",
+                    "mar",
+                    "cocinar",
+                    "convulsionar",
+                    "evolucionar",
+                    "combinar",
+                    "diferenciar",
+                    "pasar",
+                    "cazar",
+                    "especular",
+                    "disparar",
+                    "conjurar",
+                    "navegar",
+                    "contamplar",
+                    "vibrar",
+                    "acelerar",
+                    "detonar"
+                ]
+            },
+
+            {
+                "ending": "orma, orna, ola, ora",
+                "words": [
+                    "forma",
+                    "norma",
+                    "computadora",
+                    "hora",
+                    "cola",
+                    "reforma",
+                    "plataforma",
+                    "transforma",
+                    "adorna",
+                    "soborna",
+                    "aureola",
+                    "caracola",
+                    "demora",
+                    "mejora",
+                    "exploradora"
+                ]
+            },
+
+            {
+                "ending": "ia",
+                "words": [
+                    "coincidencia",
+                    "paciencia",
+                    "eminencia",
+                    "potencia",
+                    "colombia",
+                    "ia",
+                    "confia",
+                    "fia",
+                    "herejía",
+                    "sandia",
+                    "elegancia",
+                    "fragancia",
+                    "tolerancia",
+                    "necesaria",
+                    "armonía",
+                    "melodía",
+                    "sabiduría",
+                    "ironía",
+                    "categoría",
+                    "magia",
+                    "estrategia",
+                    "fantasía",
+                    "alegría",
+                    "simpatía"
+                ]
+            },
+
+            {
+                "ending": "ad, al",
+                "words": [
+                    "calidad",
+                    "cualidad",
+                    "funcionalidad",
+                    "dualidad",
+                    "conformidad",
+                    "evitad",
+                    "lealtad",
+                    "libertad",
+                    "verdad",
+                    "humildad",
+                    "igualdad",
+                    "desigualdad",
+                    "tonalidad",
+                    "hermandad",
+                    "tempestad",
+                    "voluntad",
+                    "identidad",
+                    "sociedad",
+                    "dignidad",
+                    "amistad",
+                    "felicidad",
+                    "realidad",
+                    "tempestad",
+                    "soledad",
+                    "ansestral"
+                ]
+            },
+
+            {
+                "ending": "mida, mera",
+                "words": [
+                    "comida",
+                    "efímera",
+                    "pirámida",
+                    "homicida",
+                    "tímida",
+                    "quimera",
+                    "primera",
+                    "primavera",
+                    "ramera",
+                    "chimera"
+                ]
+            },
+
+            {
+                "ending": "auta, anta, alta",
+                "words": [
+                    "flauta",
+                    "alta",
+                    "falta",
+                    "planta",
+                    "pauta",
+                    "incauta",
+                    "garganta",
+                    "levanta",
+                    "encanta",
+                    "esmalta",
+                    "asalta",
+                    "peralta"
+                ]
+            },
+
+            {
+                "ending": "alla, aya, ana, ama, ara",
+                "words": [
+                    "manzana",
+                    "sana",
+                    "fama",
+                    "batalla",
+                    "canalla",
+                    "desmaya",
+                    "maya",
+                    "dispara",
+                    "muralla",
+                    "metralla",
+                    "atalaya",
+                    "raya",
+                    "ventana",
+                    "mañana",
+                    "hermana",
+                    "drama",
+                    "proclama",
+                    "prepara",
+                    "declara"
+                ]
+            },
+
+            {
+                "ending": "era, ena, erna",
+                "words": [
+                    "hera",
+                    "cena",
+                    "pena",
+                    "desespera",
+                    "eterna",
+                    "materna",
+                    "paterna",
+                    "condena",
+                    "bandera",
+                    "sincera",
+                    "ligera",
+                    "cadena",
+                    "arena",
+                    "escena",
+                    "moderna",
+                    "taberna",
+                    "caverna",
+                    "linterna"
+                ]
+            },
+
+            {
+                "ending": "ica",
+                "words": [
+                    "fonetica",
+                    "ética",
+                    "escénica",
+                    "estética",
+                    "poética",
+                    "cibernética",
+                    "música",
+                    "física",
+                    "lógica",
+                    "mística",
+                    "crítica",
+                    "auténtica",
+                    "fantástica",
+                    "robótica",
+                    "exótica"
+                ]
+            }
+        ],
+
+        "e": [
+            {
+                "ending": "ente",
+                "words": [
+                    "ente",
+                    "inerte",
+                    "fuente",
+                    "potente",
+                    "eficiente",
+                    "paciente",
+                    "serpiente",
+                    "conciente",
+                    "deficiente",
+                    "coherente",
+                    "evidente",
+                    "vidente",
+                    "cliente",
+                    "diferente",
+                    "valiente",
+                    "mente",
+                    "presente",
+                    "urgente",
+                    "ambiente",
+                    "demente",
+                    "recurrente",
+                    "inteligente"
+                ]
+            },
+            {
+                "ending": "arte, ante",
+                "words": [
+                    "arte",
+                    "quejarte",
+                    "durante",
+                    "posicionarte",
+                    "baluarte",
+                    "descarte",
+                    "instante",
+                    "gigante",
+                    "diamante",
+                    "obstante",
+                    "restante",
+                    "elegante"
+                ]
+            }
+        ],
+
+        "i": [
+            {
+                "ending": "ir",
+                "words": [
+                    "fingir",
+                    "compartir",
+                    "interrumpir",
+                    "construir",
+                    "producir",
+                    "dirigir",
+                    "definir",
+                    "escribir",
+                    "vivir",
+                    "sentir",
+                    "seguir",
+                    "asumir",
+                    "existir"
+                ]
+            }
+        ],
+
+        "o": [
+            {
+                "ending": "ivo",
+                "words": [
+                    "agresivo",
+                    "pasivo",
+                    "compasivo",
+                    "posesivo",
+                    "evaluativo",
+                    "educativo"
+                ]
+            },
+            {
+                "ending": "ión",
+                "words": [
+                    "evaluación",
+                    "pasión",
+                    "posición",
+                    "ecuasión",
+                    "solución",
+                    "ilusión",
+                    "iluminación",
+                    "orazón",
+                    "canción",
+                    "visión",
+                    "creación",
+                    "emoción",
+                    "decisión",
+                    "traición",
+                    "rebelión",
+                    "dimensión"
+                ]
+            },
+            {
+                "ending": "ono, omo",
+                "words": [
+                    "microfono",
+                    "metronomo",
+                    "tono",
+                    "abono",
+                    "trono",
+                    "polígono",
+                    "autonomo",
+                    "anónimo",
+                    "cromo",
+                    "plomo",
+                    "domo"
+                ]
+            },
+            {
+                "ending": "ido, imo, ino",
+                "words": [
+                    "interrumpido",
+                    "torcido",
+                    "tocino",
+                    "fuimos",
+                    "cochino",
+                    "porcino",
+                    "chino",
+                    "himno",
+                    "sonido",
+                    "latido",
+                    "sentido",
+                    "camino",
+                    "destino",
+                    "primo",
+                    "mínimo",
+                    "anónimo",
+                    "divino"
+                ]
+            },
+            {
+                "ending": "mo, no",
+                "words": [
+                    "enfermo",
+                    "externo",
+                    "extremo",
+                    "podemo",
+                    "ritmo",
+                    "mismo",
+                    "abismo",
+                    "hermano",
+                    "verano",
+                    "lejano",
+                    "soberano",
+                    "cotidiano"
+                ]
+            }
+        ],
+        "u" : [
+            {
+                "ending": "ur, sur, ud",
+                "words": [
+                    "azul",
+                    "baúl",
+                    "alud",
+                    "virtud",
+                    "juventud",
+                    "actitud",
+                    "altitud",
+                    "salud",
+                    "virtud",
+                    "inquietud",
+                    "gratitud",
+                    "plenitud",
+                    "multitud",
+                    "esclavitud",
+                    "altitud",
+                    "longitud",
+                    "pulcritud",
+                    "quietud"
+                ]
+            },
+            {
+                "ending": "uz",
+                "words": [
+                    "luz",
+                    "cruz",
+                    "andaluz",
+                    "arcabuz",
+                    "avestruz",
+                    "testuz",
+                    "contraluz",
+                    "trasluz"
+                ]
+            }
+        ]
+    }
+}

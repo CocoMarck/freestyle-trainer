@@ -1,0 +1,17 @@
+*.pyc
+__pycache__/
+
+build/
+dist/
+*.spec
+*.png
+
+.DS_Store
+*.log
+
+*.db
+*.sqlite
+
+*.mp3
+*.wav
+*.ogg

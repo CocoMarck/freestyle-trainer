@@ -1,0 +1,193 @@
+#:import Window kivy.core.window.Window
+
+<Label, TextInput, ToggleButton, height>:
+    font_size: ( min(Window.width, Window.height)*0.04 )
+    family_name: "monospace"
+
+<FreestyleTrainerScreen>:
+    main_vbox_layout: _main_vbox_layout
+
+    label_bpm_value: _label_bpm_value
+    label_beats_per_bar: _label_beats_per_bar
+    label_bar_count: _label_bar_count
+    label_length_value: _label_length_value
+
+    label_current_song: _label_current_song
+    label_active_ending: _label_active_ending
+    label_active_ending_id: _label_active_ending_id
+
+    hbox_last_stimulus: _hbox_last_stimulus
+    hbox_metronome: _hbox_metronome
+
+    BoxLayout:
+        id: _main_vbox_layout
+
+        #size_hint: (1.0,1.0)
+        #pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+        orientation: "vertical"
+
+        # Seccion 1 | Ritmo
+        BoxLayout:
+            size_hint: (1.0, 0.3)
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            padding: [self.width*0.025, self.height*0.025]
+
+            orientation: "vertical"
+
+            Label:
+                size_hint: (1.0, 0.25)
+                halign: "left"
+                text_size: self.size
+                markup: True
+
+                text: "[b]Rhythm[/b]"
+
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: (1.0, 0.4)
+                valign: "middle"
+
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        halign: "center"
+                        text_size: self.size
+
+                        text: "BPM"
+                    Label:
+                        id: _label_bpm_value
+                        halign: "center"
+                        text_size: self.size
+
+                        text: ""
+
+                BoxLayout:
+                    orientation: "vertical"
+
+                    Label:
+                        halign: "center"
+                        text_size: self.size
+
+                        text: "Beats"
+                    Label:
+                        halign: "center"
+                        id: _label_beats_per_bar
+                        text_size: self.size
+
+                        text: ""
+
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        halign: "center"
+                        text_size: self.size
+
+                        text: "Bars"
+                    Label:
+                        halign: "center"
+                        id: _label_bar_count
+                        text_size: self.size
+
+                        text: "Bar count"
+
+            BoxLayout:
+                size_hint: (1.0, 0.35)
+                orientation: "horizontal"
+                valign: "bottom"
+
+                BoxLayout:
+                    size_hint: (1.0, 0.8)
+                    orientation: "horizontal"
+                    halign: "left"
+                    id: _hbox_metronome
+
+        # Seccion 2 | Pista
+        BoxLayout:
+            size_hint: (1.0, 0.3)
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            padding: [self.width*0.025, self.height*0.025]
+
+            valign: "middle"
+
+            orientation: "vertical"
+            Label:
+                halign: "left"
+                text_size: self.size
+                markup: True
+
+                text: "[b]Track[/b]"
+
+            Label:
+                id: _label_current_song
+                halign: "left"
+                text_size: self.size
+
+                id: _label_current_song
+                text: "current song"
+
+            BoxLayout:
+                orientation: "horizontal"
+                Label:
+                    halign: "left"
+                    text_size: self.size
+
+                    text: "Length:"
+
+                Label:
+                    halign: "left"
+                    text_size: self.size
+
+                    id: _label_length_value
+                    text: "0"
+
+            BoxLayout:
+                orientation: "horizontal"
+                Label:
+                    halign: "left"
+                    text_size: self.size
+
+                    text: "Ending id:"
+                Label:
+                    halign: "left"
+                    text_size: self.size
+
+                    id: _label_active_ending_id
+                    text: "0"
+
+            BoxLayout:
+                orientation: "horizontal"
+                Label:
+                    text_size: self.size
+
+                    text: "Active termination:"
+                Label:
+                    id: _label_active_ending
+                    text_size: self.size
+
+                    text: ""
+
+        # Seccion 4 | Estimulos
+        BoxLayout:
+            size_hint: (1.0, 0.4)
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            padding: [self.width*0.025, self.height*0.025]
+            orientation: "vertical"
+
+            valign: "bottom"
+
+            Label:
+                halign: "left"
+                valign: "middle"
+                text_size: self.size
+                markup: True
+
+                text: "[b]Stimulus generator[/b]"
+
+            BoxLayout:
+                # Layout de estimulos
+                orientation: "horizontal"
+
+                halign: "center"
+                valign: "middle"
+                id: _hbox_last_stimulus

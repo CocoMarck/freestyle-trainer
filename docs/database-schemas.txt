@@ -1,0 +1,94 @@
+CREATE TABLE endings (
+    ending_id   INTEGER PRIMARY KEY,
+    ending_text TEXT NOT NULL UNIQUE,
+    vocal_id    INTEGER NOT NULL,
+    language_id INTEGER NOT NULL,
+    created_at  TEXT,
+    updated_at  TEXT,
+    deleted_at  TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1)),
+    FOREIGN KEY(vocal_id) REFERENCES vocals(vocal_id),
+    FOREIGN KEY(language_id) REFERENCES languages(language_id)
+);
+CREATE TABLE languages (
+    language_id   INTEGER PRIMARY KEY,
+    code          TEXT NOT NULL UNIQUE,
+    created_at    TEXT,
+    updated_at    TEXT,
+    deleted_at    TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+CREATE TABLE local_images (
+    local_image_id  INTEGER PRIMARY KEY,
+    name            TEXT NOT NULL UNIQUE,
+    path            TEXT NOT NULL UNIQUE,
+    created_at      TEXT,
+    updated_at      TEXT,
+    deleted_at      TEXT,
+    active          INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+CREATE TABLE local_songs (
+    local_song_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    bpm INTEGER NOT NULL,
+    beats_per_bar INTEGER NOT NULL,
+    path TEXT NOT NULL,
+    created_at  TEXT,
+    updated_at  TEXT,
+    deleted_at  TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+CREATE TABLE remote_images (
+    remote_image_id INTEGER PRIMARY KEY,
+    name            TEXT NOT NULL UNIQUE,
+    url             TEXT NOT NULL UNIQUE,
+    created_at      TEXT,
+    updated_at      TEXT,
+    deleted_at      TEXT,
+    active          INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+CREATE TABLE remote_songs (
+    remote_song_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    bpm INTEGER NOT NULL,
+    beats_per_bar INTEGER NOT NULL,
+    url TEXT NOT NULL,
+    created_at  TEXT,
+    updated_at  TEXT,
+    deleted_at  TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+CREATE TABLE sets (
+    set_id      INTEGER PRIMARY KEY,
+    set_name    TEXT NOT NULL UNIQUE,
+    description TEXT,
+    created_at  TEXT,
+    updated_at  TEXT,
+    deleted_at  TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+CREATE TABLE set_words (
+    set_id          INTEGER NOT NULL,
+    word_id         INTEGER NOT NULL,
+    PRIMARY KEY (set_id, word_id),
+    FOREIGN KEY(set_id) REFERENCES sets(set_id),
+    FOREIGN KEY(word_id) REFERENCES words(word_id)
+);
+CREATE TABLE vocals (
+    vocal_id    INTEGER PRIMARY KEY,
+    vocal_text  TEXT NOT NULL UNIQUE,
+    created_at  TEXT,
+    updated_at  TEXT,
+    deleted_at  TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1))
+);
+CREATE TABLE words (
+    word_id     INTEGER PRIMARY KEY,
+    word_text   TEXT NOT NULL UNIQUE,
+    ending_id   INTEGER NOT NULL,
+    created_at  TEXT,
+    updated_at  TEXT,
+    deleted_at  TEXT,
+    active      INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1)),
+    FOREIGN KEY(ending_id) REFERENCES endings(ending_id)
+);
