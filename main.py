@@ -139,7 +139,7 @@ from core.sound_manager_vlc import SoundManagerVLC
 from core.sound_manager_ffplay import SoundManagerFFPlay
 sound_manager_kivy = SoundManagerKivy(volume=1.0)
 sound_manager_vlc = SoundManagerVLC(volume=1.0)
-sound_manager_ffplay = SoundManagerFFPlay(volume=1.0)
+sound_manager_ffplay = SoundManagerFFPlay(volume=0.1)
 
 # Controller
 from controllers.beat_controller import BeatController
