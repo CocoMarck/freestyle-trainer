@@ -3,7 +3,6 @@ __pycache__/
 
 build/
 dist/
-*.spec
 *.png
 
 .DS_Store
@@ -15,3 +14,11 @@ dist/
 *.mp3
 *.wav
 *.ogg
+
+.buildozer/
+bin/
+*.jks
+*.kate-swp
+*.jar
+*.zip
+*.pem

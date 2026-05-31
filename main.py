@@ -12,6 +12,9 @@ from repositories.remote_song_repository import RemoteSongRepository
 from config.paths import (
     DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES, LOCAL_SONG_FILES, REMOTE_SONG_FILES
 )
+from config.paths import (
+    ANDROID_PATH
+)
 db = StandardDatabase( directory=DATA_DIR, name='stimulus_generator.sqlite' )
 if not db.exists():
     print('Creando base de datos y aplicando schemas...')
@@ -135,23 +138,19 @@ print('\n\n')
 
 # SoundManager
 from core.sound_manager_kivy import SoundManagerKivy
-from core.sound_manager_vlc import SoundManagerVLC
-from core.sound_manager_ffplay import SoundManagerFFPlay
+from core.sound_manager_android import SoundManagerAndroid
 sound_manager_kivy = SoundManagerKivy(volume=1.0)
-sound_manager_vlc = SoundManagerVLC(volume=1.0)
-sound_manager_ffplay = SoundManagerFFPlay(volume=1.0)
+sound_manager_android = SoundManagerAndroid(volume=1.0)
 
 # Controller
 from controllers.beat_controller import BeatController
 from controllers.local_song_controller import LocalSongController
 from controllers.remote_song_controller import RemoteSongController
-from controllers.remote_song_controller_old import RemoteSongControllerOld
 
-local_song_controller = LocalSongController( local_song_repository, sound_manager_ffplay )
-beat_controller = BeatController( sound_manager_kivy )
+local_song_controller = LocalSongController( local_song_repository, sound_manager_android )
+beat_controller = BeatController( sound_manager_android )
 
-remote_song_controller_old = RemoteSongControllerOld( sound_manager=sound_manager_ffplay )
-remote_song_controller = RemoteSongController( remote_song_repository, sound_manager_ffplay )
+remote_song_controller = RemoteSongController( remote_song_repository, sound_manager_android )
 
 # Engine | Freestyle trainer
 from core.dt_metronome import DTMetronome
@@ -175,7 +174,6 @@ from kivy.clock import Clock
 
 # App
 from views.freestyle_trainer_screen import FreestyleTrainerScreen
-Window.size=( 9*50, 16*50 )
 
 class FreestyleTrainerApp(App):
     def build(self):
