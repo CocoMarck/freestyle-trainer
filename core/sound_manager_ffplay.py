@@ -12,6 +12,7 @@ class SoundManagerFFPlay(ISoundManager):
         '''
         sound = FFPlaySound(path, self._DEFAULT_VOLUME)
         atexit.register(sound.stop)
+        return sound
 
     def play_sound(self, sound):
         sound.play()
