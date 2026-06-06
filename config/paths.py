@@ -21,3 +21,8 @@ REMOTE_SONG_FILES = REMOTE_SONGS_DIR_TREE['file']
 
 VIEWS_DIR = resource_loader.base_dir.joinpath( 'views' )
 KVSTRING_FILE = VIEWS_DIR.joinpath('freestyle_trainer_screen.txt')
+
+# Android configs
+import pathlib
+from android.storage import app_storage_path
+ANDROID_PATH = pathlib.Path(app_storage_path())
