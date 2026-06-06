@@ -22,6 +22,9 @@ REMOTE_SONG_FILES = REMOTE_SONGS_DIR_TREE['file']
 VIEWS_DIR = resource_loader.base_dir.joinpath( 'views' )
 KVSTRING_FILE = VIEWS_DIR.joinpath('freestyle_trainer_screen.txt')
 
+TEMP_DIR = resource_loader.base_dir.joinpath('tmp')
+AUDIO_DIR = resource_loader.resources_dir.joinpath( 'audio' )
+TEMPO_DIR = AUDIO_DIR.joinpath( 'tempo' )
 DICT_TEMPO_DIR = resource_loader.get_recursive_tree( TEMPO_DIR )
 TEMPO_FILES = sorted( DICT_TEMPO_DIR["file"] )
 
