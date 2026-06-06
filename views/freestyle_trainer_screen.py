@@ -18,6 +18,9 @@ from kivy.graphics import Color, Rectangle
 from views.pykivy.widgets.metronome_circle import MetronomeCircle
 from views.pykivy.widgets.screen_android_ready import ScreenAndroidReady
 
+# Paths
+from config.paths import KVSTRING_FILE
+
 # Freestyle trainer
 from core.freestyle_trainer_engine import FreestyleTrainerEngine
 
@@ -36,7 +39,7 @@ from utils.time_util import get_time
 
 # Screen
 kv_string = None
-with open('./views/freestyle_trainer_screen.txt', mode="r", encoding="utf-8") as read_file:
+with open(KVSTRING_FILE, mode="r", encoding="utf-8") as read_file:
     kv_string = read_file.read()
 Builder.load_string( kv_string )
 class FreestyleTrainerScreen(ScreenAndroidReady):

@@ -18,3 +18,6 @@ LOCAL_SONG_FILES = LOCAL_SONGS_DIR_TREE['file']
 
 REMOTE_SONGS_DIR_TREE = resource_loader.get_recursive_tree( REMOTE_SONGS_DIR )
 REMOTE_SONG_FILES = REMOTE_SONGS_DIR_TREE['file']
+
+VIEWS_DIR = resource_loader.base_dir.joinpath( 'views' )
+KVSTRING_FILE = VIEWS_DIR.joinpath('freestyle_trainer_screen.txt')
