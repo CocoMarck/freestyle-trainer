@@ -22,6 +22,10 @@ REMOTE_SONG_FILES = REMOTE_SONGS_DIR_TREE['file']
 VIEWS_DIR = resource_loader.base_dir.joinpath( 'views' )
 KVSTRING_FILE = VIEWS_DIR.joinpath('freestyle_trainer_screen.txt')
 
+DICT_TEMPO_DIR = resource_loader.get_recursive_tree( TEMPO_DIR )
+TEMPO_FILES = sorted( DICT_TEMPO_DIR["file"] )
+
+
 # Android configs
 import pathlib
 from android.storage import app_storage_path
