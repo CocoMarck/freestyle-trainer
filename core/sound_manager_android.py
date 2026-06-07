@@ -11,7 +11,7 @@ class SoundManagerAndroid(ISoundManager):
         return sound
 
     def play_sound(self, sound):
-        return sound.start()
+        return sound.play()
 
     def stop_sound(self, sound):
         return sound.stop()
