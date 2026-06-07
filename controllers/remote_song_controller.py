@@ -1,5 +1,4 @@
 from core.dt_metronome import DTMetronome
-from core.sound_manager_vlc import SoundManagerVLC
 from repositories.remote_song_repository import RemoteSongRepository
 from entities.isong_controller import ISongController
 import random

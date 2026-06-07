@@ -180,8 +180,8 @@ class FreestyleTrainerApp(App):
         screen = FreestyleTrainerScreen(
             engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
             remote_song_controller=remote_song_controller, beat_controller=beat_controller,
-            #vertical_padding_offsets=[0,0.05, 0,0.08], # Margen pa celu
-            #horizontal_padding_offsets=[0,0.05, 0.08,0] # Margen pa celu
+            vertical_padding_offsets=[0,0.05, 0,0.08], # Margen pa celu
+            horizontal_padding_offsets=[0,0.05, 0.08,0] # Margen pa celu
         )
         screen.build()
 

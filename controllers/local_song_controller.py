@@ -1,5 +1,4 @@
 from repositories.local_song_repository import LocalSongRepository
-from core.sound_manager_kivy import SoundManagerKivy
 from core.dt_metronome import DTMetronome
 from entities.isong_controller import ISongController
 import random
