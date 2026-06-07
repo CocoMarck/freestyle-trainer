@@ -88,8 +88,8 @@ class AndroidMediaPlayerAsync:
             # No se pudo cargar sound
             try:
                 self._media_player.release()
-            except Exception:
-                pass
+            except Exception as e:
+                print(e)
 
             self._media_player = None
 
@@ -103,11 +103,14 @@ class AndroidMediaPlayerAsync:
         )
 
     def play(self):
-        if self._prepared:
+        if not self._prepared:
+            return False
+        try:
             self._media_player.start()
             return True
-
-        return False
+        except Exception as e:
+            print(e)
+            return False
 
     def stop(self):
         if not self._prepared:
@@ -116,7 +119,6 @@ class AndroidMediaPlayerAsync:
             self._media_player.pause()
             self._media_player.seekTo(0)
             return True
-
         except Exception as e:
             print(e)
             return False
@@ -125,10 +127,10 @@ class AndroidMediaPlayerAsync:
     def is_playing(self):
         if not self._media_player:
             return False
-
         try:
             return self._media_player.isPlaying()
-        except Exception:
+        except Exception as e:
+            print(e)
             return False
 
     def set_volume(self, volume):
@@ -138,33 +140,27 @@ class AndroidMediaPlayerAsync:
             self._media_player.setVolume(volume, volume)
             return True
         except Exception as e:
-            print("ERROR:", e)
+            print(e)
             return False
 
-    def get_length(self) -> bool:
-        if not self._media_player:
+    def get_length(self) -> float:
+        if not self._media_player or not self._prepared:
             return 0.0
-        if not self._prepared:
+        try:
+            return self._media_player.getDuration() / 1000.0
+        except:
             return 0.0
-
-        return self._media_player.getDuration() / 1000.0
 
     def release(self) -> bool:
-        if self._media_player:
-            try:
-                self._media_player.release()
-            except:
-                pass
-
+        if not self._media_player:
+            return False
+        try:
+            self._media_player.release()
+            return False
+        except:
             self._media_player = None
             self._prepared = False
-
             return True
-
-        return False
-
-    def is_ready(self):
-        return self._prepared
 
     # No se usan. Puede que no jalen porque no las uso. No han sido probadas.
     def pause(self) -> bool:
@@ -184,6 +180,5 @@ class AndroidMediaPlayerAsync:
                 int(seconds * 1000)
             )
             return True
-
         except Exception:
             return False
