@@ -8,7 +8,7 @@ class SoundManagerAndroid(ISoundManager):
 
     def get_sound(self, path: pathlib.Path):
         sound = AndroidMediaPlayer( path )
-        sound.set_volume( self._VOLUME )
+        sound.set_volume( self._DEFAULT_VOLUME )
         return sound
 
     def play_sound(self, sound):
