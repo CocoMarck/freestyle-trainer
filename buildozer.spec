@@ -18,7 +18,7 @@ package.domain = org.cocomarck
 source.dir = .
 
 # (list) Source files to include (leave empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,sqlite,json
+source.include_exts = py,png,jpg,kv,atlas,sqlite,json,wav,ogg,mp3
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -56,7 +56,7 @@ requirements = python3,kivy,jnius,sqlite3
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse, landscape-reverse, or all
-orientation = portrait
+orientation = all
 
 # (list) List of services to declare
 # This is currently only relevant to Android services.
