@@ -6,7 +6,7 @@ class SoundManagerAndroidAsync(ISoundManager):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def get_sound(self, soruce):
+    def get_sound(self, source):
         sound = AndroidMediaPlayerAsync( source )
         return sound
 
