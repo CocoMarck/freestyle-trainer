@@ -7,7 +7,7 @@ class SoundManagerAndroid(ISoundManager):
         super().__init__(*args, **kwargs)
 
     def get_sound(self, path: pathlib.Path):
-        sound = AndroidMediaPlayer( str(path) )
+        sound = AndroidMediaPlayer( path )
         return sound
 
     def play_sound(self, sound):
