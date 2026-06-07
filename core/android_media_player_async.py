@@ -59,7 +59,7 @@ class AndroidMediaPlayerAsync:
     Media player async
     '''
     def __init__(self, source):
-
+        self._autoplay = True
         self._prepared = False
 
         try:
