@@ -1,8 +1,8 @@
 from entities.isound_manager import ISoundManager
-from core.android_media_player import AndroidMediaPlayerAsync
+from core.android_media_player_async import AndroidMediaPlayerAsync
 import pathlib
 
-class SoundManagerAndroid(ISoundManager):
+class SoundManagerAndroidAsync(ISoundManager):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
