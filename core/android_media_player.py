@@ -7,6 +7,9 @@ class AndroidMediaPlayer:
     MediaPlayer nativo de Android. Deberia soportar url y rutas de archivo.
     '''
     def __init__(self, source):
+        print("SOURCE:", repr(source))
+        print("TYPE:", type(source))
+
         self._media_player = MediaPlayer()
         self._media_player.setDataSource(source)
         self._media_player.prepare()
