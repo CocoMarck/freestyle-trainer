@@ -192,7 +192,7 @@ if api_version > 35:
 screen = FreestyleTrainerScreen(
     engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
     remote_song_controller=remote_song_controller, beat_controller=beat_controller,
-    vertical_padding_offsets=vertical_padding_offsets
+    vertical_padding_offsets=vertical_padding_offsets,
     horizontal_padding_offsets=horizontal_padding_offsets
 )
 class FreestyleTrainerApp(App):
