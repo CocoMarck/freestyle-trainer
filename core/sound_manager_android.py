@@ -1,13 +1,14 @@
 from entities.isound_manager import ISoundManager
 from core.android_media_player import AndroidMediaPlayer
+import pathlib
 import atexit
 
 class SoundManagerAndroid(ISoundManager):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def get_sound(self, path: str):
-        sound = AndroidMediaPlayer(path)
+    def get_sound(self, path: pathlib.Path):
+        sound = AndroidMediaPlayer( str(path) )
         atexit.register(sound.release)
         return sound
 
