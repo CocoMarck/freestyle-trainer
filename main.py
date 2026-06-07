@@ -174,9 +174,13 @@ from kivy.metrics import dp
 from kivy.app import App
 from kivy.clock import Clock
 
+# Android
+from android import api_version
+
 # App
 from views.freestyle_trainer_screen import FreestyleTrainerScreen
-#
+
+# Construir aplicacion
 vertical_padding_offsets = [0,0,0,0]
 horizontal_padding_offsets = [0,0,0,0]
 if api_version > 35:
