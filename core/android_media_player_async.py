@@ -54,39 +54,44 @@ class _ErrorListener(PythonJavaClass):
         return True
 
 # Media player
-class AndroidMediaPlayer:
+class AndroidMediaPlayerAsync:
     '''
     Media player async
     '''
     def __init__(self, source):
 
         self._prepared = False
-        self._playing = False
-        self._autoplay = False
-        self._last_error = None
 
-        self._media_player = MediaPlayer()
+        try:
+            # Intentar obtener source con media player async
+            self._media_player = MediaPlayer()
 
-        self._prepared_listener = _PreparedListener(self)
-        self._completion_listener = _CompletionListener(self)
-        self._error_listener = _ErrorListener(self)
+            self._prepared_listener = _PreparedListener(self)
+            self._completion_listener = _CompletionListener(self)
+            self._error_listener = _ErrorListener(self)
 
-        self._media_player.setOnPreparedListener(
-            self._prepared_listener
-        )
+            self._media_player.setOnPreparedListener(
+                self._prepared_listener
+            )
 
-        self._media_player.setOnCompletionListener(
-            self._completion_listener
-        )
+            self._media_player.setOnCompletionListener(
+                self._completion_listener
+            )
 
-        self._media_player.setOnErrorListener(
-            self._error_listener
-        )
+            self._media_player.setOnErrorListener(
+                self._error_listener
+            )
 
-        self._media_player.setDataSource(source)
+            self._media_player.setDataSource( str(source) )
+            self._media_player.prepareAsync()
+        except Exception as e:
+            # No se pudo cargar sound
+            try:
+                self._media_player.release()
+            except Exception:
+                pass
 
-        # NO BLOQUEA
-        self._media_player.prepareAsync()
+            self._media_player = None
 
     def get_position(self):
         if not self._prepared:
@@ -97,38 +102,25 @@ class AndroidMediaPlayer:
             / 1000.0
         )
 
-    def seek(self, seconds):
-        self._media_player.seekTo(
-            int(seconds * 1000)
-        )
-
     def play(self):
         if self._prepared:
             self._media_player.start()
-            self._playing = True
             return True
 
-        self._autoplay = True
         return False
 
     def stop(self):
+        if not self._prepared:
+            return False
         try:
             self._media_player.pause()
             self._media_player.seekTo(0)
-            self._playing = False
             return True
 
         except Exception as e:
             print(e)
             return False
 
-    def pause(self):
-        try:
-            self._media_player.pause()
-            self._playing = False
-            return True
-        except Exception:
-            return False
 
     def is_playing(self):
         if not self._media_player:
@@ -140,6 +132,8 @@ class AndroidMediaPlayer:
             return False
 
     def set_volume(self, volume):
+        if not self._media_player:
+            return False
         try:
             self._media_player.setVolume(volume, volume)
             return True
@@ -147,25 +141,23 @@ class AndroidMediaPlayer:
             print("ERROR:", e)
             return False
 
-    def get_length(self):
+    def get_length(self) -> bool:
+        if not self._media_player:
+            return 0.0
         if not self._prepared:
             return 0.0
 
         return self._media_player.getDuration() / 1000.0
 
-    def release(self):
+    def release(self) -> bool:
         if self._media_player:
-
             try:
                 self._media_player.release()
             except:
                 pass
 
             self._media_player = None
-
             self._prepared = False
-            self._playing = False
-            self._autoplay = False
 
             return True
 
@@ -173,3 +165,25 @@ class AndroidMediaPlayer:
 
     def is_ready(self):
         return self._prepared
+
+    # No se usan. Puede que no jalen porque no las uso. No han sido probadas.
+    def pause(self) -> bool:
+        if not self._media_player:
+            return False
+        try:
+            self._media_player.pause()
+            return True
+        except Exception:
+            return False
+
+    def seek(self, seconds) -> bool:
+        if not self._prepared:
+            return False
+        try:
+            self._media_player.seekTo(
+                int(seconds * 1000)
+            )
+            return True
+
+        except Exception:
+            return False
