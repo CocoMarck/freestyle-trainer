@@ -2,11 +2,16 @@
 from functools import partial
 
 # Kivy
+from kivy.core.window import Window
 from kivy.uix.screenmanager import Screen
+from kivy.uix.slider import Slider
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.checkbox import CheckBox
+from kivy.uix.dropdown import DropDown
+from kivy.uix.spinner import Spinner
 from kivy.properties import (
     ListProperty, NumericProperty, ReferenceListProperty, ObjectProperty
 )
@@ -17,6 +22,9 @@ from kivy.graphics import Color, Rectangle
 ## Custom kviy widgets
 from views.pykivy.widgets.metronome_circle import MetronomeCircle
 from views.pykivy.widgets.screen_android_ready import ScreenAndroidReady
+from views.pykivy.widgets.popup_grid_layout import PopupGridLayout
+from views.pykivy.widgets.popup_standard_buttons import PopupStandardButtons
+from views.pykivy.widgets.label_slider import LabelSlider
 
 # Paths
 from config.paths import KVSTRING_FILE
@@ -53,6 +61,9 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         '''
         Widgets de string:
         self.main_vbox_layout
+        button_start
+        button_stop
+        button_settings
         '''
 
         self.engine = engine
@@ -62,7 +73,6 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         # Controller
         self.local_song_controller = local_song_controller
         self.remote_song_controller = remote_song_controller
-        self.current_song_controller = self.remote_song_controller
 
         # Beat
         self.play_beat = False
@@ -78,12 +88,111 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         self._seconds_to_weit = 1
         self._count_weit = 0
 
+        self.work = True
+
+        # Song mode
+        self._song_modes = ["acapella", "remote", "local"]
+        self._current_song_mode = "acapella"
+
         # Padding
         self.bind(size=self._on_size)
+
+        # Eventos de ventana
+        Window.bind(on_minimize=self._on_minimize)
+        Window.bind(on_restore=self._on_restore)
+
+    def clear_song_information(self):
+        self.label_current_song.text = ""
+        self.label_active_ending_id.text = ""
+        self.label_active_ending.text = ""
+
+    # Loop work
+    def stop_work(self):
+        self.work = False
+        # Restablecer data de metronomo y palabritas.
+        self.metronome.reset_counts()
+        self.stimulus_generator.reset_count()
+        # Parar o no song
+        if self.playing_sound( self.local_song_controller ):
+            self.local_song_controller.stop_song()
+        if self.playing_sound( self.remote_song_controller ):
+            self.remote_song_controller.stop_song()
+        # Limpiar mugrero
+        self.clear_song_information()
+        self.clear_stimulus_buttons()
+        # Reset view
+        self.build_metronome_circles()
+
+    def start_work(self):
+        self.work = True
 
     # Bind
     def _on_size(self, *args):
         return self.change_padding_using_resolution(self.main_vbox_layout)
+
+    def _on_minimize(self, *args):
+        self.stop_work()
+
+    def _on_restore(self, *args):
+        self.start_work()
+
+    # Widgets wind
+    def on_start(self, button):
+        self.start_work()
+
+    def on_stop(self, button):
+        self.stop_work()
+
+    def on_settings(self, button):
+        popup = PopupGridLayout(
+            title="Settings",
+            cols=2, rows=5, row_default_height=self.height * 0.1,
+            size_hint=(0.8, 0.8), text_ok='Ok'
+        )
+
+        # Metronome
+        popup.second_container.add_widget(Label(text="BPM"))
+        bpm_label_slider = LabelSlider(
+            min=60, max=self.metronome.get_bpm_limit(), value=self.metronome.get_bpm(), step=10
+        )
+        popup.second_container.add_widget(bpm_label_slider)
+
+        popup.second_container.add_widget(Label(text="Beats per bar"))
+        bpb_label_slider = LabelSlider(
+            min=2, max=self.metronome.get_beats_limit_per_bar(), value=self.metronome.get_beats_per_bar(), step=1
+        )
+        popup.second_container.add_widget(bpb_label_slider)
+
+        popup.second_container.add_widget(Label(text="Play beat"))
+        beat_toggle = ToggleButton(text="On", state='down' if self.play_beat else 'normal')
+        popup.second_container.add_widget(beat_toggle)
+
+        # Stimulus settings
+        popup.second_container.add_widget(Label(text="Trigger bars"))
+        tb_label_slider  = LabelSlider(
+            min=1, max=8, value=self.stimulus_generator.trigger_bars, step=1
+        )
+        popup.second_container.add_widget(tb_label_slider)
+
+        # Song options
+        popup.second_container.add_widget(Label(text="Song mode"))
+        spinner = Spinner(text=self._current_song_mode, values=self._song_modes)
+        popup.second_container.add_widget(spinner)
+
+        # Bind final
+        popup.button_ok.bind(on_press=lambda i: self._apply_settings(
+            bpm_label_slider.slider, bpb_label_slider.slider, tb_label_slider.slider, beat_toggle, spinner
+        ))
+        popup.open()
+
+    def _apply_settings(self, bpm_slider, bpb_slider, tb_slider, beat_toggle, spinner):
+        self.metronome.set_bpm(int(bpm_slider.value))
+        self.metronome.set_beats_per_bar(int(bpb_slider.value))
+        self.stimulus_generator.trigger_bars = (int(tb_slider.value))
+        self.play_beat = beat_toggle.state == 'down'
+        self._current_song_mode = spinner.text
+        self.stop_work()
+        self.start_work()
 
     # Build Widgets
     def build_metronome_circles(self):
@@ -93,6 +202,12 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
             circle = MetronomeCircle()
             self._metronome_circles.append( circle )
             self.hbox_metronome.add_widget(circle)
+
+    # Build
+    def build(self):
+        self.button_start.bind( on_press=self.on_start )
+        self.button_stop.bind( on_press=self.on_stop )
+        self.button_settings.bind( on_press=self.on_settings )
 
     # GUI Colorear
     def coloring_metronome_circles(self, metronome_signals):
@@ -162,19 +277,19 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         self.hbox_last_stimulus.clear_widgets()
 
     # Freestyle
-    def playing_sound(self):
+    def playing_sound(self, song_controller):
         return (
-            self.current_song_controller.playing_song()
+            song_controller.playing_song()
         )
 
-    def update(self, dt):
-        if self.playing_sound():
+    def song_loop(self, dt, song_controller):
+        if self.playing_sound(song_controller):
             if self._update_length:
                 self._count_weit += dt
                 if self._count_weit >= self._seconds_to_weit:
                     self.label_length_value.text = str(
                         get_time(
-                            self.current_song_controller.get_song_length(), "second", "minute"
+                            song_controller.get_song_length(), "second", "minute"
                         )
                     )
                     self._update_length = False
@@ -211,10 +326,10 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
             Establece cancion. Configura y reinicia metronomo segun la song. Reincia conteo de compases de simulus generator.
             '''
             # Local
-            self.current_song_controller.set_random_song()
-            self.current_song_controller.play_song()
-            self.current_song_controller.sync_metronome_with_song( self.metronome )
-            self.current_song_name = self.current_song_controller.get_song_name()
+            song_controller.set_random_song()
+            song_controller.play_song()
+            song_controller.sync_metronome_with_song( self.metronome )
+            self.current_song_name = song_controller.get_song_name()
 
             self._update_length = True
 
@@ -227,4 +342,38 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
 
             # Metronome
             self.build_metronome_circles()
+
+    def acapela_loop(self, dt):
+        engine_signals = self.engine.update(dt)
+        metronome_signals = engine_signals['metronome']
+        stimulus_signals = engine_signals['stimulus_generator']
+
+        if metronome_signals['first_step_of_beat']:
+            self.label_bar_count.text = str( stimulus_signals['bar_count'] )
+        if stimulus_signals['init'] or stimulus_signals['get_stimulus']:
+            ending_id, words = stimulus_signals["stimulus"]
+            self.label_current_song.text = "Acapela loop"
+            self.label_active_ending_id.text = str( ending_id )
+            self.label_active_ending.text = str( stimulus_signals['ending_text'] )
+            self.label_bpm_value.text = str( self.metronome.get_bpm() )
+            self.label_beats_per_bar.text = str( self.metronome.get_beats_per_bar() )
+            self.clear_stimulus_buttons()
+            self.add_stimulus_buttons(words)
+
+        # Metronome play beat
+        if self.play_beat:
+            self.beat_controller.update( metronome_signals )
+
+        # Color metronome
+        self.coloring_metronome_circles( metronome_signals )
+
+    def update(self, dt):
+        if self.work:
+            if self._current_song_mode == "acapella":
+                self.acapela_loop(dt)
+            elif self._current_song_mode == "remote":
+                self.song_loop(dt, self.remote_song_controller)
+            elif self._current_song_mode == "local":
+                self.song_loop(dt, self.local_song_controller)
+
 

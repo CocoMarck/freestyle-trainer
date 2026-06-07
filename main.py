@@ -176,19 +176,42 @@ from kivy.clock import Clock
 
 # App
 from views.freestyle_trainer_screen import FreestyleTrainerScreen
-
+#
+vertical_padding_offsets = [0,0,0,0]
+horizontal_padding_offsets = [0,0,0,0]
+if api_version > 35:
+    # Android 15 (API 35) y 16 son los que fuerzan el Edge-to-Edge
+    # Standard de celus: `16:9`, `20:9`, `19:9`.
+    vertical_padding_offsets=[0,0.05, 0,0.08]
+    horizontal_padding_offsets=[0,0.05, 0.08,0]
+#
+screen = FreestyleTrainerScreen(
+    engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
+    remote_song_controller=remote_song_controller, beat_controller=beat_controller,
+    vertical_padding_offsets=vertical_padding_offsets
+    horizontal_padding_offsets=horizontal_padding_offsets
+)
 class FreestyleTrainerApp(App):
     def build(self):
-        screen = FreestyleTrainerScreen(
-            engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
-            remote_song_controller=remote_song_controller, beat_controller=beat_controller,
-            vertical_padding_offsets=[0,0.05, 0,0.08], # Margen pa celu
-            horizontal_padding_offsets=[0,0.05, 0.08,0] # Margen pa celu
-        )
+        # Permisos
+        from android.permissions import request_permissions, Permission
+        request_permissions([
+            #Permission.RECORD_AUDIO, # Para grabar sesiones, pero por ahora no.
+            Permission.READ_EXTERNAL_STORAGE,
+            Permission.WRITE_EXTERNAL_STORAGE
+        ])
 
-        Clock.schedule_interval(screen.update, 0.0)
+        # Init screen
+        _screen = screen
+        _screen.build()
+        Clock.schedule_interval(_screen.update, 0.0)
+        return _screen
 
-        return screen
+    def on_pause(self):
+        return True
+
+    def on_resume(self):
+        return True
 
 if __name__ == '__main__':
     FreestyleTrainerApp().run()

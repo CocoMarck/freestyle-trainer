@@ -1,4 +1,5 @@
 from core.dt_metronome import DTMetronome
+from core.sound_manager_vlc import SoundManagerVLC
 from repositories.remote_song_repository import RemoteSongRepository
 from entities.isong_controller import ISongController
 import random
@@ -43,6 +44,9 @@ class RemoteSongController(ISongController):
        
     def play_song(self):
         return self.sound_manager.play_sound( self.current_song['sound'] )
+
+    def stop_song(self):
+        return self.sound_manager.stop_sound( self.current_song['sound'] )
 
     def get_song_name(self):
         return self.current_song['name']
