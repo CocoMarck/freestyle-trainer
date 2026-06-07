@@ -1,16 +1,18 @@
 from entities.isound_manager import ISoundManager
 from core.android_media_player import AndroidMediaPlayer
+import pathlib
 
 class SoundManagerAndroid(ISoundManager):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def get_sound(self, path: str):
-        sound = AndroidMediaPlayer(path)
+    def get_sound(self, path: pathlib.Path):
+        sound = AndroidMediaPlayer( path )
+        sound.set_volume( self._VOLUME )
         return sound
 
     def play_sound(self, sound):
-        return sound.start()
+        return sound.play()
 
     def stop_sound(self, sound):
         return sound.stop()

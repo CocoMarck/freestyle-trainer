@@ -4,6 +4,10 @@
     font_size: ( min(Window.width, Window.height)*0.04 )
     family_name: "monospace"
 
+<Button, ToggleButton>:
+    background_normal : ""
+    background_color : (0.15, 0.15, 0.15, 1.0)
+
 <FreestyleTrainerScreen>:
     main_vbox_layout: _main_vbox_layout
 
@@ -19,6 +23,10 @@
     hbox_last_stimulus: _hbox_last_stimulus
     hbox_metronome: _hbox_metronome
 
+    button_start: _button_start
+    button_stop: _button_stop
+    button_settings: _button_settings
+
     BoxLayout:
         id: _main_vbox_layout
 
@@ -31,13 +39,14 @@
         BoxLayout:
             size_hint: (1.0, 0.3)
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            padding: [self.width*0.025, self.height*0.025]
+            padding: [Window.width*0.025, Window.height*0.025]
 
             orientation: "vertical"
 
             Label:
                 size_hint: (1.0, 0.25)
                 halign: "left"
+                valign: "top"
                 text_size: self.size
                 markup: True
 
@@ -46,16 +55,17 @@
             BoxLayout:
                 orientation: "horizontal"
                 size_hint: (1.0, 0.4)
-                valign: "middle"
 
                 BoxLayout:
                     orientation: "vertical"
                     Label:
+                        valign: "top"
                         halign: "center"
                         text_size: self.size
 
                         text: "BPM"
                     Label:
+                        valign: "top"
                         id: _label_bpm_value
                         halign: "center"
                         text_size: self.size
@@ -67,11 +77,13 @@
 
                     Label:
                         halign: "center"
+                        valign: "top"
                         text_size: self.size
 
                         text: "Beats"
                     Label:
                         halign: "center"
+                        valign: "top"
                         id: _label_beats_per_bar
                         text_size: self.size
 
@@ -81,11 +93,13 @@
                     orientation: "vertical"
                     Label:
                         halign: "center"
+                        valign: "top"
                         text_size: self.size
 
                         text: "Bars"
                     Label:
                         halign: "center"
+                        valign: "top"
                         id: _label_bar_count
                         text_size: self.size
 
@@ -106,7 +120,7 @@
         BoxLayout:
             size_hint: (1.0, 0.3)
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            padding: [self.width*0.025, self.height*0.025]
+            padding: [Window.width*0.025, Window.height*0.025]
 
             valign: "middle"
 
@@ -169,9 +183,9 @@
 
         # Seccion 4 | Estimulos
         BoxLayout:
-            size_hint: (1.0, 0.4)
+            size_hint: (1.0, 0.3)
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            padding: [self.width*0.025, self.height*0.025]
+            padding: [Window.width*0.025, Window.height*0.025]
             orientation: "vertical"
 
             valign: "bottom"
@@ -191,3 +205,29 @@
                 halign: "center"
                 valign: "middle"
                 id: _hbox_last_stimulus
+
+        # Seccion 5 | Configuración
+        BoxLayout:
+            size_hint: (1.0, 0.1)
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            padding: [Window.width*0.025, Window.height*0.025]
+            orientation: "horizontal"
+            valign: "bottom"
+
+            Button:
+                id: _button_start
+                text: "Start"
+                halign: "left"
+                valign: "middle"
+
+            Button:
+                id: _button_stop
+                text: "Stop"
+                halign: "left"
+                valign: "middle"
+
+            Button:
+                id: _button_settings
+                text: "Settings"
+                halign: "right"
+                valign: "middle"

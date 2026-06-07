@@ -139,18 +139,16 @@ from core.sound_manager_vlc import SoundManagerVLC
 from core.sound_manager_ffplay import SoundManagerFFPlay
 sound_manager_kivy = SoundManagerKivy(volume=1.0)
 sound_manager_vlc = SoundManagerVLC(volume=1.0)
-sound_manager_ffplay = SoundManagerFFPlay(volume=0.1)
+sound_manager_ffplay = SoundManagerFFPlay(volume=1.0)
 
 # Controller
 from controllers.beat_controller import BeatController
 from controllers.local_song_controller import LocalSongController
 from controllers.remote_song_controller import RemoteSongController
-from controllers.remote_song_controller_old import RemoteSongControllerOld
 
 local_song_controller = LocalSongController( local_song_repository, sound_manager_ffplay )
-beat_controller = BeatController( sound_manager_kivy )
+beat_controller = BeatController( sound_manager_ffplay )
 
-remote_song_controller_old = RemoteSongControllerOld( sound_manager=sound_manager_ffplay )
 remote_song_controller = RemoteSongController( remote_song_repository, sound_manager_ffplay )
 
 # Engine | Freestyle trainer
@@ -182,9 +180,10 @@ class FreestyleTrainerApp(App):
         screen = FreestyleTrainerScreen(
             engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
             remote_song_controller=remote_song_controller, beat_controller=beat_controller,
-            vertical_padding_offsets=[0,0.05, 0,0.08], # Margen pa celu
-            horizontal_padding_offsets=[0,0.05, 0.08,0] # Margen pa celu
+            #vertical_padding_offsets=[0,0.05, 0,0.08], # Margen pa celu
+            #horizontal_padding_offsets=[0,0.05, 0.08,0] # Margen pa celu
         )
+        screen.build()
 
         Clock.schedule_interval(screen.update, 0.0)
 
