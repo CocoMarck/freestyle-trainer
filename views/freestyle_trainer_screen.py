@@ -25,6 +25,7 @@ from views.pykivy.widgets.screen_android_ready import ScreenAndroidReady
 from views.pykivy.widgets.popup_grid_layout import PopupGridLayout
 from views.pykivy.widgets.popup_standard_buttons import PopupStandardButtons
 from views.pykivy.widgets.label_slider import LabelSlider
+from views.pykivy.widgets.popup_file_chooser import PopupFileChooser
 
 # Paths
 from config.paths import KVSTRING_FILE
@@ -143,11 +144,23 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def on_stop(self, button):
         self.stop_work()
 
+    def on_save_song(self, button):
+        popup = PopupFileChooser(
+            title="Load song", filters=["*.mp3", "*.ogg", "*.wav", "*.opus"], text_cancel="Cancel", text_ok='Ok'
+        )
+        popup.button_ok.bind(
+            on_press=lambda i: self._save_song_parameters(self.popup.get_selection())
+        )
+        popup.open()
+
+    def _save_song_parameters(self, selection: list):
+        print(selection)
+
     def on_settings(self, button):
         popup = PopupGridLayout(
             title="Settings",
             cols=2, rows=5, row_default_height=self.height * 0.1,
-            size_hint=(0.8, 0.8), text_ok='Ok'
+            size_hint=(0.8, 0.8), text_cancel="Cancel", text_ok='Ok'
         )
 
         # Metronome
