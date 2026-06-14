@@ -36,7 +36,8 @@ class LocalSongRepository:
                 )
             )
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
 
@@ -96,3 +97,21 @@ class LocalSongRepository:
 
     def _the_local_songs_are_loaded(self):
         return self._active_local_songs != None and self._used_local_songs != None
+
+    def refresh_cache(self):
+        self._load_active_local_songs()
+
+    def get_all_local_song_names(self):
+        try:
+            cursor = self.database.execute(
+                statement=(
+                    "SELECT name FROM local_songs WHERE active=1;"
+                ),
+                commit=False
+            )
+            values = []
+            for x in cursor.fetchall():
+                values.append( x[0] )
+            return values
+        except:
+            return []

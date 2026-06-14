@@ -7,7 +7,7 @@ class PopupInformation( PopupStandardButtons ):
     def __init__(self, *args, text_information, **kwargs):
         super().__init__(
             *args,
-            second_container=ScrollView( ),
+            second_container=ScrollView( size_hint=(1,1) ), cancel_button=False,
             **kwargs
         )
 

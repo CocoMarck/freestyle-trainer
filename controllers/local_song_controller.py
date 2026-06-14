@@ -64,3 +64,32 @@ class LocalSongController( ISongController ):
                 self.current_song["bpm"], self.current_song["beats_per_bar"]
             )
             return True
+
+    def save_song(self, name:str, bpm:int, beats_per_bar:int, path:str) -> bool:
+        saved = False
+        try:
+            saved = self.repository.save_local_song( name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path )
+            if saved:
+                self.repository.refresh_cache()
+        except Exception as e:
+            print(e)
+        return saved
+
+    def update_song(self, song_id, name, bpm, beats_per_bar, path, active):
+        updated = False
+        try:
+            updated = self.repository.update_local_song(song_id, name, bpm, beats_per_bar, path, active)
+            if updated:
+                self.repository.refresh_cache()
+        except Exception as e:
+            pass
+        return updated
+
+    def get_all_song_names(self):
+        return self.repository.get_all_local_song_names()
+
+    def get_song_id(self, name):
+        return self.repository.get_local_song_id(name)
+
+    def song_exists(self, name):
+        return self.repository.local_song_exists(name)

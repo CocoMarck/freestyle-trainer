@@ -25,7 +25,7 @@
 
     button_start: _button_start
     button_stop: _button_stop
-    button_settings: _button_settings
+    button_menu: _button_menu
 
     BoxLayout:
         id: _main_vbox_layout
@@ -227,7 +227,7 @@
                 valign: "middle"
 
             Button:
-                id: _button_settings
-                text: "Settings"
+                id: _button_menu
+                text: "Menu"
                 halign: "right"
                 valign: "middle"
