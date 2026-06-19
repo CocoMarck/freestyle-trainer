@@ -1,7 +1,7 @@
 from repositories.local_song_repository import LocalSongRepository
 from core.dt_metronome import DTMetronome
 from entities.isong_controller import ISongController
-import random
+import random, pathlib
 
 class LocalSongController( ISongController ):
     def __init__(
@@ -42,11 +42,17 @@ class LocalSongController( ISongController ):
             "sound": self.sound_manager.get_sound( self.current_song['path'] )
         })
 
-    def play_song(self):
-        return self.sound_manager.play_sound( self.current_song['sound'] )
+    def play_song(self) -> bool:
+        if (pathlib.Path(self.current_song['path']).exists()):
+            return self.sound_manager.play_sound( self.current_song['sound'] )
+        else:
+            return False
 
-    def stop_song(self):
-        return self.sound_manager.stop_sound( self.current_song['sound'] )
+    def stop_song(self) -> bool:
+        if (pathlib.Path(self.current_song['path']).exists()):
+            return self.sound_manager.stop_sound( self.current_song['sound'] )
+        else:
+            return False
 
     def get_song_name(self):
         return self.current_song['name']
