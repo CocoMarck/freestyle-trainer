@@ -12,3 +12,6 @@ El `AndroidMediaPlayerAsync` jala, pero hay que esperarse para darle play. La AI
 Entonces Android `SoundPool` para pool de archivos solitarios. Effects. Android `MediaPlayer`, para play de urls, es lo mas sencillo. `SoundPool` es lo mas rapidote que hay en Android base.
 
 Resumen, se crearon con AI (no quiero estar mucho rato haciendo cosas low level y debug en Android, que hueva) de `AndroidMediaPlayerAsync`, `AndroidMediaPlayer`, `AndroidSoundPoolAlone`. Todos listos para usarse en el `ISoundManager`. Al final solo se uso `AndroidMediaPlayer`. Porque carga de una los urls, y jala bien.
+
+## `2026-06-07`
+Cambios en gui. Mejor padding. Agregar opciones de song mode, acapella (sin song), remote y local.

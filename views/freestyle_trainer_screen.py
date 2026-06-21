@@ -1,5 +1,6 @@
 # Python
 from functools import partial
+import pathlib
 
 # Kivy
 from kivy.core.window import Window
@@ -12,6 +13,7 @@ from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.dropdown import DropDown
 from kivy.uix.spinner import Spinner
+from kivy.uix.textinput import TextInput
 from kivy.properties import (
     ListProperty, NumericProperty, ReferenceListProperty, ObjectProperty
 )
@@ -25,6 +27,8 @@ from views.pykivy.widgets.screen_android_ready import ScreenAndroidReady
 from views.pykivy.widgets.popup_grid_layout import PopupGridLayout
 from views.pykivy.widgets.popup_standard_buttons import PopupStandardButtons
 from views.pykivy.widgets.label_slider import LabelSlider
+from views.pykivy.widgets.popup_file_chooser import PopupFileChooser
+from views.pykivy.widgets.popup_information import PopupInformation
 
 # Paths
 from config.paths import KVSTRING_FILE
@@ -65,7 +69,20 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         button_stop
         button_settings
         '''
+        # Widget dropdown
+        self.dropdown = DropDown()
+        self.menu_buttons = {
+            "local-song": None,
+            "settings": None,
+            "help": None,
+            "about": None
+        }
+        for key in self.menu_buttons.keys():
+            button = Button( text=key, size_hint_y=None )
+            self.menu_buttons[key] = button
+            self.dropdown.add_widget( button )
 
+        # Essentials
         self.engine = engine
         self.metronome = self.engine.metronome
         self.stimulus_generator = self.engine.stimulus_generator
@@ -143,11 +160,136 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def on_stop(self, button):
         self.stop_work()
 
+    def on_local_songs(self, button):
+        popup = PopupGridLayout(
+            title="Local songs",
+            cols=2, rows=3, row_default_height=self.height * 0.1,
+            size_hint=(0.8, 0.8), text_ok='Ok', cancel_button=False
+        )
+
+        popup.second_container.add_widget( Label(text="Config song") )
+        spinner_values = Spinner(
+            text="", values=self.local_song_controller.get_all_song_names()
+        )
+        spinner_values.bind(
+            text=lambda instance, value: self._popup_save_song_parameters(
+               value, None, None, None
+            )
+        )
+        popup.second_container.add_widget( spinner_values )
+
+        popup.second_container.add_widget( Label(text="Save song") )
+        button_save_song = Button(text="Config")
+        button_save_song.bind( on_press=self.on_save_song )
+        popup.second_container.add_widget( button_save_song )
+
+        popup.open()
+
+    def _popup_save_song_parameters(self, name, bpm, beats_per_bar, path):
+        # Obtener o no song id
+        song_id = None
+        active = True
+        if self.local_song_controller.song_exists(name):
+            song_id = self.local_song_controller.get_song_id(name)
+            try:
+                song_data = self.local_song_controller.get_song_to_configure(song_id)
+                name = song_data["name"]
+                bpm = song_data["bpm"]
+                beats_per_bar = song_data["beats_per_bar"]
+                path = song_data["path"]
+                active = song_data["active"]
+            except:
+                return
+        if name == None or bpm == None or beats_per_bar == None or path == None:
+            return
+
+        # Popup
+        popup = PopupGridLayout(
+            title="Save song parameters",
+            cols=2, rows=5, row_default_height=self.height * 0.1,
+            size_hint=(0.8, 0.8), text_cancel="Cancel", text_ok='Ok'
+        )
+
+        # Widgets
+        popup.second_container.add_widget(Label(text="Name"))
+        textinput_name = TextInput( text=name )
+        popup.second_container.add_widget(textinput_name)
+
+        popup.second_container.add_widget(Label(text="BPM"))
+        bpm_label_slider = LabelSlider(
+            min=60, max=self.metronome.get_bpm_limit(), value=bpm, step=1
+        )
+        popup.second_container.add_widget(bpm_label_slider)
+
+        popup.second_container.add_widget(Label(text="Beats per bar"))
+        bpb_label_slider = LabelSlider(
+            min=2, max=self.metronome.get_beats_limit_per_bar(), value=beats_per_bar, step=1
+        )
+        popup.second_container.add_widget(bpb_label_slider)
+
+        popup.second_container.add_widget(Label(text="Path"))
+        textinput_path = TextInput( text=path )
+        popup.second_container.add_widget(textinput_path)
+
+        popup.second_container.add_widget(Label(text="Active"))
+        togglebutton_active = ToggleButton( text="On" )
+        if active:
+            togglebutton_active.state = "down"
+        popup.second_container.add_widget( togglebutton_active )
+
+        # Bind
+        popup.button_ok.bind(on_press=lambda i: self._save_song(
+            song_id, textinput_name.text,
+            bpm_label_slider.slider.value,
+            bpb_label_slider.slider.value, textinput_path.text,
+            togglebutton_active.state == "down"
+        ))
+
+        # Show
+        popup.open()
+
+    def _save_song(self, song_id: None, name:str, bpm:int, beats_per_bar: int, path: str, active:bool):
+        saved = False
+        if isinstance(song_id, int):
+            saved = self.local_song_controller.update_song(
+                song_id=song_id, name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path, active=active
+            )
+        else:
+            saved = self.local_song_controller.save_song(
+                name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path, active=active
+            )
+        if saved:
+            popup_text = f"Saved: `{name}`"
+        else:
+            popup_text = "Not saved"
+        popup = PopupInformation(
+            title="Information", text_information=popup_text, size_hint=(0.8, 0.8), text_ok="Ok"
+        )
+        popup.open()
+
+    def on_save_song(self, button):
+        popup = PopupFileChooser(
+            title="Load song", filters=["*.mp3", "*.ogg", "*.wav", "*.opus"], text_cancel="Cancel", text_ok='Ok', size_hint=(0.8, 0.8)
+        )
+        popup.button_ok.bind(
+            on_press=lambda i: self._save_song_parameters( popup.get_selection() )
+        )
+        popup.open()
+
+
+    def _save_song_parameters(self, selection: list):
+        if len(selection) != 1: return
+
+        path = pathlib.Path(selection[0])
+        name = path.name.replace(path.suffix, "")
+        self._popup_save_song_parameters( name, 60, 2, selection[0] )
+
+
     def on_settings(self, button):
         popup = PopupGridLayout(
             title="Settings",
             cols=2, rows=5, row_default_height=self.height * 0.1,
-            size_hint=(0.8, 0.8), text_ok='Ok'
+            size_hint=(0.8, 0.8), text_cancel="Cancel", text_ok='Ok'
         )
 
         # Metronome
@@ -194,6 +336,10 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         self.stop_work()
         self.start_work()
 
+    def on_menu(self, button):
+        for button in self.menu_buttons.values():
+            button.height = self.height*0.05
+
     # Build Widgets
     def build_metronome_circles(self):
         self._metronome_circles.clear()
@@ -207,7 +353,10 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def build(self):
         self.button_start.bind( on_press=self.on_start )
         self.button_stop.bind( on_press=self.on_stop )
-        self.button_settings.bind( on_press=self.on_settings )
+        self.button_menu.bind( on_press=self.on_menu )
+        self.button_menu.bind( on_release=self.dropdown.open )
+        self.menu_buttons["settings"].bind( on_press=self.on_settings )
+        self.menu_buttons["local-song"].bind( on_press=self.on_local_songs )
 
     # GUI Colorear
     def coloring_metronome_circles(self, metronome_signals):

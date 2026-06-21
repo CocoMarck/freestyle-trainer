@@ -8,6 +8,9 @@ SoundPoolBuilder = autoclass("android.media.SoundPool$Builder")
 AudioAttributesBuilder = autoclass("android.media.AudioAttributes$Builder")
 AudioAttributes = autoclass("android.media.AudioAttributes")
 
+# Información
+from core.android_sound_info import get_audio_length
+
 class AndroidSoundPoolAlone:
     """
     Wrapper que simula ser un objeto de sonido único (Duck Typing para tu ISoundManager)
@@ -79,7 +82,10 @@ class AndroidSoundPoolAlone:
 
     def get_length(self) -> float:
         # SoundPool no trackea duraciones largas, usualmente es para samples cortos (< 5-10s)
-        return 0.0
+        try:
+            return get_audio_length(self.source)
+        except Exception:
+            return 0.0
 
     def release(self):
         try:

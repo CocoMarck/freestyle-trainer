@@ -36,7 +36,8 @@ class LocalSongRepository:
                 )
             )
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
 
@@ -44,7 +45,8 @@ class LocalSongRepository:
         try:
             cursor = self.database.execute(
                 statement=(
-                    f'SELECT 1 FROM local_songs WHERE name=? AND active=1 LIMIT 1;'
+                    #'SELECT 1 FROM local_songs WHERE name=? AND active=1 LIMIT 1;'
+                    'SELECT 1 FROM local_songs WHERE name=? LIMIT 1;'
                 ),
                 commit=False, params=(name,)
             )
@@ -63,10 +65,51 @@ class LocalSongRepository:
         except:
             return None
 
-    def save_local_song(self, name:str, bpm:int, beats_per_bar:int, path:str, active:bool=True):
-        if not self.local_song_exists(name):
+    def save_local_song(
+        self, name:str, bpm:int, beats_per_bar:int, path:str, active:bool=True
+    ):
+        song_id = self.get_local_song_id(name)
+        if song_id is None:
             return self.insert_local_song( name, bpm, beats_per_bar, path, active )
-        return False
+        else:
+            return self.update_local_song( song_id, name, bpm, beats_per_bar, path, active )
+
+    def _song_dict(self, local_song_id, name, bpm, beats_per_bar, path, active ) -> dict:
+        return {
+            local_song_id: {
+                "name":name, "bpm":bpm, "beats_per_bar":beats_per_bar,
+                "path":path, "active": bool(active)
+            }
+        }
+
+
+    def get_all_local_songs(self) -> dict:
+        songs = {}
+        cursor = self.database.execute(
+            statement=(
+                "SELECT local_song_id, name, bpm, beats_per_bar, path, active "
+                "FROM local_songs"
+            ),
+            commit=False
+        )
+        values = cursor.fetchall()
+        for local_song_id, name, bpm, beats_per_bar, path, active in values:
+            songs.update(
+                self._song_dict( local_song_id, name, bpm, beats_per_bar, path, active )
+            )
+        return songs
+
+    def get_song(self, song_id:int) -> dict:
+        cursor = self.database.execute(
+            statement=(
+                "SELECT local_song_id, name, bpm, beats_per_bar, path, active "
+                "FROM local_songs WHERE local_song_id=? LIMIT 1;"
+            ),
+            commit=False, params=(song_id,)
+        )
+        value = cursor.fetchone()
+        local_song_id, name, bpm, beats_per_bar, path, active = value
+        return self._song_dict( local_song_id, name, bpm, beats_per_bar, path, active )
 
 
     def _load_active_local_songs(self):
@@ -75,20 +118,16 @@ class LocalSongRepository:
             self._used_local_songs = []
             cursor = self.database.execute(
                 statement=(
-                    "SELECT local_song_id, name, bpm, beats_per_bar, path "
+                    "SELECT local_song_id, name, bpm, beats_per_bar, path, active "
                     "FROM local_songs "
                     "WHERE active=1;"
                 ),
                 commit=False
             )
             values = cursor.fetchall()
-            for local_song_id, name, bpm, beats_per_bar, path in values:
+            for local_song_id, name, bpm, beats_per_bar, path, active in values:
                 self._active_local_songs.update(
-                    {
-                        local_song_id: {
-                            "name":name,"bpm":bpm,"beats_per_bar":beats_per_bar, "path":path
-                        }
-                    }
+                    self._song_dict( local_song_id, name, bpm, beats_per_bar, path, active )
                 )
         except:
             self._active_local_songs = None
@@ -96,3 +135,36 @@ class LocalSongRepository:
 
     def _the_local_songs_are_loaded(self):
         return self._active_local_songs != None and self._used_local_songs != None
+
+    def refresh_cache(self):
+        self._load_active_local_songs()
+
+    def get_all_local_song_names(self):
+        try:
+            cursor = self.database.execute(
+                statement=(
+                    "SELECT name FROM local_songs"
+                ),
+                commit=False
+            )
+            values = []
+            for x in cursor.fetchall():
+                values.append( x[0] )
+            return values
+        except:
+            return []
+
+    def get_all_active_local_song_names(self):
+        try:
+            cursor = self.database.execute(
+                statement=(
+                    "SELECT name FROM local_songs WHERE active=1;"
+                ),
+                commit=False
+            )
+            values = []
+            for x in cursor.fetchall():
+                values.append( x[0] )
+            return values
+        except:
+            return []
