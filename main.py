@@ -207,7 +207,8 @@ class FreestyleTrainerApp(App):
         request_permissions([
             #Permission.RECORD_AUDIO, # Para grabar sesiones, pero por ahora no.
             Permission.READ_EXTERNAL_STORAGE,
-            Permission.WRITE_EXTERNAL_STORAGE
+            Permission.WRITE_EXTERNAL_STORAGE,
+            Permission.READ_MEDIA_AUDIO
         ])
         if api_version >= 33:
             # Agregamos el permiso específico para leer archivos de música/audio

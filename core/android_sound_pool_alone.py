@@ -61,8 +61,8 @@ class AndroidSoundPoolAlone:
                 self.pool.stop(self._stream_id)
                 self._stream_id = 0
                 return True
-            except Exception:
-                pass
+            except Exception as e:
+                print(e)
         return False
 
     def set_volume(self, volume):
@@ -71,8 +71,8 @@ class AndroidSoundPoolAlone:
             try:
                 self.pool.setVolume(self._stream_id, volume, volume)
                 return True
-            except Exception:
-                pass
+            except Exception as e:
+                print(e)
         return False
 
     def is_playing(self) -> bool:
@@ -84,12 +84,13 @@ class AndroidSoundPoolAlone:
         # SoundPool no trackea duraciones largas, usualmente es para samples cortos (< 5-10s)
         try:
             return get_audio_length(self.source)
-        except Exception:
+        except Exception as e:
+            print(e)
             return 0.0
 
     def release(self):
         try:
             self.pool.unload(self.sound_id)
-        except Exception:
-            pass
+        except Exception as e:
+            print(e)
         self.sound_id = 0
