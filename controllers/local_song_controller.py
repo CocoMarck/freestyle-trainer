@@ -50,9 +50,10 @@ class LocalSongController( ISongController ):
         })
 
     def play_song(self) -> bool:
-        if (pathlib.Path(self.current_song['path']).exists()):
+        try:
             return self.sound_manager.play_sound( self.current_song['sound'] )
-        else:
+        except Exception as e:
+            print("ERROR Local song controller", e)
             return False
 
     def stop_song(self) -> bool:
