@@ -40,31 +40,49 @@ class LocalSongController( ISongController ):
             self.repository._used_local_songs.clear()
             not_used_local_song_ids = list(self.repository._active_local_songs.keys())
 
+        if len(not_used_local_song_ids) == 0:
+            return None
+
         local_song_id = random.choice( not_used_local_song_ids )
         return self.get_song( local_song_id )
 
     def set_random_song(self):
         self.current_song = self.get_random_song()
+
+        if self.current_song == None:
+            return
+
         self.current_song.update({
             "sound": self.sound_manager.get_sound( self.current_song['path'] )
         })
 
     def play_song(self) -> bool:
+        if self.current_song == None:
+            return False
+
         if (pathlib.Path(self.current_song['path']).exists()):
             return self.sound_manager.play_sound( self.current_song['sound'] )
         else:
             return False
 
     def stop_song(self) -> bool:
+        if self.current_song == None:
+            return False
+
         if (pathlib.Path(self.current_song['path']).exists()):
             return self.sound_manager.stop_sound( self.current_song['sound'] )
         else:
             return False
 
     def get_song_name(self):
+        if self.current_song == None:
+            return None
+
         return self.current_song['name']
 
     def get_song_length(self):
+        if self.current_song == None:
+            return 0.0
         return self.sound_manager.get_sound_length( self.current_song['sound'] )
 
     def playing_song(self):
@@ -100,6 +118,9 @@ class LocalSongController( ISongController ):
 
     def get_all_song_names(self):
         return self.repository.get_all_local_song_names()
+
+    def get_all_active_song_names(self):
+        return self.repository.get_all_active_local_song_names()
 
     def get_song_id(self, name):
         return self.repository.get_local_song_id(name)

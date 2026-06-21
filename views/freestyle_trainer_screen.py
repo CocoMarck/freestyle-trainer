@@ -176,7 +176,6 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
                value, None, None, None
             )
         )
-        spinner_values.bind( on_release=popup.dismiss )
         popup.second_container.add_widget( spinner_values )
 
         popup.second_container.add_widget( Label(text="Save song") )

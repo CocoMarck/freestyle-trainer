@@ -1,5 +1,10 @@
 #:import Window kivy.core.window.Window
 
+
+<SpinnerOption>:
+    font_size: ( min(Window.width, Window.height)*0.04 )
+    height: ( min(Window.width, Window.height)*0.08 )
+
 <Label, TextInput, ToggleButton, height>:
     font_size: ( min(Window.width, Window.height)*0.04 )
     family_name: "monospace"

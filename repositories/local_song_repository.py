@@ -153,3 +153,18 @@ class LocalSongRepository:
             return values
         except:
             return []
+
+    def get_all_active_local_song_names(self):
+        try:
+            cursor = self.database.execute(
+                statement=(
+                    "SELECT name FROM local_songs WHERE active=1;"
+                ),
+                commit=False
+            )
+            values = []
+            for x in cursor.fetchall():
+                values.append( x[0] )
+            return values
+        except:
+            return []
