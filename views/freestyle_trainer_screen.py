@@ -270,8 +270,12 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         popup.open()
 
     def on_save_song(self, button):
+        # Filtro inteligente: acepta el archivo si termina en alguna de tus extensiones (sin importar mayúsculas)
+        audio_extensions = ('.mp3', '.ogg', '.wav', '.opus')
+        audio_filter = lambda folder, filename: filename.lower().endswith(audio_extensions)
+
         popup = PopupFileChooser(
-            title="Load song", filters=["*.mp3", "*.ogg", "*.wav", "*.opus"], text_cancel="Cancel", text_ok='Ok', size_hint=(0.8, 0.8), path=str(self._file_chooser_dir)
+            title="Load song", filters=audio_filter, text_cancel="Cancel", text_ok='Ok', size_hint=(0.8, 0.8), path=str(self._file_chooser_dir)
         )
         popup.button_ok.bind(
             on_press=lambda i: self._save_song_parameters( popup.get_selection() )

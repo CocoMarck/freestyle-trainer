@@ -9,4 +9,7 @@ ANDROID_PRIVATE_PATH = pathlib.Path(app_storage_path())
 
 music_dir_type = Environment.DIRECTORY_MUSIC
 public_music_java_path = Environment.getExternalStoragePublicDirectory(music_dir_type).getAbsolutePath()
+
 ANDROID_PUBLIC_MUSIC_PATH = pathlib.Path(public_music_java_path)
+
+INTERNAL_STORAGE_ROOT = Environment.getExternalStorageDirectory().toString()
