@@ -59,7 +59,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         self, *args, engine:FreestyleTrainerEngine, local_song_controller:LocalSongController,
         remote_song_controller:RemoteSongController,
         beat_controller:BeatController,
-        audio_filters:list=["*.mp3", "*.ogg", "*.wav", "*.opus"], file_chooser_dir:str=None, **kwargs
+        audio_filters:list=[], file_chooser_dir:str=None, **kwargs
     ):
         super().__init__(*args, **kwargs)
 
@@ -272,13 +272,30 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         popup.open()
 
     def on_save_song(self, button):
-        popup = PopupFileChooser(
-            title="Load song", filters=self._audio_filters, text_cancel="Cancel", text_ok='Ok', size_hint=(0.8, 0.8), path=str(self._file_chooser_dir)
-        )
-        popup.button_ok.bind(
-            on_press=lambda i: self._save_song_parameters( popup.get_selection() )
-        )
-        popup.open()
+        from plyer import filechooser
+        from kivy.clock import Clock
+        # Filtros nativos (Mime types para Android, extensiones para PC)
+        # En Android, 'audio/*' le dice al sistema que muestre mp3, wav, ogg, opus, etc.
+        filters = [("Audio files", "*.mp3", "*.wav", "*.ogg", "*.opus", "audio/*")]
+
+        try:
+            filechooser.open_file(
+                title="Load song",
+                filters=filters,
+                multiple=False, # Solo queremos una rola a la vez
+                on_selection=self._on_native_selection # El callback cuando elijan el archivo
+            )
+        except Exception as e:
+            print(f"Error abriendo el selector nativo: {e}")
+
+    def _on_native_selection(self, selection):
+        '''
+        Este método recibe lo que el usuario seleccionó desde el explorador de Android.
+        '''
+        # En Android, plyer regresa la respuesta dentro de un hilo secundario a veces.
+        # Usamos Clock.schedule_once para regresar el resultado de forma segura al hilo principal de Kivy.
+        if selection:
+            Clock.schedule_once(lambda dt: self._save_song_parameters(selection), 0.01)
 
 
     def _save_song_parameters(self, selection: list):

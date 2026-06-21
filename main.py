@@ -198,7 +198,7 @@ screen = FreestyleTrainerScreen(
     remote_song_controller=remote_song_controller, beat_controller=beat_controller,
     vertical_padding_offsets=vertical_padding_offsets,
     horizontal_padding_offsets=horizontal_padding_offsets,
-    audio_filters=[], file_chooser_dir=ANDROID_PUBLIC_MUSIC_PATH
+    audio_filters=["*.mp3", "*.ogg", "*.wav", "*.opus"], file_chooser_dir=ANDROID_PUBLIC_MUSIC_PATH
 )
 class FreestyleTrainerApp(App):
     def build(self):
