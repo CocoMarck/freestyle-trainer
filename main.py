@@ -55,6 +55,7 @@ if not db.exists():
             tables["remote_songs"] = f
 
     for f in tables.values():
+        print(f)
         db.init_schema( f )
 vocals_table = StandardTable( db, "vocals" )
 vocal_repository = VocalRepository( vocals_table )
