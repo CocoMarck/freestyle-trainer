@@ -153,7 +153,7 @@ from controllers.beat_controller import BeatController
 from controllers.local_song_controller import LocalSongController
 from controllers.remote_song_controller import RemoteSongController
 
-local_song_controller = LocalSongController( local_song_repository, sound_manager_android )
+local_song_controller = LocalSongController( local_song_repository, sound_manager_kivy )
 beat_controller = BeatController( sound_manager_android_pool_alone )
 
 remote_song_controller = RemoteSongController( remote_song_repository, sound_manager_android )
