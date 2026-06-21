@@ -27,9 +27,3 @@ AUDIO_DIR = resource_loader.resources_dir.joinpath( 'audio' )
 TEMPO_DIR = AUDIO_DIR.joinpath( 'tempo' )
 DICT_TEMPO_DIR = resource_loader.get_recursive_tree( TEMPO_DIR )
 TEMPO_FILES = sorted( DICT_TEMPO_DIR["file"] )
-
-
-# Android configs
-import pathlib
-from android.storage import app_storage_path
-ANDROID_PATH = pathlib.Path(app_storage_path())

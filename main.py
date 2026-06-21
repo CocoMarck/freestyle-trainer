@@ -12,8 +12,8 @@ from repositories.remote_song_repository import RemoteSongRepository
 from config.paths import (
     DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES, LOCAL_SONG_FILES, REMOTE_SONG_FILES
 )
-from config.paths import (
-    ANDROID_PATH
+from config.android_paths import (
+    ANDROID_PATH, EXTERNAL_DIR
 )
 db = StandardDatabase( directory=DATA_DIR, name='stimulus_generator.sqlite' )
 if not db.exists():
@@ -197,7 +197,7 @@ screen = FreestyleTrainerScreen(
     engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
     remote_song_controller=remote_song_controller, beat_controller=beat_controller,
     vertical_padding_offsets=vertical_padding_offsets,
-    horizontal_padding_offsets=horizontal_padding_offsets
+    horizontal_padding_offsets=horizontal_padding_offsets, file_chooser_dir=EXTERNAL_DIR
 )
 class FreestyleTrainerApp(App):
     def build(self):
