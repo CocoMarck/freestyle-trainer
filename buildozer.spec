@@ -268,7 +268,7 @@ android.permissions = INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, R
 #android.wakelock = False
 
 # (list) Android application meta-data to set (key=value format)
-#android.meta_data =
+android.meta_data = android.requestLegacyExternalStorage=true
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)
