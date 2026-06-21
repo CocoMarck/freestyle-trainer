@@ -18,6 +18,7 @@ from kivy.properties import (
     ListProperty, NumericProperty, ReferenceListProperty, ObjectProperty
 )
 from kivy.lang import Builder
+from kivy.clock import Clock
 
 from kivy.graphics import Color, Rectangle
 
@@ -273,7 +274,6 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
 
     def on_save_song(self, button):
         from plyer import filechooser
-        from kivy.clock import Clock
         # Filtros nativos (Mime types para Android, extensiones para PC)
         # En Android, 'audio/*' le dice al sistema que muestre mp3, wav, ogg, opus, etc.
         filters = [("Audio files", "*.mp3", "*.wav", "*.ogg", "*.opus", "audio/*")]
