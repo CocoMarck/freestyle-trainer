@@ -58,7 +58,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def __init__(
         self, *args, engine:FreestyleTrainerEngine, local_song_controller:LocalSongController,
         remote_song_controller:RemoteSongController,
-        beat_controller:BeatController, file_chooser_dir:str=None **kwargs
+        beat_controller:BeatController, file_chooser_dir:str=None, **kwargs
     ):
         super().__init__(*args, **kwargs)
 
