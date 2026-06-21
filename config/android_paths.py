@@ -5,5 +5,8 @@ from jnius import autoclass
 
 Environment = autoclass("android.os.Environment")
 
-ANDROID_PATH = pathlib.Path(app_storage_path())
-EXTERNAL_DIR = Environment.getExternalStorageDirectory().getAbsolutePath()
+ANDROID_PRIVATE_PATH = pathlib.Path(app_storage_path())
+
+music_dir_type = Environment.DIRECTORY_MUSIC
+public_music_java_path = Environment.getExternalStoragePublicDirectory(music_dir_type).getAbsolutePath()
+ANDROID_PUBLIC_MUSIC_PATH = pathlib.Path(public_music_java_path)
