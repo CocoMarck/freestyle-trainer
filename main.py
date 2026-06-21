@@ -140,17 +140,19 @@ print('\n\n')
 from core.sound_manager_kivy import SoundManagerKivy
 from core.sound_manager_android import SoundManagerAndroid
 from core.sound_manager_android_async import SoundManagerAndroidAsync
+from core.sound_manager_android_pool_alone import SoundManagerAndroidPoolAlone
 sound_manager_kivy = SoundManagerKivy(volume=1.0)
 sound_manager_android = SoundManagerAndroid(volume=1.0)
 sound_manager_android_async = SoundManagerAndroidAsync(volume=1.0)
+sound_manager_android_pool_alone = SoundManagerAndroidPoolAlone(volume=1.0)
 
 # Controller
 from controllers.beat_controller import BeatController
 from controllers.local_song_controller import LocalSongController
 from controllers.remote_song_controller import RemoteSongController
 
-local_song_controller = LocalSongController( local_song_repository, sound_manager_android )
-beat_controller = BeatController( sound_manager_android )
+local_song_controller = LocalSongController( local_song_repository, sound_manager_android_pool_alone )
+beat_controller = BeatController( sound_manager_android_pool_alone )
 
 remote_song_controller = RemoteSongController( remote_song_repository, sound_manager_android )
 
