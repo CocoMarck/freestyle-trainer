@@ -21,6 +21,13 @@ class LocalSongController( ISongController ):
             self.repository._used_local_songs.append( song_id )
         return song_data
 
+    def get_song_to_configure(self, song_id) -> dict:
+        try:
+            value = self.repository.get_song(song_id)
+            return value[song_id]
+        except:
+            return {}
+
     def get_random_song(self):
         if not self.repository._the_local_songs_are_loaded():
             self.repository._load_active_local_songs()
@@ -71,10 +78,10 @@ class LocalSongController( ISongController ):
             )
             return True
 
-    def save_song(self, name:str, bpm:int, beats_per_bar:int, path:str) -> bool:
+    def save_song(self, name:str, bpm:int, beats_per_bar:int, path:str, active:bool) -> bool:
         saved = False
         try:
-            saved = self.repository.save_local_song( name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path )
+            saved = self.repository.save_local_song( name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path, active=active )
             if saved:
                 self.repository.refresh_cache()
         except Exception as e:

@@ -163,7 +163,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def on_local_songs(self, button):
         popup = PopupGridLayout(
             title="Local songs",
-            cols=2, rows=2, row_default_height=self.height * 0.1,
+            cols=2, rows=3, row_default_height=self.height * 0.1,
             size_hint=(0.8, 0.8), text_ok='Ok', cancel_button=False
         )
 
@@ -176,6 +176,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
                value, None, None, None
             )
         )
+        spinner_values.bind( on_release=popup.dismiss )
         popup.second_container.add_widget( spinner_values )
 
         popup.second_container.add_widget( Label(text="Save song") )
@@ -188,14 +189,16 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def _popup_save_song_parameters(self, name, bpm, beats_per_bar, path):
         # Obtener o no song id
         song_id = None
+        active = True
         if self.local_song_controller.song_exists(name):
             song_id = self.local_song_controller.get_song_id(name)
             try:
-                song_data = self.local_song_controller.get_song(song_id)
+                song_data = self.local_song_controller.get_song_to_configure(song_id)
                 name = song_data["name"]
                 bpm = song_data["bpm"]
                 beats_per_bar = song_data["beats_per_bar"]
                 path = song_data["path"]
+                active = song_data["active"]
             except:
                 return
         if name == None or bpm == None or beats_per_bar == None or path == None:
@@ -204,7 +207,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         # Popup
         popup = PopupGridLayout(
             title="Save song parameters",
-            cols=2, rows=4, row_default_height=self.height * 0.1,
+            cols=2, rows=5, row_default_height=self.height * 0.1,
             size_hint=(0.8, 0.8), text_cancel="Cancel", text_ok='Ok'
         )
 
@@ -229,25 +232,32 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         textinput_path = TextInput( text=path )
         popup.second_container.add_widget(textinput_path)
 
+        popup.second_container.add_widget(Label(text="Active"))
+        togglebutton_active = ToggleButton( text="On" )
+        if active:
+            togglebutton_active.state = "down"
+        popup.second_container.add_widget( togglebutton_active )
+
         # Bind
         popup.button_ok.bind(on_press=lambda i: self._save_song(
             song_id, textinput_name.text,
             bpm_label_slider.slider.value,
-            bpb_label_slider.slider.value, textinput_path.text
+            bpb_label_slider.slider.value, textinput_path.text,
+            togglebutton_active.state == "down"
         ))
 
         # Show
         popup.open()
 
-    def _save_song(self, song_id: None, name:str, bpm:int, beats_per_bar: int, path: str):
+    def _save_song(self, song_id: None, name:str, bpm:int, beats_per_bar: int, path: str, active:bool):
         saved = False
         if isinstance(song_id, int):
             saved = self.local_song_controller.update_song(
-                song_id=song_id, name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path, active=True
+                song_id=song_id, name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path, active=active
             )
         else:
             saved = self.local_song_controller.save_song(
-                name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path
+                name=name, bpm=bpm, beats_per_bar=beats_per_bar, path=path, active=active
             )
         if saved:
             popup_text = f"Saved: `{name}`"
@@ -327,6 +337,10 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         self.stop_work()
         self.start_work()
 
+    def on_menu(self, button):
+        for button in self.menu_buttons.values():
+            button.height = self.height*0.05
+
     # Build Widgets
     def build_metronome_circles(self):
         self._metronome_circles.clear()
@@ -340,6 +354,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def build(self):
         self.button_start.bind( on_press=self.on_start )
         self.button_stop.bind( on_press=self.on_stop )
+        self.button_menu.bind( on_press=self.on_menu )
         self.button_menu.bind( on_release=self.dropdown.open )
         self.menu_buttons["settings"].bind( on_press=self.on_settings )
         self.menu_buttons["local-song"].bind( on_press=self.on_local_songs )
