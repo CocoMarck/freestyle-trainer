@@ -13,7 +13,7 @@ from config.paths import (
     DATA_DIR, SCHEMAS_STIMULUS_GENERATOR_FILES, LOCAL_SONG_FILES, REMOTE_SONG_FILES
 )
 from config.android_paths import (
-    ANDROID_PRIVATE_PATH, ANDROID_PUBLIC_MUSIC_PATH
+    ANDROID_PRIVATE_PATH, ANDROID_PUBLIC_MUSIC_PATH, ANDROID_LEGACY_ROOT
 )
 db = StandardDatabase( directory=DATA_DIR, name='stimulus_generator.sqlite' )
 if not db.exists():
@@ -197,7 +197,8 @@ screen = FreestyleTrainerScreen(
     engine=freestyle_trainer_engine, local_song_controller=local_song_controller,
     remote_song_controller=remote_song_controller, beat_controller=beat_controller,
     vertical_padding_offsets=vertical_padding_offsets,
-    horizontal_padding_offsets=horizontal_padding_offsets, file_chooser_dir=ANDROID_PUBLIC_MUSIC_PATH
+    horizontal_padding_offsets=horizontal_padding_offsets,
+    audio_filters=[], file_chooser_dir=ANDROID_PUBLIC_MUSIC_PATH
 )
 class FreestyleTrainerApp(App):
     def build(self):
