@@ -107,9 +107,10 @@ for code in default_words.keys():
                 )
                 if insert:
                     print(word_text)
-'''
+
 local_songs_table = StandardTable( db, "local_songs" )
 local_song_repository = LocalSongRepository( local_songs_table )
+'''
 for f in LOCAL_SONG_FILES:
     json_song = None
     with open(f, mode="r", encoding="utf-8") as read_file:
