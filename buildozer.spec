@@ -18,7 +18,7 @@ package.domain = org.cocomarck
 source.dir = .
 
 # (list) Source files to include (leave empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,sqlite,json,wav,ogg,mp3,txt
+source.include_exts = py,png,jpg,kv,atlas,sqlite,json,wav,ogg,mp3,txt,sql
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
