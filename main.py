@@ -107,7 +107,7 @@ for code in default_words.keys():
                 )
                 if insert:
                     print(word_text)
-
+'''
 local_songs_table = StandardTable( db, "local_songs" )
 local_song_repository = LocalSongRepository( local_songs_table )
 for f in LOCAL_SONG_FILES:
@@ -119,6 +119,7 @@ for f in LOCAL_SONG_FILES:
     )
     if save:
         print( json_song['name'], json_song['bpm'], json_song['beats_per_bar'], json_song['path'] )
+'''
 
 remote_songs_table = StandardTable( db, "remote_songs" )
 remote_song_repository = RemoteSongRepository( remote_songs_table )
