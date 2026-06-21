@@ -208,6 +208,9 @@ class FreestyleTrainerApp(App):
             Permission.READ_EXTERNAL_STORAGE,
             Permission.WRITE_EXTERNAL_STORAGE
         ])
+        if api_version >= 33:
+            # Agregamos el permiso específico para leer archivos de música/audio
+            permissions_to_request.append("android.permission.READ_MEDIA_AUDIO")
 
         # Init screen
         _screen = screen
