@@ -1,4 +1,5 @@
 from jnius import autoclass
+from core.android_sound_info import get_audio_length
 
 MediaPlayer = autoclass("android.media.MediaPlayer")
 
@@ -69,13 +70,20 @@ class AndroidMediaPlayer:
             print("ERROR:", e)
             return False
 
-    def get_length(self) -> bool:
+    def get_length(self) -> float:
+        # SoundPool no trackea duraciones largas, usualmente es para samples cortos (< 5-10s)
+        try:
+            return get_audio_length(self.source)
+        except Exception:
+            return 0.0
+        '''
         if not self._media_player:
             return 0.0
         try:
             return self._media_player.getDuration() / 1000.0
         except Exception:
             return 0.0
+        '''
 
     def release(self):
         if not self._media_player:

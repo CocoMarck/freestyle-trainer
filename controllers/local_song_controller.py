@@ -46,7 +46,7 @@ class LocalSongController( ISongController ):
     def set_random_song(self):
         self.current_song = self.get_random_song()
         self.current_song.update({
-            "sound": self.sound_manager.get_sound( pathlib.Path(self.current_song['path']) )
+            "sound": self.sound_manager.get_sound( self.current_song['path'] )
         })
 
     def play_song(self) -> bool:
