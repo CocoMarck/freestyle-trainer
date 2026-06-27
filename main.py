@@ -181,6 +181,24 @@ from kivy.clock import Clock
 # Android
 from android import api_version
 
+# Android Permisos
+from android.permissions import request_permissions, Permission
+def set_permissions():
+    perms = [
+        #Permission.RECORD_AUDIO, # Para grabar sesiones, pero por ahora no.
+        Permission.READ_EXTERNAL_STORAGE,
+        Permission.WRITE_EXTERNAL_STORAGE
+    ]
+    if api_version >= 33:
+        perms.append("android.permission.READ_MEDIA_AUDIO")
+    request_permissions(perms, callback=_on_permissions_granted)
+
+def _on_permissions_granted(permissions, grants):
+    if all(grants):
+        print("Permisos concedidos")
+    else:
+        print("Permisos denegados:", permissions)
+
 # App
 from views.freestyle_trainer_screen import FreestyleTrainerScreen
 
@@ -199,24 +217,17 @@ screen = FreestyleTrainerScreen(
     vertical_padding_offsets=vertical_padding_offsets,
     horizontal_padding_offsets=horizontal_padding_offsets
 )
+screen.set_permissions = set_permissions
 class FreestyleTrainerApp(App):
     def build(self):
-        # Permisos
-        from android.permissions import request_permissions, Permission
-        request_permissions([
-            #Permission.RECORD_AUDIO, # Para grabar sesiones, pero por ahora no.
-            Permission.READ_EXTERNAL_STORAGE,
-            Permission.WRITE_EXTERNAL_STORAGE
-        ])
-        if api_version >= 33:
-            # Agregamos el permiso específico para leer archivos de música/audio
-            permissions_to_request.append("android.permission.READ_MEDIA_AUDIO")
-
         # Init screen
         _screen = screen
         _screen.build()
         Clock.schedule_interval(_screen.update, 0.0)
         return _screen
+
+    def on_start(self):
+        set_permissions()
 
     def on_pause(self):
         return True
