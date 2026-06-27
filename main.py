@@ -177,7 +177,7 @@ from kivy.clock import Clock
 from views.freestyle_trainer_screen import FreestyleTrainerScreen
 Window.size=( 9*50, 16*50 )
 
-def set_permissions():
+def set_permissions(on_granted=None):
     print("Permisos fake we")
 
 class FreestyleTrainerApp(App):
