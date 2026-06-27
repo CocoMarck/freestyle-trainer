@@ -183,19 +183,23 @@ from android import api_version
 
 # Android Permisos
 from android.permissions import request_permissions, Permission
-def set_permissions():
+def set_permissions(on_granted=None):
     perms = [
-        #Permission.RECORD_AUDIO, # Para grabar sesiones, pero por ahora no.
         Permission.READ_EXTERNAL_STORAGE,
         Permission.WRITE_EXTERNAL_STORAGE
     ]
     if api_version >= 33:
         perms.append("android.permission.READ_MEDIA_AUDIO")
-    request_permissions(perms, callback=_on_permissions_granted)
+    request_permissions(
+        perms,
+        callback=lambda p, g: _on_permissions_granted(p, g, on_granted)
+    )
 
-def _on_permissions_granted(permissions, grants):
+def _on_permissions_granted(permissions, grants, on_granted=None):
     if all(grants):
         print("Permisos concedidos")
+        if on_granted:
+            on_granted()
     else:
         print("Permisos denegados:", permissions)
 

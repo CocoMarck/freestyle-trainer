@@ -15,13 +15,15 @@ class PopupFileChooser(PopupStandardButtons):
         self.second_container.add_widget(self.file_chooser_list_view)
         self.bind(on_open=self._on_open)
 
+    def set_permissions(self, on_granted=None):
+        pass  # PC no necesita, Android sobreescribe
+
     def _on_open(self, *args):
-        self.set_permissions()
+        self.set_permissions(on_granted=self._refresh_files)
+
+    def _refresh_files(self):
         self.file_chooser_list_view.path = self.path
         self.file_chooser_list_view._update_files()
-
-    def set_permissions(self):
-        pass  # PC no necesita, Android sobreescribe
 
     def get_selection(self):
         return self.file_chooser_list_view.selection

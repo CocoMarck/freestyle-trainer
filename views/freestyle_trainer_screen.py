@@ -121,7 +121,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         Window.bind(on_restore=self._on_restore)
 
     # Para permisos. Por defecto nadota.
-    def set_permissions(self):
+    def set_permissions(self, on_granted=None):
         pass
 
     def clear_song_information(self):
