@@ -7,7 +7,7 @@ from .popup_standard_buttons import PopupStandardButtons
 class PopupFileChooser(PopupStandardButtons):
     def __init__(self, *args, filters=[], **kwargs):
         super().__init__(
-            *args, second_container=BoxLayout(orientation="vertical"), path:str=None, **kwargs
+            *args, second_container=BoxLayout(orientation="vertical"), path=None, **kwargs
         )
 
         self.file_chooser_list_view = FileChooserListView( filters=filters, path=path )
