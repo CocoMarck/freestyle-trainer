@@ -177,6 +177,9 @@ from kivy.clock import Clock
 from views.freestyle_trainer_screen import FreestyleTrainerScreen
 Window.size=( 9*50, 16*50 )
 
+def set_permissions():
+    print("Permisos fake we")
+
 class FreestyleTrainerApp(App):
     def build(self):
         screen = FreestyleTrainerScreen(
@@ -185,6 +188,7 @@ class FreestyleTrainerApp(App):
             vertical_padding_offsets=[0,0.05, 0,0.08], # Margen pa celu
             horizontal_padding_offsets=[0,0.05, 0.08,0] # Margen pa celu
         )
+        screen.set_permissions = set_permissions
         screen.build()
 
         Clock.schedule_interval(screen.update, 0.0)

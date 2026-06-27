@@ -118,6 +118,10 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         Window.bind(on_minimize=self._on_minimize)
         Window.bind(on_restore=self._on_restore)
 
+    # Para permisos. Por defecto nadota.
+    def set_permissions(self):
+        pass
+
     def clear_song_information(self):
         self.label_current_song.text = ""
         self.label_active_ending_id.text = ""
@@ -357,6 +361,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         self.button_menu.bind( on_release=self.dropdown.open )
         self.menu_buttons["settings"].bind( on_press=self.on_settings )
         self.menu_buttons["local-song"].bind( on_press=self.on_local_songs )
+        self.set_permissions()
 
     # GUI Colorear
     def coloring_metronome_circles(self, metronome_signals):
