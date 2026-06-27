@@ -12,6 +12,6 @@ public_music_java_path = Environment.getExternalStoragePublicDirectory(music_dir
 
 ANDROID_PUBLIC_MUSIC_PATH = pathlib.Path(public_music_java_path)
 
-INTERNAL_STORAGE_ROOT = Environment.getExternalStorageDirectory().toString()
+ANDROID_INTERNAL_STORAGE_ROOT = Environment.getExternalStorageDirectory().toString()
 
 ANDROID_LEGACY_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()

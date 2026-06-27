@@ -58,7 +58,7 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
     def __init__(
         self, *args, engine:FreestyleTrainerEngine, local_song_controller:LocalSongController,
         remote_song_controller:RemoteSongController,
-        beat_controller:BeatController, **kwargs
+        beat_controller:BeatController, music_path:str=None, **kwargs
     ):
         super().__init__(*args, **kwargs)
 
@@ -69,6 +69,8 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
         button_stop
         button_settings
         '''
+        self.music_path = music_path
+
         # Widget dropdown
         self.dropdown = DropDown()
         self.menu_buttons = {
@@ -273,11 +275,12 @@ class FreestyleTrainerScreen(ScreenAndroidReady):
 
     def on_save_song(self, button):
         popup = PopupFileChooser(
-            title="Load song", filters=["*.mp3", "*.ogg", "*.wav", "*.opus"], text_cancel="Cancel", text_ok='Ok', size_hint=(0.8, 0.8)
+            title="Load song", filters=["*.mp3", "*.ogg", "*.wav", "*.opus"], text_cancel="Cancel", text_ok='Ok', size_hint=(0.8, 0.8), path=self.music_path
         )
         popup.button_ok.bind(
             on_press=lambda i: self._save_song_parameters( popup.get_selection() )
         )
+        popup.set_permissions = self.set_permissions
         popup.open()
 
 
