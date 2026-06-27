@@ -5,9 +5,9 @@ from kivy.uix.filechooser import FileChooserListView
 from .popup_standard_buttons import PopupStandardButtons
 
 class PopupFileChooser(PopupStandardButtons):
-    def __init__(self, *args, filters=[], **kwargs):
+    def __init__(self, *args, filters=[], path=None, **kwargs):
         super().__init__(
-            *args, second_container=BoxLayout(orientation="vertical"), path=None, **kwargs
+            *args, second_container=BoxLayout(orientation="vertical"), **kwargs
         )
 
         self.file_chooser_list_view = FileChooserListView( filters=filters, path=path )
